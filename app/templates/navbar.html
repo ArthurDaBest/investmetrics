@@ -1,5 +1,3 @@
-{% load static %}
-
 <header id="header" class="im-header">
   <div class="im-header-inner">
 
@@ -88,25 +86,30 @@
 
         <!-- Publications -->
         <li class="dropdown">
-          <a href="#">
+          <a href="{% url 'publish-with-investmetrics' %}">
             <span>Publications</span>
             <i class="bi bi-chevron-down toggle-dropdown"></i>
           </a>
 
           <ul class="im-dropdown-menu">
             <li>
+              <a href="{% url 'publish-with-investmetrics' %}">
+                Publish With Investmetrics
+              </a>
+            </li>
+            <li>
               <a href="{% url 'reports' %}">
-                Reports
+                Research Reports
               </a>
             </li>
             <li>
               <a href="{% url 'journal_list' %}">
-                Journals
+                IJIRI Journal
               </a>
             </li>
             <li>
-              <a href="{% url 'company-profile' %}">
-                Company Profile
+              <a href="{% url 'ijiri-submit' %}">
+                Submit Manuscript
               </a>
             </li>
           </ul>
