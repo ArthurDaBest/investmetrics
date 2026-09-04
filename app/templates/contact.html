@@ -1,0 +1,117 @@
+{% load static %}
+{% load crispy_forms_tags %}
+
+ <!-- Contact Section -->
+ <section id="contact" class="contact section">
+
+    <!-- Section Title -->
+    <div class="container section-title" data-aos="fade-up">
+        <h2>Contact</h2>
+        <p>Contact Us</p>
+    </div><!-- End Section Title -->
+
+    <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+        <div class="row gy-4">
+
+        <div class="col-lg-4">
+            <div class="info-item d-flex" data-aos="fade-up" data-aos-delay="300">
+            <i class="bi bi-geo-alt flex-shrink-0"></i>
+            <div>
+                <h3>Address</h3>
+                <p>Korogwe, Dar es Salaam</p>
+            </div>
+            </div><!-- End Info Item -->
+
+            <div class="info-item d-flex" data-aos="fade-up" data-aos-delay="400">
+            <a href="tel:+255 689 660 000"><i class="bi bi-telephone flex-shrink-0"></i></a>
+            <div>
+                <h3>Call Us</h3>
+                <p>+255 689 660 000</p>
+            </div>
+            </div><!-- End Info Item -->
+
+            <div class="info-item d-flex" data-aos="fade-up" data-aos-delay="400">
+            <a href="https://wa.link/bmwe49"><i class="bi bi-whatsapp flex-shrink-0"></i></a>
+            <div>
+                <h3>Whatsapp Us</h3>
+                <p>+255 689 660 000</p>
+            </div>
+            </div><!-- End Info Item -->
+
+            <div class="info-item d-flex" data-aos="fade-up" data-aos-delay="500">
+            <a href="mailto:info@investmetrics.co.tz"><i class="bi bi-envelope flex-shrink-0"></i></a>
+            <div>
+                <h3>Email Us</h3>
+                <p>info@investmetrics.co.tz</p>
+            </div>
+            </div><!-- End Info Item -->
+
+        </div>
+
+        <div class="col-lg-8">
+            <!-- Google Maps iframe -->
+            <div class="map-container" data-aos="fade-up" data-aos-delay="200">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3961.676775755126!2d39.17399967410492!3d-6.809114466596613!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x185c4f2f1d513831%3A0xeff28c012304c909!2sInvestmetrics!5e0!3m2!1sen!2stz!4v1729168102738!5m2!1sen!2stz" 
+                        width="100%" 
+                        height="300" 
+                        style="border:0;" 
+                        allowfullscreen="" 
+                        loading="lazy" 
+                        referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+            </div>
+        </div><!-- End Google Maps -->
+
+        </div>
+
+    </div>
+
+</section><!-- /Contact Section -->
+
+    <!-- Add this at the end of your contact.html file -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('contact-form');
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const formData = new FormData(this);
+                fetch('{% url "contact" %}', {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-CSRFToken': formData.get('csrfmiddlewaretoken')
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    loadingDiv.style.display = 'none';
+                    if (data.success) {
+                        sentMessageDiv.style.display = 'block';
+                        form.reset();
+                    } else {
+                        console.log('Form errors:', data.errors); // Add this line
+                        errorMessageDiv.textContent = 'Please correct the errors below:';
+                        errorMessageDiv.style.display = 'block';
+                        
+                        // Display field-specific errors
+                        for (const [field, errors] of Object.entries(data.errors)) {
+                            const inputField = form.querySelector(`[name="${field}"]`);
+                            if (inputField) {
+                                const errorSpan = inputField.nextElementSibling || document.createElement('span');
+                                errorSpan.className = 'error-message';
+                                errorSpan.textContent = errors[0].message;
+                                if (!inputField.nextElementSibling) {
+                                    inputField.parentNode.insertBefore(errorSpan, inputField.nextSibling);
+                                }
+                            }
+                        }
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred. Please try again later.');
+                });
+            });
+        });
+    </script>

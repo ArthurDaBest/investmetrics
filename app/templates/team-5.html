@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Shedrack Mwakitaru - Team Member{% endblock title %}
+
+{% block extra_css %}
+<style>
+  .member-img-container {
+    background-color: #000;
+    border-radius: 100px;
+    padding: 15px 40px;
+    display: inline-block;
+    margin-bottom: 20px;
+  }
+
+  .member-img {
+    position: relative;
+    z-index: 1;
+  }
+
+  .member-img img {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+  }
+
+  @media (max-width: 768px) {
+    .member-img-container {
+      padding: 8px 25px;
+      border-radius: 75px;
+    }
+
+    .member-img img {
+      width: 150px;
+      height: 150px;
+    }
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<main class="main">
+  <section id="team-member" class="team-member section" style="padding-top: 110px;">
+    <div class="container" data-aos="fade-up">
+      <div class="row gy-4 justify-content-center">
+        <div class="col-lg-8 col-md-10">
+          <div class="team-member d-flex flex-column flex-md-row">
+            <div class="member-img-container">
+              <div class="member-img flex-shrink-0 mb-4 mb-md-0 me-md-4">
+                <img src="{% static 'assets/img/team/team_5.png' %}" class=" rounded-circle" alt="Shedrack Mwakitaru">
+              </div>
+            </div>
+            <div class="member-info flex-grow-1">
+              <h2 class="mb-1">Shedrack Mwakitaru</h2>
+              <span class="d-block mb-3">Senior Project Development & Management</span>
+              <div class="social mb-3">
+                <a href="mailto:begarving@investmetrics.com"><i class="bi bi-envelope-fill"></i></a>
+                <a href="https://www.linkedin.com/in/begarving-arthur-00000022b/"><i class="bi bi-linkedin"></i></a>
+              </div>
+              <p class="mb-3" style="text-align: justify;">
+                The experienced Monitoring and Evaluation professional with more than eleven (11) years of
+                experience in designing, monitoring, evaluation, reporting, coordinating, and managing development
+                and humanitarian programs in various sectors including Education, Nutrition, Livelihood, Health
+                (MNCH & HIV), SRH&R, WASH, and Peacebuilding projects. I am a graduate with an MA in Monitoring
+                and Evaluation; a bachelor's degree in Project Planning, Management and Community Development;
+                Engaged in various training and courses in Impact evaluation methods, Digital open data kit (ODK and
+                Kobo toolbox), HMIS, SPSS, STATA, DHIS2, project financial management, safeguarding and child
+                protection, conflict management, communication and advocacy, data collection, data analysis, report
+                writing and result-based management approach.
+
+                <br><br>
+                Shadrack holds interest in M & E including participating in proposal development specific in developing
+                project theory of change, developing and rolling out data Management systems, practicing result-based
+                management approach and evidence-based M&E practices. Also interested in training and skills
+                transfer and supporting to program staff on; program design, implementation, adjustment, learning and
+                evaluations. He's computer literate, with extensive skills in MS Office Package (Excel, Word, PowerPoint
+                and Access) Ms Project, website management and software operations. Conversant with online data
+                collection system like CommCare, ODK and kobo Collect. He has had experience working with a range
+                of donors including; Bill and Merinda Gate foundation, SIDA, CIDA, ACT, USAID, DFID (FCDO), EU, GAC
+                and CIFF.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+{% endblock %}

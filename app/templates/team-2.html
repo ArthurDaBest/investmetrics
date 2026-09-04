@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Veronica Kamwela - Team Member{% endblock title %}
+
+{% block extra_css %}
+<style>
+  .member-img-container {
+    background-color: #000;
+    border-radius: 100px;
+    padding: 15px 40px;
+    display: inline-block;
+    margin-bottom: 20px;
+  }
+
+  .member-img {
+    position: relative;
+    z-index: 1;
+  }
+
+  .member-img img {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+  }
+
+  @media (max-width: 768px) {
+    .member-img-container {
+      padding: 8px 25px;
+      border-radius: 75px;
+    }
+
+    .member-img img {
+      width: 150px;
+      height: 150px;
+    }
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<main class="main">
+  <section id="team-member" class="team-member section" style="padding-top: 110px;">
+    <div class="container" data-aos="fade-up">
+      <div class="row gy-4 justify-content-center">
+        <div class="col-lg-8 col-md-10">
+          <div class="team-member d-flex flex-column flex-md-row">
+            <div class="member-img-container">
+              <div class="member-img flex-shrink-0 mb-4 mb-md-0 me-md-4">
+                <img src="{% static 'assets/img/team/team_2.1.jpg' %}" class="img-fluid rounded-circle" alt="Jesse Pinkman">
+              </div>
+            </div>
+            <div class="member-info flex-grow-1">
+              <h2 class="mb-1">Veronica Kamwela</h2>
+              <span class="d-block mb-3">Chief Executive Officer</span>
+              <div class="social mb-3">
+                <a href="mailto:kamwelav@investmetrics.co.tz"><i class="bi bi-envelope-fill"></i></a>
+                <a href="https://www.linkedin.com/in/veronika-kamwela-00000022b/"><i class="bi bi-linkedin"></i></a>
+              </div>
+             
+              <p class="mb-3" style="text-align: justify;">Veronika has more than 10 years of experience in project planning and management, team working, leadership, proposal writing, facilitation and training, stakeholders engagement and communication. She has a proven track record of meeting high expectations, managing multiple tasks and successfully delivering projects on schedule.  At Investmetrics she is responsible for total project management including proposal writing, management for project activities, controlling budgets, providing day-to-day communication with the project team to ensure activities remain on schedule and within budget, and writing technical reports to the stakeholders. Her skills have been enhanced by a Master's in Project Management from the Open University of Tanzania and previous work experience.
+                <br><br>
+              Veronica has successfully led numerous youth, ICT and health projects, including empowerment of adolescent youth, ICT for school and out of school youth, entrepreneurship skills for out of the school youth and treatment of children born with cleft lip and palate.</p>
+              <h5>Areas of Expertise:</h5>
+              <ul class="list-inline">
+                <li class="list-inline-item"><span class="badge bg-primary">Project Management</span></li>
+                <li class="list-inline-item"><span class="badge bg-primary">Budgeting</span></li>
+                <li class="list-inline-item"><span class="badge bg-primary">Proposal Writing</span></li>
+              </ul>
+              <h5>Personal Interests:</h5>
+              <p>When not at work, Veronika enjoys spending quality time with friends, cooking, travelling and hacking.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+{% endblock %}

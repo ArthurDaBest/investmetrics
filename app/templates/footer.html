@@ -1,0 +1,291 @@
+{% load static %}
+
+<footer id="footer" class="im-footer">
+
+  <div class="im-footer-main">
+    <div class="im-container">
+
+      <div class="im-footer-grid">
+
+        <!-- Brand -->
+        <div class="im-footer-brand">
+
+          <a href="{% url 'home' %}" class="im-footer-logo">
+            <img
+              src="{% static 'assets/img/logo/logo5.png' %}"
+              alt="Investmetrics">
+          </a>
+
+          <p>
+            Research intelligence, analytics, advisory and professional
+            capability for stronger decisions and better outcomes.
+          </p>
+
+          <div class="im-footer-contact">
+
+            <a href="tel:+255689660000">
+              <i class="bi bi-telephone"></i>
+              +255 689 660 000
+            </a>
+
+            <a href="mailto:info@investmetrics.co.tz">
+              <i class="bi bi-envelope"></i>
+              info@investmetrics.co.tz
+            </a>
+
+            <span>
+              <i class="bi bi-geo-alt"></i>
+              Kimara Korogwe, Dar es Salaam, Tanzania
+            </span>
+
+          </div>
+
+          <div class="im-footer-social">
+
+            <a href="https://x.com/InvestmetricsTz"
+               target="_blank"
+               rel="noopener"
+               aria-label="Investmetrics on X">
+              <i class="bi bi-twitter-x"></i>
+            </a>
+
+            <a href="https://www.instagram.com/investmetrics.co.tz/"
+               target="_blank"
+               rel="noopener"
+               aria-label="Investmetrics on Instagram">
+              <i class="bi bi-instagram"></i>
+            </a>
+
+            <a href="https://www.linkedin.com/company/225-investmetrics-group"
+               target="_blank"
+               rel="noopener"
+               aria-label="Investmetrics on LinkedIn">
+              <i class="bi bi-linkedin"></i>
+            </a>
+
+          </div>
+
+        </div>
+
+
+        <!-- Company -->
+        <div class="im-footer-column">
+
+          <h4>Company</h4>
+
+          <ul>
+            <li>
+              <a href="{% url 'company-profile' %}#about">About Investmetrics</a>
+            </li>
+
+            <li>
+              <a href="{% url 'company-profile' %}#mission">Mission</a>
+            </li>
+
+            <li>
+              <a href="{% url 'company-profile' %}#vision">Vision</a>
+            </li>
+
+            <li>
+              <a href="{% url 'home' %}#team">Our People</a>
+            </li>
+
+            <li>
+              <a href="{% url 'home' %}#contact">Contact</a>
+            </li>
+          </ul>
+
+        </div>
+
+
+        <!-- Consulting -->
+        <div class="im-footer-column">
+
+          <h4>Consulting</h4>
+
+          <ul>
+            <li>
+              <a href="{% url 'research-and-publications-service.html' %}">
+                Research &amp; Publications
+              </a>
+            </li>
+
+            <li>
+              <a href="{% url 'proj-dvt-and-management.html' %}">
+                Project Development
+              </a>
+            </li>
+
+            <li>
+              <a href="{% url 'policy-review-and-analysis.html' %}">
+                Policy Review
+              </a>
+            </li>
+
+            <li>
+              <a href="{% url 'academic-mentorship-and-training.html' %}">
+                Academic Mentorship
+              </a>
+            </li>
+          </ul>
+
+        </div>
+
+
+        <!-- Intelligence -->
+        <div class="im-footer-column">
+
+          <h4>Intelligence</h4>
+
+          <ul>
+            <li>
+              <a href="{% url 'ai_at_work:home' %}">
+                AI at Work
+              </a>
+            </li>
+
+            <li>
+              <a href="{% url 'reports' %}">
+                Reports
+              </a>
+            </li>
+
+            <li>
+              <a href="{% url 'journal_list' %}">
+                Journals
+              </a>
+            </li>
+
+            <li>
+              <a href="{% url 'home' %}#research-training">
+                Professional Intelligence
+              </a>
+            </li>
+          </ul>
+
+        </div>
+
+
+        <!-- Newsletter -->
+        <div class="im-footer-newsletter">
+
+          <span class="im-footer-eyebrow">
+            STAY INFORMED
+          </span>
+
+          <h4>
+            Research, intelligence and learning updates.
+          </h4>
+
+          <p>
+            Receive selected updates from Investmetrics on research,
+            publications, professional learning and new intelligence tools.
+          </p>
+
+          <form id="newsletter-form" method="post">
+            {% csrf_token %}
+
+            <div class="im-newsletter-form">
+
+              <input
+                type="email"
+                name="email"
+                placeholder="Email address"
+                aria-label="Email address"
+                required>
+
+              <button type="submit">
+                Subscribe
+                <i class="bi bi-arrow-right"></i>
+              </button>
+
+            </div>
+
+            <div id="newsletter-result"></div>
+
+          </form>
+
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+
+  <div class="im-footer-bottom">
+
+    <div class="im-container im-footer-bottom-inner">
+
+      <p>
+        © {% now "Y" %} Investmetrics.
+        A brand of Infometrics Solution Limited.
+        All rights reserved.
+      </p>
+
+      <div class="im-footer-legal">
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+      </div>
+
+    </div>
+
+  </div>
+
+</footer>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+  const form = document.getElementById('newsletter-form');
+  const result = document.getElementById('newsletter-result');
+
+  if (!form) return;
+
+  form.addEventListener('submit', async function (event) {
+
+    event.preventDefault();
+
+    const formData = new FormData(form);
+
+    try {
+
+      const response = await fetch("{% url 'newsletter_subscribe' %}", {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'X-CSRFToken': formData.get('csrfmiddlewaretoken')
+        }
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+
+        result.textContent = 'Subscribed successfully.';
+        result.className = 'im-newsletter-success';
+        form.reset();
+
+      } else {
+
+        result.textContent =
+          data.error || 'Unable to subscribe. Please try again.';
+
+        result.className = 'im-newsletter-error';
+
+      }
+
+    } catch (error) {
+
+      result.textContent =
+        'Unable to subscribe. Please try again.';
+
+      result.className = 'im-newsletter-error';
+
+    }
+
+  });
+
+});
+</script>

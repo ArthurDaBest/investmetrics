@@ -1,0 +1,913 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Project Development & Management | Investmetrics{% endblock title %}
+
+
+{% block content %}
+
+<main class="im-pm-page">
+
+
+  <!-- =====================================================
+       HERO
+       ===================================================== -->
+  <section class="im-pm-hero">
+
+    <div class="im-container">
+
+      <div class="im-pm-hero-grid">
+
+
+        <!-- Left -->
+        <div class="im-pm-hero-content"
+             data-aos="fade-up">
+
+          <span class="im-eyebrow">
+            PROJECT DEVELOPMENT &amp; MANAGEMENT
+          </span>
+
+          <h1>
+            Turning ideas into
+            <span>deliverable programmes.</span>
+          </h1>
+
+          <p class="im-pm-hero-lead">
+            Investmetrics supports organisations across the project lifecycle,
+            from needs assessment and project design through proposal
+            development, resource mobilisation, implementation, monitoring,
+            evaluation and reporting.
+          </p>
+
+
+          <div class="im-pm-hero-actions">
+
+            <a href="{% url 'home' %}#contact"
+               class="im-btn im-btn-gold">
+
+              Discuss a Project
+              <i class="bi bi-arrow-right"></i>
+
+            </a>
+
+            <a href="#project-capabilities"
+               class="im-pm-secondary-link">
+
+              Explore Capabilities
+              <i class="bi bi-arrow-down"></i>
+
+            </a>
+
+          </div>
+
+
+          <div class="im-pm-hero-meta">
+
+            <div>
+              <span>DELIVERY</span>
+              <strong>Design · Implement · Evaluate</strong>
+            </div>
+
+            <div>
+              <span>FOCUS</span>
+              <strong>Projects · Programmes · Impact</strong>
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- Right -->
+        <div class="im-pm-hero-visual"
+             data-aos="fade-left"
+             data-aos-delay="80">
+
+          <img
+            src="{% static 'assets/img/services/project-development-and-management.jpeg' %}"
+            alt="Project development and management"
+            class="im-pm-hero-image">
+
+          <div class="im-pm-hero-overlay">
+
+            <span>
+              INVESTMETRICS DELIVERY INTELLIGENCE
+            </span>
+
+            <h2>
+              Plan.
+              <br>
+              Mobilise.
+              <br>
+              Deliver.
+            </h2>
+
+            <div class="im-pm-hero-overlay-footer">
+
+              <span>From concept to measurable results</span>
+
+              <i class="bi bi-diagram-3"></i>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- =====================================================
+       POSITION
+       ===================================================== -->
+  <section class="im-pm-position">
+
+    <div class="im-container">
+
+      <div class="im-pm-position-grid">
+
+        <div data-aos="fade-up">
+
+          <span class="im-eyebrow">
+            HOW WE SUPPORT DELIVERY
+          </span>
+
+          <h2>
+            Strong projects require
+            <span>more than a good idea.</span>
+          </h2>
+
+        </div>
+
+
+        <div class="im-pm-position-copy"
+             data-aos="fade-up"
+             data-aos-delay="70">
+
+          <p>
+            Successful programmes depend on a credible understanding of need,
+            realistic objectives, appropriate resources, clear implementation
+            arrangements and systems for tracking results.
+          </p>
+
+          <p>
+            We help clients connect these elements so that project concepts
+            become structured, fundable, manageable and measurable programmes.
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- =====================================================
+       PROJECT LIFECYCLE
+       ===================================================== -->
+  <section class="im-pm-lifecycle">
+
+    <div class="im-container">
+
+      <div class="im-pm-section-heading"
+           data-aos="fade-up">
+
+        <div>
+
+          <span class="im-eyebrow">
+            PROJECT LIFECYCLE
+          </span>
+
+          <h2>
+            A connected path from
+            <span>need to impact.</span>
+          </h2>
+
+        </div>
+
+        <p>
+          Project development and management work best when each stage is
+          connected to the next rather than treated as a separate activity.
+        </p>
+
+      </div>
+
+
+      <div class="im-pm-lifecycle-grid">
+
+
+        <article class="im-pm-life-card im-pm-life-1">
+
+          <span>01</span>
+
+          <i class="bi bi-compass"></i>
+
+          <h3>Understand</h3>
+
+          <p>
+            Assess needs, priorities, stakeholders and the operating context.
+          </p>
+
+        </article>
+
+
+        <article class="im-pm-life-card im-pm-life-2">
+
+          <span>02</span>
+
+          <i class="bi bi-pencil-square"></i>
+
+          <h3>Design</h3>
+
+          <p>
+            Define objectives, activities, resources, risks and implementation logic.
+          </p>
+
+        </article>
+
+
+        <article class="im-pm-life-card im-pm-life-3">
+
+          <span>03</span>
+
+          <i class="bi bi-cash-stack"></i>
+
+          <h3>Mobilise</h3>
+
+          <p>
+            Develop proposals and identify appropriate funding opportunities.
+          </p>
+
+        </article>
+
+
+        <article class="im-pm-life-card im-pm-life-4">
+
+          <span>04</span>
+
+          <i class="bi bi-kanban"></i>
+
+          <h3>Deliver</h3>
+
+          <p>
+            Coordinate resources, timelines, stakeholders and implementation.
+          </p>
+
+        </article>
+
+
+        <article class="im-pm-life-card im-pm-life-5">
+
+          <span>05</span>
+
+          <i class="bi bi-activity"></i>
+
+          <h3>Measure</h3>
+
+          <p>
+            Monitor performance, evaluate results and assess programme impact.
+          </p>
+
+        </article>
+
+
+        <article class="im-pm-life-card im-pm-life-final">
+
+          <span>06</span>
+
+          <i class="bi bi-file-earmark-bar-graph"></i>
+
+          <h3>Learn</h3>
+
+          <p>
+            Transform implementation evidence into reports, learning and better decisions.
+          </p>
+
+        </article>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- =====================================================
+       CORE CAPABILITIES
+       ===================================================== -->
+  <section id="project-capabilities"
+           class="im-pm-capabilities">
+
+    <div class="im-container">
+
+      <div class="im-pm-section-heading"
+           data-aos="fade-up">
+
+        <div>
+
+          <span class="im-eyebrow">
+            CORE CAPABILITIES
+          </span>
+
+          <h2>
+            Practical expertise across
+            <span>programme delivery.</span>
+          </h2>
+
+        </div>
+
+        <p>
+          Capabilities can be commissioned independently or combined into an
+          integrated project-development and management assignment.
+        </p>
+
+      </div>
+
+
+      <div class="im-pm-cap-grid">
+
+
+        <!-- 01 -->
+        <article class="im-pm-cap-card im-pm-cap-a"
+                 data-aos="fade-up">
+
+          <div class="im-pm-cap-head">
+
+            <span>01</span>
+
+            <div class="im-pm-cap-icon">
+              <i class="bi bi-bezier2"></i>
+            </div>
+
+          </div>
+
+          <span class="im-pm-cap-label">
+            PROGRAMME DESIGN
+          </span>
+
+          <h3>
+            Project
+            <span>Development</span>
+          </h3>
+
+          <p>
+            Development of feasible projects based on clearly identified
+            needs, strategic priorities, implementation realities and
+            anticipated results.
+          </p>
+
+
+          <div class="im-pm-cap-list">
+
+            <span>Needs assessment</span>
+            <span>Strategic planning</span>
+            <span>Feasibility studies</span>
+            <span>Risk identification</span>
+
+          </div>
+
+        </article>
+
+
+        <!-- 02 -->
+        <article class="im-pm-cap-card im-pm-cap-b"
+                 data-aos="fade-up"
+                 data-aos-delay="50">
+
+          <div class="im-pm-cap-head">
+
+            <span>02</span>
+
+            <div class="im-pm-cap-icon">
+              <i class="bi bi-file-earmark-text"></i>
+            </div>
+
+          </div>
+
+          <span class="im-pm-cap-label">
+            FUNDING READINESS
+          </span>
+
+          <h3>
+            Project Proposal
+            <span>Development</span>
+          </h3>
+
+          <p>
+            Preparation and refinement of structured project proposals that
+            communicate objectives, activities, outcomes, implementation
+            arrangements and resource requirements.
+          </p>
+
+
+          <div class="im-pm-cap-list">
+
+            <span>Proposal development</span>
+            <span>Grant writing</span>
+            <span>Budget logic</span>
+            <span>Proposal review</span>
+
+          </div>
+
+        </article>
+
+
+        <!-- 03 -->
+        <article class="im-pm-cap-card im-pm-cap-c"
+                 data-aos="fade-up"
+                 data-aos-delay="100">
+
+          <div class="im-pm-cap-head">
+
+            <span>03</span>
+
+            <div class="im-pm-cap-icon">
+              <i class="bi bi-piggy-bank"></i>
+            </div>
+
+          </div>
+
+          <span class="im-pm-cap-label">
+            RESOURCE MOBILISATION
+          </span>
+
+          <h3>
+            Fundraising
+            <span>&amp; Donor Support</span>
+          </h3>
+
+          <p>
+            Strategic support for identifying relevant funding opportunities,
+            aligning projects with donor priorities and strengthening
+            engagement with prospective funders.
+          </p>
+
+
+          <div class="im-pm-cap-list">
+
+            <span>Donor research</span>
+            <span>Funding opportunities</span>
+            <span>Proposal support</span>
+            <span>Donor engagement</span>
+
+          </div>
+
+        </article>
+
+
+        <!-- 04 -->
+        <article class="im-pm-cap-card im-pm-cap-d"
+                 data-aos="fade-up"
+                 data-aos-delay="150">
+
+          <div class="im-pm-cap-head">
+
+            <span>04</span>
+
+            <div class="im-pm-cap-icon">
+              <i class="bi bi-kanban"></i>
+            </div>
+
+          </div>
+
+          <span class="im-pm-cap-label">
+            IMPLEMENTATION
+          </span>
+
+          <h3>
+            Project
+            <span>Management</span>
+          </h3>
+
+          <p>
+            Structured management of project activities, timelines, resources
+            and stakeholders to support timely, coordinated and quality
+            implementation.
+          </p>
+
+
+          <div class="im-pm-cap-list">
+
+            <span>Planning</span>
+            <span>Scheduling</span>
+            <span>Resource allocation</span>
+            <span>Stakeholder coordination</span>
+
+          </div>
+
+        </article>
+
+
+        <!-- 05 -->
+        <article class="im-pm-cap-card im-pm-cap-e"
+                 data-aos="fade-up"
+                 data-aos-delay="200">
+
+          <div class="im-pm-cap-head">
+
+            <span>05</span>
+
+            <div class="im-pm-cap-icon">
+              <i class="bi bi-clipboard-data"></i>
+            </div>
+
+          </div>
+
+          <span class="im-pm-cap-label">
+            PERFORMANCE INTELLIGENCE
+          </span>
+
+          <h3>
+            Monitoring
+            <span>&amp; Evaluation</span>
+          </h3>
+
+          <p>
+            Development and application of monitoring and evaluation systems
+            that track implementation, assess performance and establish what
+            programmes are achieving.
+          </p>
+
+
+          <div class="im-pm-cap-list">
+
+            <span>Monitoring frameworks</span>
+            <span>Indicators</span>
+            <span>Evaluation studies</span>
+            <span>Impact assessment</span>
+
+          </div>
+
+        </article>
+
+
+        <!-- 06 -->
+        <article class="im-pm-cap-card im-pm-cap-f"
+                 data-aos="fade-up"
+                 data-aos-delay="250">
+
+          <div class="im-pm-cap-head">
+
+            <span>06</span>
+
+            <div class="im-pm-cap-icon">
+              <i class="bi bi-bar-chart-line"></i>
+            </div>
+
+          </div>
+
+          <span class="im-pm-cap-label">
+            EVIDENCE &amp; LEARNING
+          </span>
+
+          <h3>
+            Data Processing
+            <span>&amp; Reporting</span>
+          </h3>
+
+          <p>
+            Collection, processing, analysis and synthesis of project data
+            into clear reports that support accountability, organisational
+            learning and decision-making.
+          </p>
+
+
+          <div class="im-pm-cap-list">
+
+            <span>Data collection</span>
+            <span>Analysis</span>
+            <span>Reporting</span>
+            <span>Recommendations</span>
+
+          </div>
+
+        </article>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- =====================================================
+       DELIVERY INTELLIGENCE
+       ===================================================== -->
+  <section class="im-pm-delivery">
+
+    <div class="im-container">
+
+      <div class="im-pm-delivery-grid">
+
+
+        <!-- Management -->
+        <article class="im-pm-delivery-card im-pm-delivery-light"
+                 data-aos="fade-up">
+
+          <div class="im-pm-delivery-top">
+
+            <span>
+              IMPLEMENTATION DISCIPLINE
+            </span>
+
+            <i class="bi bi-calendar-check"></i>
+
+          </div>
+
+          <h2>
+            Delivery requires
+            <span>operational clarity.</span>
+          </h2>
+
+          <p>
+            Project implementation depends on clearly defined responsibilities,
+            realistic schedules, appropriate resource allocation and consistent
+            communication among stakeholders.
+          </p>
+
+
+          <div class="im-pm-delivery-points">
+
+            <div>
+              <i class="bi bi-check2"></i>
+              <span>Workplans and implementation schedules</span>
+            </div>
+
+            <div>
+              <i class="bi bi-check2"></i>
+              <span>Milestones and responsibilities</span>
+            </div>
+
+            <div>
+              <i class="bi bi-check2"></i>
+              <span>Resource coordination</span>
+            </div>
+
+            <div>
+              <i class="bi bi-check2"></i>
+              <span>Stakeholder communication</span>
+            </div>
+
+          </div>
+
+        </article>
+
+
+        <!-- M&E -->
+        <article class="im-pm-delivery-card im-pm-delivery-dark"
+                 data-aos="fade-up"
+                 data-aos-delay="80">
+
+          <div class="im-pm-delivery-top">
+
+            <span>
+              MONITORING &amp; EVALUATION
+            </span>
+
+            <i class="bi bi-graph-up-arrow"></i>
+
+          </div>
+
+          <h2>
+            Results should be
+            <span>visible and measurable.</span>
+          </h2>
+
+          <p>
+            Monitoring and evaluation create the evidence needed to understand
+            progress, identify implementation issues, demonstrate results and
+            improve future programming.
+          </p>
+
+
+          <div class="im-pm-delivery-points">
+
+            <div>
+              <i class="bi bi-check2"></i>
+              <span>Performance monitoring</span>
+            </div>
+
+            <div>
+              <i class="bi bi-check2"></i>
+              <span>Evaluation studies</span>
+            </div>
+
+            <div>
+              <i class="bi bi-check2"></i>
+              <span>Impact assessment</span>
+            </div>
+
+            <div>
+              <i class="bi bi-check2"></i>
+              <span>Learning and adaptation</span>
+            </div>
+
+          </div>
+
+        </article>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- =====================================================
+       FUNDING BAND
+       ===================================================== -->
+  <section class="im-pm-funding">
+
+    <div class="im-container">
+
+      <div class="im-pm-funding-panel"
+           data-aos="fade-up">
+
+        <div class="im-pm-funding-mark">
+
+          <span>RESOURCE MOBILISATION</span>
+
+          <i class="bi bi-cash-coin"></i>
+
+        </div>
+
+
+        <div>
+
+          <h2>
+            Good funding proposals begin
+            <span>with credible programme logic.</span>
+          </h2>
+
+          <p>
+            We connect donor research, proposal development, project design
+            and evidence so that fundraising efforts are grounded in a
+            coherent and defensible programme.
+          </p>
+
+        </div>
+
+
+        <a href="{% url 'home' %}#contact">
+
+          Discuss Funding Support
+          <i class="bi bi-arrow-up-right"></i>
+
+        </a>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- =====================================================
+       RELATED SERVICES
+       ===================================================== -->
+  <section class="im-pm-related">
+
+    <div class="im-container">
+
+      <div class="im-pm-related-heading"
+           data-aos="fade-up">
+
+        <span class="im-eyebrow">
+          RELATED CAPABILITIES
+        </span>
+
+        <h2>
+          Strong programmes depend
+          <span>on connected expertise.</span>
+        </h2>
+
+      </div>
+
+
+      <div class="im-pm-related-grid">
+
+
+        <a href="{% url 'research-and-publications-service.html' %}"
+           class="im-pm-related-card">
+
+          <span>01</span>
+
+          <h3>
+            Research &amp;
+            Publications
+          </h3>
+
+          <i class="bi bi-arrow-up-right"></i>
+
+        </a>
+
+
+        <a href="{% url 'policy-review-and-analysis.html' %}"
+           class="im-pm-related-card">
+
+          <span>02</span>
+
+          <h3>
+            Policy Review
+            &amp; Analysis
+          </h3>
+
+          <i class="bi bi-arrow-up-right"></i>
+
+        </a>
+
+
+        <a href="{% url 'academic-mentorship-and-training.html' %}"
+           class="im-pm-related-card">
+
+          <span>03</span>
+
+          <h3>
+            Academic Mentorship
+            &amp; Training
+          </h3>
+
+          <i class="bi bi-arrow-up-right"></i>
+
+        </a>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- =====================================================
+       CLOSING CTA
+       ===================================================== -->
+  <section class="im-pm-close">
+
+    <div class="im-container">
+
+      <div class="im-pm-close-panel"
+           data-aos="fade-up">
+
+        <div>
+
+          <span>
+            FROM IDEA TO IMPLEMENTATION
+          </span>
+
+          <h2>
+            Have a project that needs
+            <span>structure, funding or stronger delivery?</span>
+          </h2>
+
+          <p>
+            Start with the programme challenge. We can help determine the
+            development, management, funding, monitoring and analytical
+            support required.
+          </p>
+
+        </div>
+
+
+        <div class="im-pm-close-actions">
+
+          <a href="{% url 'home' %}#contact"
+             class="im-btn im-btn-gold">
+
+            Talk to Investmetrics
+            <i class="bi bi-arrow-right"></i>
+
+          </a>
+
+          <a href="/company-profile/"
+             class="im-pm-close-secondary">
+
+            Company Profile
+            <i class="bi bi-arrow-up-right"></i>
+
+          </a>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+</main>
+
+{% endblock content %}

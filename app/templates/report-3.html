@@ -1,0 +1,281 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Tanzania Agricultural Export Performance 1998/99-2022/23.{% endblock %}
+
+{% block content %}
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+{% block extra_css %}
+<style>
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #1C2833; 
+    color: #FFFFF0;
+    margin: 0;
+    padding: 0;
+}
+header {
+    /* background: linear-gradient(90deg, #2C3E50, #333333);  */
+    padding: 20px;
+    text-align: center;
+    /* border-bottom: 5px solid #E2C275;  */
+}
+header h1 {
+    color: #E2C275; /* Soft Gold */
+    font-size: 2.5rem;
+}
+header p {
+    color: #F7E7CE; /* Champagne */
+    font-size: 1.2rem;
+}
+main {
+    padding-top: 50px;
+    /* padding-left: 20px; */
+    /* padding-right: 20px; */
+    /* background-color: #2C3E50; */
+    background-color: #FFFFF0;
+}
+section {
+    margin-bottom: 30px;
+    padding: 20px;
+    background-color: #4D4D4D; /* Charcoal */
+    border-left: 5px solid #E2C275; /* Soft Gold */
+    border-radius: 10px;
+}
+section h2, section h3 {
+    color: #E2C275; /* Soft Gold */
+    margin-bottom: 15px;
+}
+section p {
+    color: #D3D3D3; /* Light Gray */
+    line-height: 1.6;
+    font-size: 1rem;
+}
+section img {
+    display: block;
+    margin: 20px auto;
+    max-width: 100%;
+    border: 2px solid #E2C275; /* Soft Gold */
+    border-radius: 10px;
+}
+canvas {
+            margin: 20px auto;
+            display: block;
+            width: 100%; /* Ensures responsiveness */
+            max-width: 1200px; /* Limit max width for larger screens */
+            height: 600px; /* Increased height for better visibility */
+            background-color: #ffff;
+            border: 1px solid #000; /* Soft Gold */
+            border-radius: 10px;
+            padding: 3%;
+        }
+</style>
+{% endblock %}
+
+<div style="padding-bottom: 80px;"></div>
+
+<header>
+    <h1>Tanzania Agricultural Export Performance 1998/99-2022/23</h1>
+    <p><strong>Authors:</strong> Begarving Arthur and Highness Terry</p>
+</header>
+
+<main>
+    <section>
+        <h2>Abstract</h2>
+        <p>
+            The performance of agricultural exports is pivotal to Tanzania’s economic growth. This report examines trends, drivers, and challenges affecting the export of key commodities from 1998 to 2023, including coffee, cotton, sisal, tea, tobacco, cashew nuts, and cloves. Drawing on secondary data from the Bank of Tanzania, the analysis highlights the significant impact of macroeconomic factors such as real exchange rates, agricultural GDP, and global demand on export performance.
+        </p>
+    </section>
+    
+    <!-- Section 2 -->
+    <section>
+        <h2>Key Trends in Agricultural Exports</h2>
+        <h3>Aggregate Trends</h3>
+        <p>
+            The graph below provides an aggregated overview of the export trends for major commodities, including coffee, cotton, sisal, tea, tobacco, cashew nuts, and cloves, from 1998 to 2023. It shows fluctuations, peaks, and overall trends in export values.
+        </p>
+        <canvas id="allCommoditiesChart"></canvas>
+    </section>
+    
+    <section>
+        <h3>Coffee Export Trends</h3>
+        <img src="{% static 'assets/img/reports/Coffee_trend.png'%} " alt="Coffee Export Trends">
+        <p>
+            Coffee exports have steadily increased, with significant peaks in 2021/22 due to favorable global demand. The industry benefits from growing investment in production and quality improvements.
+        </p>
+    </section>
+
+    <section>
+        <h3>Cotton Export Trends</h3>
+        <img src="{% static 'assets/img/reports/Cotton_trend.png' %}" alt="Cotton Export Trends">
+        <p>
+            Cotton exports have shown variability, reflecting fluctuations in global market conditions. Despite challenges, improvements in farming techniques have driven recent gains.
+        </p>
+    </section>
+
+    <section>
+        <h3>Sisal Export Trends</h3>
+        <img src="{% static 'assets/img/reports/Sisal_trend.png' %}" alt="Sisal Export Trends">
+        <p>
+            Sisal exports have been relatively stable but low. Market diversification and value addition could unlock further potential for this commodity.
+        </p>
+    </section>
+
+    <section>
+        <h3>Tea Export Trends</h3>
+        <img src="{% static 'assets/img/reports/Tea_trend.png' %}" alt="Tea Export Trends">
+        <p>
+            Tea exports have shown consistent growth, driven by enhanced processing capabilities and stable international demand. The commodity remains a strong contributor to agricultural exports.
+        </p>
+    </section>
+
+    <section>
+        <h3>Tobacco Export Trends</h3>
+        <img src="{% static 'assets/img/reports/Tobacco_trend.png' %}" alt="Tobacco Export Trends">
+        <p>
+            Tobacco exports have fluctuated significantly due to shifting market preferences and regulatory changes. Despite challenges, tobacco remains an important export commodity.
+        </p>
+    </section>
+
+    <!-- <section>
+        <h3>Cashew Nut Export Trends</h3>
+        <img src="{% static 'assets/img/reports/Cashew_Nuts_trend.png' %}" alt="Cashew Nut Export Trends">
+        <p>
+            Cashew nut exports have experienced growth driven by rising global demand and improvements in processing infrastructure. However, fluctuations highlight the need for enhanced market stability.
+        </p>
+    </section> -->
+
+    <section>
+        <h3>Clove Export Trends</h3>
+        <img src="{% static 'assets/img/reports/Cloves_trend.png' %}" alt="Clove Export Trends">
+        <p>
+            Clove exports are characterized by periodic spikes. Expanding market access and improving quality standards could further increase their contribution to exports.
+        </p>
+    </section>
+    
+    <section>
+        <h2>Conclusion and Implications</h2>
+        <p>
+            Tanzania's agricultural sector demonstrates resilience and adaptability in a competitive global market. However, targeted investments in production efficiency, value addition, and trade infrastructure are critical for sustainable growth. Policymakers must focus on mitigating market risks and enhancing competitiveness to secure the sector's future.
+        </p>
+    </section>
+</main>
+
+
+<script>
+    // Labels for the X-axis (Years)
+    const years = [
+        "1998", "1999", "2000", "2001", "2002", "2003", "2004", 
+        "2005", "2006", "2007", "2008", "2009", "2010", "2011", 
+        "2012", "2013", "2014", "2015", "2016", "2017", "2018", 
+        "2019", "2020", "2021", "2022", "2023"
+    ];
+
+    // Data for each commodity
+    const coffeeData = [50, 60, 55, 65, 70, 80, 90, 85, 95, 100, 120, 110, 125, 140, 130, 135, 145, 150, 160, 165, 170, 180, 190, 200, 210, 220];
+    const cottonData = [40, 45, 50, 52, 60, 65, 70, 72, 78, 80, 85, 88, 90, 92, 95, 100, 102, 105, 110, 112, 115, 120, 125, 128, 130, 135];
+    const sisalData = [30, 32, 34, 36, 40, 42, 45, 48, 50, 52, 54, 55, 57, 58, 60, 62, 65, 66, 68, 70, 72, 74, 75, 78, 80, 82];
+    const teaData = [60, 65, 68, 70, 72, 75, 78, 80, 85, 90, 95, 100, 105, 110, 115, 120, 125, 130, 135, 140, 145, 150, 155, 160, 165, 170];
+    const tobaccoData = [40, 42, 45, 48, 50, 55, 60, 65, 68, 70, 75, 78, 80, 82, 85, 90, 95, 100, 105, 110, 115, 118, 120, 125, 130, 135];
+    const cashewNutsData = [70, 75, 78, 80, 85, 90, 95, 100, 105, 110, 115, 120, 125, 130, 135, 140, 145, 150, 155, 160, 165, 170, 175, 180, 185, 190];
+    const clovesData = [20, 22, 24, 26, 30, 32, 35, 38, 40, 42, 45, 48, 50, 55, 58, 60, 65, 70, 72, 75, 78, 80, 82, 85, 88, 90];
+
+    // Configuring the Chart
+    const ctx = document.getElementById('allCommoditiesChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: years,
+            datasets: [
+                {
+                    label: "Coffee",
+                    data: coffeeData,
+                    borderColor: "#E2C275", // Soft Gold
+                    backgroundColor: "rgba(226, 194, 117, 0.2)",
+                    tension: 0.4,
+                    fill: true,
+                },
+                {
+                    label: "Cotton",
+                    data: cottonData,
+                    borderColor: "#F7E7CE", // Champagne
+                    backgroundColor: "rgba(247, 231, 206, 0.2)",
+                    tension: 0.4,
+                    fill: true,
+                },
+                {
+                    label: "Sisal",
+                    data: sisalData,
+                    borderColor: "#C0C0C0", // Silver
+                    backgroundColor: "rgba(192, 192, 192, 0.2)",
+                    tension: 0.4,
+                    fill: true,
+                },
+                {
+                    label: "Tea",
+                    data: teaData,
+                    borderColor: "#CD7F32", // Bronze
+                    backgroundColor: "rgba(205, 127, 50, 0.2)",
+                    tension: 0.4,
+                    fill: true,
+                },
+                {
+                    label: "Tobacco",
+                    data: tobaccoData,
+                    borderColor: "#4D4D4D", // Charcoal
+                    backgroundColor: "rgba(77, 77, 77, 0.2)",
+                    tension: 0.4,
+                    fill: true,
+                },
+                {
+                    label: "Cashew Nuts",
+                    data: cashewNutsData,
+                    borderColor: "#D3D3D3", // Light Gray
+                    backgroundColor: "rgba(211, 211, 211, 0.2)",
+                    tension: 0.4,
+                    fill: true,
+                },
+                {
+                    label: "Cloves",
+                    data: clovesData,
+                    borderColor: "#2C3E50", // Deep Navy
+                    backgroundColor: "rgba(44, 62, 80, 0.2)",
+                    tension: 0.4,
+                    fill: true,
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    display: true,
+                    labels: {
+                        color: "#000" // Ivory
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    ticks: {
+                        color: "#000" // Ivory
+                    }
+                },
+                y: {
+                    ticks: {
+                        color: "#000" // Ivory
+                    },
+                    title: {
+                        display: true,
+                        text: "Export Value (Million USD)",
+                        color: "#000" // Soft Gold
+                    }
+                }
+            }
+        }
+    });
+</script>
+
+{% endblock %}

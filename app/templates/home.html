@@ -1,0 +1,2493 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}Home{% endblock title %}
+
+{% block content %}
+
+<style>
+    .sitename:hover {
+      color: #8f742a !important;
+    }
+  
+    .custom-subscribe-btn {
+      background-color: #FFD700;
+      border-color: #FFD700;
+      color: #000000; /* Black text for better contrast */
+    }
+    .custom-subscribe-btn:hover {
+      background-color: #E6C200; /* Slightly darker shade for hover effect */
+      border-color: #E6C200;
+      color: #000000;
+    }
+  
+    #footer {
+      background: linear-gradient(to bottom, 
+        #000000 40%, 
+        #1A1605 50%, 
+        #3D3210 70%, 
+        #614F1A 100% 
+        /* #8f742a 130% */
+      ) !important;
+    }
+
+    .training-card {
+        border: 2px solid #B59410;
+        padding: 25px;
+        border-radius: 15px;
+        background: #ffffff;
+        height: 100%;
+        transition: all 0.3s ease;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    }
+
+    .training-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+    }
+
+    .training-card .icon-box {
+        width: 60px;
+        height: 60px;
+        background: rgba(181, 148, 16, 0.1);
+        border: 1px solid #B59410;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+
+    .training-card .icon-box i {
+        font-size: 28px;
+        color: #B59410;
+    }
+
+    .training-card h3 {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        color: #2C3E50;
+    }
+
+    .training-content p {
+        color: #666;
+        margin-bottom: 1.5rem;
+    }
+
+    .training-content ul {
+        list-style: none;
+        padding: 0;
+        margin-bottom: 1.5rem;
+    }
+
+    .training-content ul li {
+        display: flex;
+        align-items: center;
+        margin-bottom: 0.8rem;
+        color: #555;
+    }
+
+    .training-content ul li i {
+        color: #B59410;
+        margin-right: 10px;
+    }
+
+    .duration {
+        display: inline-flex;
+        align-items: center;
+        padding: 8px 15px;
+        background: rgba(181, 148, 16, 0.1);
+        border: 1px solid #B59410;
+        border-radius: 20px;
+        color: #B59410;
+        font-size: 0.9rem;
+    }
+
+    .duration i {
+        margin-right: 8px;
+    }
+
+    .training-cta {
+        border: 2px solid #B59410;
+        background: #ffffff;
+        padding: 30px;
+        border-radius: 15px;
+        margin-top: 40px;
+    }
+
+    .training-cta h4 {
+        color: #B59410;
+        margin-bottom: 15px;
+    }
+
+    .training-cta ul li {
+        display: flex;
+        align-items: center;
+        margin-bottom: 12px;
+        color: #555;
+    }
+
+    .training-cta ul li i {
+        color: #B59410;
+        margin-right: 10px;
+        font-size: 1.2rem;
+    }
+
+    .custom-btn {
+        display: inline-block;
+        padding: 12px 30px;
+        background: #B59410;
+        color: #ffffff;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+
+    .custom-btn:hover {
+        background: #96780d;
+        color: #ffffff;
+    }
+
+    .lead {
+        padding: 20px;
+        border: 2px solid #B59410;
+        border-radius: 15px;
+        background: #ffffff;
+        margin-bottom: 30px;
+    }
+
+    @media (max-width: 768px) {
+        .training-card {
+            margin-bottom: 20px;
+        }
+        
+        .training-cta {
+            text-align: center;
+        }
+        
+        .custom-btn {
+            margin-top: 20px;
+        }
+    }
+
+    .contact-section {
+        padding: 60px 0;
+        background: #f8f9fa;
+    }
+
+    .contact-form-wrapper {
+        background: #ffffff;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        height: 450px; /* Match map height */
+        display: flex;
+        flex-direction: column;
+    }
+
+    .contact-form {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .contact-form .row {
+        flex-grow: 1;
+    }
+
+    .form-floating {
+        margin-bottom: 15px;
+    }
+
+    .form-floating > .form-control {
+        height: calc(2.5rem + 2px);
+        padding: 1rem 0.75rem;
+    }
+
+    .form-floating > textarea.form-control {
+        height: 100px;
+    }
+
+    .form-floating > label {
+        padding: 0.5rem 0.75rem;
+    }
+
+    .btn-primary {
+        padding: 0.8rem;
+        font-weight: 500;
+        border-radius: 5px;
+        transition: all 0.3s ease;
+    }
+
+    .btn-primary:hover {
+        transform: translateY(-2px);
+    }
+
+    .map-container {
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        height: 450px;
+    }
+
+    .map-container iframe {
+        width: 100%;
+        height: 100%;
+    }
+
+    @media (max-width: 768px) {
+        .contact-form-wrapper,
+        .map-container {
+            height: 400px;
+            margin-bottom: 20px;
+        }
+        
+        .form-floating {
+            margin-bottom: 10px;
+        }
+    }
+
+    .contact-form-wrapper {
+        background: #ffffff;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        height: 450px;
+    }
+
+    .form-floating {
+        margin-bottom: 15px;
+    }
+
+    .form-floating > .form-control {
+        height: calc(3.5rem + 2px);
+        line-height: 1.25;
+    }
+
+    .form-floating > textarea.form-control {
+        height: 100px;
+    }
+
+    .form-control:focus {
+        border-color: var(--color-primary);
+        box-shadow: 0 0 0 0.2rem rgba(181, 148, 16, 0.1);
+    }
+
+    .btn-primary {
+        background-color: var(--color-primary);
+        border-color: var(--color-primary);
+    }
+
+    .map-container {
+        height: 450px;
+    }
+
+    .map-container iframe {
+        width: 100%;
+        height: 100%;
+        border-radius: 10px;
+    }
+
+    #message-container {
+        position: fixed;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 1050;
+        width: 90%;
+        max-width: 1200px;
+    }
+
+    .contact-form-wrapper {
+        background: #ffffff;
+        padding: 2.5rem;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        height: 450px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .form-header {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    .form-header h3 {
+        color: var(--color-secondary);
+        font-size: 1.75rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+    }
+
+    .form-header p {
+        color: #6c757d;
+        font-size: 1rem;
+    }
+
+    .form-group {
+        position: relative;
+        margin-bottom: 1.5rem;
+    }
+
+    .form-floating > .form-control {
+        padding: 1rem 1rem 1rem 2.5rem;
+        height: 3.5rem;
+        border: 2px solid #eef0f3;
+        border-radius: 12px;
+        transition: all 0.3s ease;
+    }
+
+    .form-floating > textarea.form-control {
+        height: 100px;
+        padding-top: 1.625rem;
+    }
+
+    .form-floating > .form-control:focus {
+        border-color: var(--color-primary);
+        box-shadow: 0 0 0 0.2rem rgba(181, 148, 16, 0.1);
+    }
+
+    .form-floating > label {
+        padding-left: 1rem;
+        color: #6c757d;
+    }
+
+    .form-floating > label i {
+        color: var(--color-primary);
+    }
+
+    .btn-submit {
+        width: 100%;
+        padding: 1rem 2rem;
+        font-size: 1rem;
+        font-weight: 500;
+        color: #ffffff;
+        background: linear-gradient(45deg, var(--color-primary), var(--color-secondary));
+        border: none;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .btn-submit:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .btn-submit:active {
+        transform: translateY(0);
+    }
+
+    .btn-submit i {
+        font-size: 1.2rem;
+        transition: transform 0.3s ease;
+    }
+
+    .btn-submit:hover i {
+        transform: translateX(3px);
+    }
+
+    #message-container {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+    }
+
+    .alert {
+        margin: 0;
+        border: none;
+        border-radius: 0 0 12px 12px;
+        padding: 1rem;
+        display: flex;
+        align-items: center;
+        font-weight: 500;
+    }
+
+    .alert-success {
+        background-color: #d1e7dd;
+        color: #0f5132;
+    }
+
+    .alert-error {
+        background-color: #f8d7da;
+        color: #842029;
+    }
+
+    .alert i {
+        font-size: 1.2rem;
+        margin-right: 0.5rem;
+    }
+
+    @media (max-width: 768px) {
+        .contact-form-wrapper {
+            padding: 1.5rem;
+            height: auto;
+        }
+
+        .form-floating > .form-control {
+            height: 3.2rem;
+        }
+
+        .btn-submit {
+            padding: 0.8rem 1.5rem;
+        }
+    }
+
+    .contact-form-wrapper {
+        background: #ffffff;
+        padding: 1.5rem;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        height: 450px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .form-header {
+        text-align: center;
+        margin-bottom: 1rem;
+    }
+
+    .form-header h3 {
+        color: var(--color-secondary);
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 0.25rem;
+    }
+
+    .form-header p {
+        color: #6c757d;
+        font-size: 0.9rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .form-group {
+        margin-bottom: 0.75rem;
+    }
+
+    .form-floating > .form-control {
+        padding: 0.75rem 0.75rem 0.75rem 2.25rem;
+        height: 2.8rem;
+        border: 1px solid #eef0f3;
+        border-radius: 8px;
+        font-size: 0.9rem;
+    }
+
+    .form-floating > textarea.form-control {
+        height: 80px;
+        padding-top: 1.5rem;
+    }
+
+    .form-floating > .form-control:focus {
+        border-color: var(--color-primary);
+        box-shadow: 0 0 0 0.2rem rgba(181, 148, 16, 0.1);
+    }
+
+    .form-floating > label {
+        padding: 0.75rem;
+        font-size: 0.9rem;
+        color: #6c757d;
+    }
+
+    .form-floating > label i {
+        color: var(--color-primary);
+        font-size: 0.9rem;
+    }
+
+    .btn-submit {
+        width: 100%;
+        padding: 0.75rem 1.5rem;
+        font-size: 0.9rem;
+        font-weight: 500;
+        color: #ffffff;
+        background: linear-gradient(45deg, var(--color-primary), var(--color-secondary));
+        border: none;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        transition: all 0.3s ease;
+    }
+
+    .btn-submit:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .btn-submit i {
+        font-size: 1rem;
+        transition: transform 0.3s ease;
+    }
+
+    .btn-submit:hover i {
+        transform: translateX(3px);
+    }
+
+    #message-container {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+    }
+
+    .alert {
+        margin: 0;
+        border: none;
+        border-radius: 0 0 8px 8px;
+        padding: 0.75rem;
+        display: flex;
+        align-items: center;
+        font-size: 0.9rem;
+        font-weight: 500;
+    }
+
+    .alert-success {
+        background-color: #d1e7dd;
+        color: #0f5132;
+    }
+
+    .alert-error {
+        background-color: #f8d7da;
+        color: #842029;
+    }
+
+    .alert i {
+        font-size: 1rem;
+    }
+
+    @media (max-width: 768px) {
+        .contact-form-wrapper {
+            height: auto;
+            min-height: 450px;
+        }
+    }
+
+    .contact-form-wrapper {
+        background: #ffffff;
+        padding: 1.25rem;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        height: 450px;
+        position: relative;
+    }
+
+    .form-header {
+        text-align: center;
+        margin-bottom: 0.75rem;
+    }
+
+    .form-header h3 {
+        color: var(--color-secondary);
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin-bottom: 0;
+    }
+
+    .form-group {
+        margin-bottom: 0.5rem;
+    }
+
+    .form-floating > .form-control {
+        padding: 0.5rem 0.75rem 0.5rem 2rem;
+        height: 2.5rem;
+        border: 1px solid #eef0f3;
+        border-radius: 8px;
+        font-size: 0.875rem;
+    }
+
+    .form-floating > textarea.form-control {
+        height: 70px;
+        padding-top: 1.25rem;
+    }
+
+    .form-floating > .form-control:focus {
+        border-color: #B59410;
+        box-shadow: 0 0 0 0.2rem rgba(181, 148, 16, 0.1);
+    }
+
+    .form-floating > label {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.875rem;
+        color: #6c757d;
+    }
+
+    .form-floating > label i {
+        color: #B59410;
+        font-size: 0.875rem;
+    }
+
+    .btn-submit {
+        width: 100%;
+        padding: 0.6rem 1.25rem;
+        font-size: 0.875rem;
+        font-weight: 500;
+        color: #ffffff;
+        background-color: #B59410 !important;
+        border: none;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        margin-top: 0.5rem;
+    }
+
+    .btn-submit i {
+        font-size: 0.875rem;
+    }
+
+    #message-container {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+    }
+
+    .alert {
+        margin: 0;
+        border: none;
+        border-radius: 0 0 8px 8px;
+        padding: 0.5rem;
+        display: flex;
+        align-items: center;
+        font-size: 0.875rem;
+        font-weight: 500;
+    }
+
+    .alert-success {
+        background-color: #d1e7dd;
+        color: #0f5132;
+    }
+
+    .alert-error {
+        background-color: #f8d7da;
+        color: #842029;
+    }
+
+    .alert i {
+        font-size: 0.875rem;
+    }
+
+    @media (max-width: 768px) {
+        .contact-form-wrapper {
+            height: auto;
+            min-height: 400px;
+        }
+    }
+
+    .service-item {
+        padding: 1.5rem;
+        background: #fff;
+        height: 100%;
+        border-radius: 10px;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    }
+
+    .service-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .service-item .icon {
+        width: 48px;
+        height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1rem;
+        background: rgba(181, 148, 16, 0.1);
+        border-radius: 50%;
+    }
+
+    .service-item .icon i {
+        font-size: 24px;
+        color: #B59410;
+    }
+
+    .service-item h3 {
+        font-size: 1.2rem;
+        margin-bottom: 1rem;
+        color: #333;
+    }
+
+    .service-item p {
+        font-size: 0.9rem;
+        color: #666;
+        margin-bottom: 1rem;
+        line-height: 1.5;
+    }
+
+    .service-item .btn {
+        font-size: 0.875rem;
+        padding: 0.4rem 1rem;
+        border-color: #B59410;
+        color: #B59410;
+    }
+
+    .service-item .btn:hover {
+        background: #B59410;
+        color: #fff;
+    }
+
+    @media (max-width: 992px) {
+        .service-item {
+            margin-bottom: 1rem;
+        }
+    }
+
+</style>
+
+    <main class="main">
+
+<!-- Investmetrics Intelligence Hero -->
+<section id="hero" class="im-home-hero">
+
+  <div class="im-container">
+    <div class="im-hero-grid">
+
+      <!-- Left: positioning -->
+      <div class="im-hero-copy" data-aos="fade-up">
+
+        <div class="im-eyebrow">
+          INVESTMETRICS INTELLIGENCE
+        </div>
+
+        <h1>
+          Research Intelligence
+          <span>for Better Decisions.</span>
+        </h1>
+
+        <p class="im-hero-lead">
+          We combine research, data analytics, advisory expertise and
+          professional intelligence to turn complex evidence into clear
+          decisions, practical action and measurable value.
+        </p>
+
+        <div class="im-hero-actions">
+
+          <a href="{% url 'home' %}#services"
+             class="im-btn im-btn-gold">
+            Explore Our Services
+            <i class="bi bi-arrow-right"></i>
+          </a>
+
+          <a href="{% url 'ai_at_work:home' %}"
+             class="im-btn im-btn-outline im-hero-secondary">
+            Explore Learning
+          </a>
+
+        </div>
+
+        <div class="im-hero-capabilities">
+
+          <div class="im-hero-capability">
+            <i class="bi bi-search"></i>
+            <span>Research &amp; Evidence</span>
+          </div>
+
+          <div class="im-hero-capability">
+            <i class="bi bi-bar-chart-line"></i>
+            <span>Data &amp; Analytics</span>
+          </div>
+
+          <div class="im-hero-capability">
+            <i class="bi bi-cpu"></i>
+            <span>AI &amp; Professional Learning</span>
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- Right: intelligence architecture -->
+      <div class="im-hero-visual" data-aos="fade-left" data-aos-delay="100">
+
+        <div class="im-intelligence-panel">
+
+          <div class="im-intelligence-top">
+
+            <div>
+              <span class="im-panel-label">
+                DECISION INTELLIGENCE
+              </span>
+
+              <h2>
+                From evidence<br>
+                to action.
+              </h2>
+            </div>
+
+            <div class="im-panel-mark">
+              <i class="bi bi-graph-up-arrow"></i>
+            </div>
+
+          </div>
+
+
+          <div class="im-intelligence-flow">
+
+            <div class="im-flow-step">
+              <span>01</span>
+              <strong>Evidence</strong>
+              <small>Research and data</small>
+            </div>
+
+            <div class="im-flow-line"></div>
+
+            <div class="im-flow-step">
+              <span>02</span>
+              <strong>Analysis</strong>
+              <small>Patterns and meaning</small>
+            </div>
+
+            <div class="im-flow-line"></div>
+
+            <div class="im-flow-step">
+              <span>03</span>
+              <strong>Insight</strong>
+              <small>Decision clarity</small>
+            </div>
+
+            <div class="im-flow-line"></div>
+
+            <div class="im-flow-step">
+              <span>04</span>
+              <strong>Action</strong>
+              <small>Practical outcomes</small>
+            </div>
+
+          </div>
+
+
+          <div class="im-intelligence-cards">
+
+            <div class="im-mini-card">
+              <div class="im-mini-icon">
+                <i class="bi bi-journal-text"></i>
+              </div>
+              <div>
+                <span>Research</span>
+                <strong>Intelligence</strong>
+              </div>
+            </div>
+
+            <div class="im-mini-card">
+              <div class="im-mini-icon">
+                <i class="bi bi-database"></i>
+              </div>
+              <div>
+                <span>Data</span>
+                <strong>Systems</strong>
+              </div>
+            </div>
+
+            <div class="im-mini-card">
+              <div class="im-mini-icon">
+                <i class="bi bi-stars"></i>
+              </div>
+              <div>
+                <span>Professional</span>
+                <strong>AI at Work</strong>
+              </div>
+            </div>
+
+          </div>
+
+
+          <div class="im-panel-footer">
+            <span>INVESTMETRICS</span>
+            <span>Dar es Salaam · Tanzania</span>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+</section>
+<!-- /Investmetrics Intelligence Hero -->
+
+        <!-- About Section -->
+<!-- What We Do -->
+<section id="about" class="im-home-about">
+  <div class="im-container">
+
+    <div class="im-about-grid">
+
+      <div class="im-about-copy" data-aos="fade-up">
+
+        <span class="im-eyebrow">WHAT WE DO</span>
+
+        <h2>
+          Evidence that moves
+          <span>decisions forward.</span>
+        </h2>
+
+        <p class="im-about-lead">
+          Investmetrics helps organisations generate credible evidence,
+          understand what it means, and apply it to policy, programmes,
+          strategy and operations.
+        </p>
+
+        <p>
+          Our work combines research expertise, data systems, analytical
+          methods, advisory support and professional capability development.
+          We work across the full decision cycle, from defining the question
+          to translating evidence into practical action.
+        </p>
+
+        <div class="im-about-actions">
+          <a href="{% url 'company-profile' %}"
+             class="im-btn im-btn-green">
+            Discover Investmetrics
+            <i class="bi bi-arrow-right"></i>
+          </a>
+
+          <a href="{% url 'home' %}#services"
+             class="im-text-link">
+            View capabilities
+            <i class="bi bi-arrow-down"></i>
+          </a>
+        </div>
+
+      </div>
+
+
+      <div class="im-capability-grid" data-aos="fade-up" data-aos-delay="100">
+
+        <a href="{% url 'research-and-publications-service.html' %}"
+           class="im-capability-card">
+
+          <div class="im-capability-number">01</div>
+
+          <div class="im-capability-icon">
+            <i class="bi bi-journal-check"></i>
+          </div>
+
+          <h3>Research &amp; Evidence</h3>
+
+          <p>
+            Research design, fieldwork, evaluation and applied evidence
+            generation for complex questions.
+          </p>
+
+          <span class="im-capability-link">
+            Explore
+            <i class="bi bi-arrow-up-right"></i>
+          </span>
+        </a>
+
+
+        <a href="{% url 'research-and-publications-service.html' %}"
+           class="im-capability-card">
+
+          <div class="im-capability-number">02</div>
+
+          <div class="im-capability-icon">
+            <i class="bi bi-bar-chart-line"></i>
+          </div>
+
+          <h3>Data &amp; Analytics</h3>
+
+          <p>
+            Data management, statistical analysis, dashboards and
+            intelligence systems that reveal actionable patterns.
+          </p>
+
+          <span class="im-capability-link">
+            Explore
+            <i class="bi bi-arrow-up-right"></i>
+          </span>
+        </a>
+
+
+        <a href="{% url 'policy-review-and-analysis.html' %}"
+           class="im-capability-card">
+
+          <div class="im-capability-number">03</div>
+
+          <div class="im-capability-icon">
+            <i class="bi bi-compass"></i>
+          </div>
+
+          <h3>Advisory &amp; Delivery</h3>
+
+          <p>
+            Evidence-led policy, programme and organisational support
+            designed around real decision needs.
+          </p>
+
+          <span class="im-capability-link">
+            Explore
+            <i class="bi bi-arrow-up-right"></i>
+          </span>
+        </a>
+
+
+        <a href="{% url 'ai_at_work:home' %}"
+           class="im-capability-card im-capability-featured">
+
+          <div class="im-capability-number">04</div>
+
+          <div class="im-capability-icon">
+            <i class="bi bi-stars"></i>
+          </div>
+
+          <h3>Professional Intelligence</h3>
+
+          <p>
+            Research capability, professional learning and AI at Work
+            programmes for stronger people and institutions.
+          </p>
+
+          <span class="im-capability-link">
+            Explore Learning
+            <i class="bi bi-arrow-up-right"></i>
+          </span>
+        </a>
+
+      </div>
+
+    </div>
+
+  </div>
+</section>
+<!-- /What We Do -->
+
+
+<!-- Institutional Trust -->
+<section id="clients" class="im-client-trust">
+
+  <div class="im-container">
+
+    <div class="im-client-heading" data-aos="fade-up">
+
+      <div>
+        <span class="im-eyebrow">TRUSTED COLLABORATION</span>
+
+        <h2>
+          Working across sectors
+          <span>and institutions.</span>
+        </h2>
+      </div>
+
+      <p>
+        Our experience spans organisations working in research,
+        development, policy, programmes and social impact.
+      </p>
+
+    </div>
+
+
+    <div class="swiper init-swiper im-client-swiper"
+         data-aos="fade-up"
+         data-aos-delay="100">
+
+      <script type="application/json" class="swiper-config">
+        {
+          "loop": true,
+          "speed": 650,
+          "autoplay": {
+            "delay": 3500
+          },
+          "slidesPerView": "auto",
+          "pagination": {
+            "el": ".swiper-pagination",
+            "type": "bullets",
+            "clickable": true
+          },
+          "breakpoints": {
+            "320": {
+              "slidesPerView": 2,
+              "spaceBetween": 14
+            },
+            "640": {
+              "slidesPerView": 3,
+              "spaceBetween": 18
+            },
+            "900": {
+              "slidesPerView": 4,
+              "spaceBetween": 20
+            },
+            "1200": {
+              "slidesPerView": 5,
+              "spaceBetween": 22
+            }
+          }
+        }
+      </script>
+
+      <div class="swiper-wrapper align-items-center">
+
+        <div class="swiper-slide">
+          <div class="im-client-logo-card">
+            <img src="{% static 'assets/img/clients/company-1.PNG' %}"
+                 alt="Investmetrics client">
+          </div>
+        </div>
+
+        <div class="swiper-slide">
+          <div class="im-client-logo-card">
+            <img src="{% static 'assets/img/clients/company-2.PNG' %}"
+                 alt="Investmetrics client">
+          </div>
+        </div>
+
+        <div class="swiper-slide">
+          <div class="im-client-logo-card">
+            <img src="{% static 'assets/img/clients/company-3.PNG' %}"
+                 alt="Investmetrics client">
+          </div>
+        </div>
+
+        <div class="swiper-slide">
+          <div class="im-client-logo-card">
+            <img src="{% static 'assets/img/clients/company-4.jpg' %}"
+                 alt="Investmetrics client">
+          </div>
+        </div>
+
+        <div class="swiper-slide">
+          <div class="im-client-logo-card">
+            <img src="{% static 'assets/img/clients/company-5.PNG' %}"
+                 alt="Investmetrics client">
+          </div>
+        </div>
+
+        <div class="swiper-slide">
+          <div class="im-client-logo-card">
+            <img src="{% static 'assets/img/clients/company-6.jpg' %}"
+                 alt="Investmetrics client">
+          </div>
+        </div>
+
+        <div class="swiper-slide">
+          <div class="im-client-logo-card">
+            <img src="{% static 'assets/img/clients/company-7.jpg' %}"
+                 alt="Investmetrics client">
+          </div>
+        </div>
+
+      </div>
+
+      <div class="swiper-pagination"></div>
+
+    </div>
+
+  </div>
+</section>
+<!-- /Institutional Trust -->
+
+        <!-- Features Section -->
+
+<!-- Why Investmetrics -->
+<section id="features" class="im-home-features">
+
+  <div class="im-container">
+
+    <div class="im-feature-layout">
+
+      <!-- Left positioning -->
+      <div class="im-feature-intro" data-aos="fade-up">
+
+        <span class="im-eyebrow">WHY INVESTMETRICS</span>
+
+        <h2>
+          More than analysis.
+          <span>Intelligence built for action.</span>
+        </h2>
+
+        <p class="im-feature-lead">
+          Strong decisions require more than data. They require credible
+          evidence, analytical depth, contextual understanding and the
+          capability to translate findings into action.
+        </p>
+
+        <p>
+          Investmetrics brings these elements together through an integrated
+          approach that connects research, analytics, technology and
+          implementation thinking across the full evidence-to-decision cycle.
+        </p>
+
+        <div class="im-feature-principle">
+          <span class="im-feature-principle-mark"></span>
+          <p>
+            Our focus is practical intelligence: evidence that can be
+            understood, trusted and used.
+          </p>
+        </div>
+
+      </div>
+
+
+      <!-- Right pillars -->
+      <div class="im-feature-cards" data-aos="fade-up" data-aos-delay="100">
+
+        <div class="im-feature-card">
+
+          <div class="im-feature-card-top">
+            <span>01</span>
+            <i class="bi bi-journal-check"></i>
+          </div>
+
+          <h3>Rigorous Evidence</h3>
+
+          <p>
+            Sound research design, disciplined field execution and defensible
+            methods built around the question that needs to be answered.
+          </p>
+
+        </div>
+
+
+        <div class="im-feature-card">
+
+          <div class="im-feature-card-top">
+            <span>02</span>
+            <i class="bi bi-graph-up-arrow"></i>
+          </div>
+
+          <h3>Analytical Depth</h3>
+
+          <p>
+            Statistical, qualitative and mixed-method analysis that moves
+            beyond description to explain patterns, relationships and meaning.
+          </p>
+
+        </div>
+
+
+        <div class="im-feature-card">
+
+          <div class="im-feature-card-top">
+            <span>03</span>
+            <i class="bi bi-cpu"></i>
+          </div>
+
+          <h3>Technology-Enabled Delivery</h3>
+
+          <p>
+            Digital data systems, dashboards, automation and responsible AI
+            tools that strengthen quality, speed and decision visibility.
+          </p>
+
+        </div>
+
+
+        <div class="im-feature-card">
+
+          <div class="im-feature-card-top">
+            <span>04</span>
+            <i class="bi bi-compass"></i>
+          </div>
+
+          <h3>Context &amp; Implementation</h3>
+
+          <p>
+            Recommendations shaped by organisational realities, local context
+            and the practical conditions required for implementation.
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+<!-- /Why Investmetrics -->
+
+
+<!-- Services -->
+<section id="services" class="im-home-services">
+
+  <div class="im-container">
+
+    <!-- Heading -->
+    <div class="im-services-heading" data-aos="fade-up">
+
+      <div>
+        <span class="im-eyebrow">OUR SERVICES</span>
+
+        <h2>
+          Expertise across the
+          <span>decision lifecycle.</span>
+        </h2>
+      </div>
+
+      <p>
+        Engage Investmetrics at the point where you need stronger evidence,
+        better analysis, clearer strategy, stronger delivery or professional
+        capability.
+      </p>
+
+    </div>
+
+
+    <!-- Service portfolio -->
+    <div class="im-services-grid">
+
+
+      <!-- Research -->
+      <a href="{% url 'research-and-publications-service.html' %}"
+         class="im-service-card"
+         data-aos="fade-up">
+
+        <div class="im-service-top">
+
+          <div class="im-service-icon">
+            <i class="bi bi-search"></i>
+          </div>
+
+          <span class="im-service-index">01</span>
+
+        </div>
+
+        <h3>Research &amp; Publications</h3>
+
+        <p>
+          Research design, fieldwork, data management, analysis, evaluation,
+          reporting and publication support from concept to final evidence.
+        </p>
+
+        <div class="im-service-footer">
+          <span>Explore service</span>
+          <i class="bi bi-arrow-up-right"></i>
+        </div>
+
+      </a>
+
+
+      <!-- Project development -->
+      <a href="{% url 'proj-dvt-and-management.html' %}"
+         class="im-service-card"
+         data-aos="fade-up"
+         data-aos-delay="50">
+
+        <div class="im-service-top">
+
+          <div class="im-service-icon">
+            <i class="bi bi-diagram-3"></i>
+          </div>
+
+          <span class="im-service-index">02</span>
+
+        </div>
+
+        <h3>Project Development &amp; Management</h3>
+
+        <p>
+          Programme design, planning, monitoring and implementation support
+          that connects strategic objectives with practical delivery.
+        </p>
+
+        <div class="im-service-footer">
+          <span>Explore service</span>
+          <i class="bi bi-arrow-up-right"></i>
+        </div>
+
+      </a>
+
+
+      <!-- Policy -->
+      <a href="{% url 'policy-review-and-analysis.html' %}"
+         class="im-service-card"
+         data-aos="fade-up"
+         data-aos-delay="100">
+
+        <div class="im-service-top">
+
+          <div class="im-service-icon">
+            <i class="bi bi-file-earmark-text"></i>
+          </div>
+
+          <span class="im-service-index">03</span>
+
+        </div>
+
+        <h3>Policy Review &amp; Analysis</h3>
+
+        <p>
+          Structured policy assessment, evidence synthesis and analytical
+          support for organisations operating in complex policy environments.
+        </p>
+
+        <div class="im-service-footer">
+          <span>Explore service</span>
+          <i class="bi bi-arrow-up-right"></i>
+        </div>
+
+      </a>
+
+
+      <!-- Academic mentorship -->
+      <a href="{% url 'academic-mentorship-and-training.html' %}"
+         class="im-service-card"
+         data-aos="fade-up"
+         data-aos-delay="150">
+
+        <div class="im-service-top">
+
+          <div class="im-service-icon">
+            <i class="bi bi-mortarboard"></i>
+          </div>
+
+          <span class="im-service-index">04</span>
+
+        </div>
+
+        <h3>Academic Mentorship</h3>
+
+        <p>
+          Advanced research guidance, methodology support, analytical
+          mentorship and scholarly development for researchers and students.
+        </p>
+
+        <div class="im-service-footer">
+          <span>Explore service</span>
+          <i class="bi bi-arrow-up-right"></i>
+        </div>
+
+      </a>
+
+
+      <!-- AI at Work -->
+      <a href="{% url 'ai_at_work:home' %}"
+         class="im-service-card im-service-card-featured"
+         data-aos="fade-up"
+         data-aos-delay="200">
+
+        <div class="im-service-featured-badge">
+          PROFESSIONAL LEARNING
+        </div>
+
+        <div class="im-service-top">
+
+          <div class="im-service-icon">
+            <i class="bi bi-stars"></i>
+          </div>
+
+          <span class="im-service-index">05</span>
+
+        </div>
+
+        <h3>AI at Work</h3>
+
+        <p>
+          Applied professional learning that helps individuals and
+          organisations use AI thoughtfully, productively and responsibly
+          within real work environments.
+        </p>
+
+        <div class="im-service-footer">
+          <span>Explore learning</span>
+          <i class="bi bi-arrow-up-right"></i>
+        </div>
+
+      </a>
+
+
+    </div>
+
+
+    <!-- Portfolio close -->
+    <div class="im-services-note" data-aos="fade-up">
+
+      <div class="im-services-note-mark">
+        <i class="bi bi-lightbulb"></i>
+      </div>
+
+      <div>
+        <span>Integrated by design</span>
+        <p>
+          Our services can operate independently or combine into one
+          end-to-end research, intelligence and capability solution.
+        </p>
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+<!-- /Services -->
+
+
+<!-- Evidence in Practice -->
+<section id="stats" class="im-evidence-section">
+
+  <div class="im-container">
+
+    <div class="im-evidence-grid">
+
+      <!-- Positioning -->
+      <div class="im-evidence-copy" data-aos="fade-up">
+
+        <span class="im-eyebrow">EVIDENCE IN PRACTICE</span>
+
+        <h2>
+          Built around the way
+          <span>real decisions are made.</span>
+        </h2>
+
+        <p class="im-evidence-lead">
+          Our work connects methodological rigour with the practical realities
+          of organisations, programmes and decision-makers.
+        </p>
+
+        <p>
+          We structure assignments around the full evidence journey:
+          understanding the problem, generating reliable information,
+          analysing what matters, and translating findings into usable
+          recommendations and decision tools.
+        </p>
+
+        <div class="im-evidence-quote">
+          <div class="im-evidence-quote-icon">
+            <i class="bi bi-lightbulb"></i>
+          </div>
+
+          <div>
+            <span>OUR OPERATING PRINCIPLE</span>
+            <p>
+              Evidence creates value when people can trust it, understand it
+              and act on it.
+            </p>
+          </div>
+        </div>
+
+      </div>
+
+
+      <!-- Evidence architecture -->
+      <div class="im-evidence-panel" data-aos="fade-up" data-aos-delay="100">
+
+        <div class="im-evidence-panel-head">
+
+          <span>INVESTMETRICS INTELLIGENCE</span>
+
+          <i class="bi bi-diagram-3"></i>
+
+        </div>
+
+
+        <div class="im-evidence-items">
+
+          <div class="im-evidence-item">
+
+            <div class="im-evidence-item-number">01</div>
+
+            <div class="im-evidence-item-icon">
+              <i class="bi bi-search"></i>
+            </div>
+
+            <div>
+              <h3>Question-led research</h3>
+              <p>
+                Start with the decision problem rather than forcing a standard
+                methodology onto every assignment.
+              </p>
+            </div>
+
+          </div>
+
+
+          <div class="im-evidence-item">
+
+            <div class="im-evidence-item-number">02</div>
+
+            <div class="im-evidence-item-icon">
+              <i class="bi bi-database-check"></i>
+            </div>
+
+            <div>
+              <h3>Disciplined data systems</h3>
+              <p>
+                Build quality, traceability and confidentiality into data
+                collection, management and analytical workflows.
+              </p>
+            </div>
+
+          </div>
+
+
+          <div class="im-evidence-item">
+
+            <div class="im-evidence-item-number">03</div>
+
+            <div class="im-evidence-item-icon">
+              <i class="bi bi-graph-up"></i>
+            </div>
+
+            <div>
+              <h3>Analytical interpretation</h3>
+              <p>
+                Move beyond tables and outputs to identify patterns,
+                implications and the evidence behind them.
+              </p>
+            </div>
+
+          </div>
+
+
+          <div class="im-evidence-item">
+
+            <div class="im-evidence-item-number">04</div>
+
+            <div class="im-evidence-item-icon">
+              <i class="bi bi-compass"></i>
+            </div>
+
+            <div>
+              <h3>Decision-ready outputs</h3>
+              <p>
+                Translate findings into reports, dashboards, recommendations
+                and practical decision support.
+              </p>
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div class="im-evidence-panel-footer">
+
+          <span>Research</span>
+          <i class="bi bi-arrow-right"></i>
+
+          <span>Analysis</span>
+          <i class="bi bi-arrow-right"></i>
+
+          <span>Insight</span>
+          <i class="bi bi-arrow-right"></i>
+
+          <span>Action</span>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+<!-- /Evidence in Practice -->
+
+
+<!-- Partner Experience -->
+<section id="testimonials" class="im-testimonials-section">
+
+  <div class="im-container">
+
+    <div class="im-testimonials-heading" data-aos="fade-up">
+
+      <div>
+        <span class="im-eyebrow">PARTNER EXPERIENCE</span>
+
+        <h2>
+          What clients value
+          <span>in working with us.</span>
+        </h2>
+      </div>
+
+      <p>
+        Client feedback consistently points to professionalism, practical
+        support and the ability to bring structure to complex assignments.
+      </p>
+
+    </div>
+
+
+    <div class="swiper init-swiper im-testimonials-swiper"
+         data-aos="fade-up"
+         data-aos-delay="100">
+
+      <script type="application/json" class="swiper-config">
+        {
+          "loop": true,
+          "speed": 650,
+          "autoplay": {
+            "delay": 5000
+          },
+          "slidesPerView": 1,
+          "spaceBetween": 18,
+          "pagination": {
+            "el": ".swiper-pagination",
+            "type": "bullets",
+            "clickable": true
+          },
+          "breakpoints": {
+            "760": {
+              "slidesPerView": 2,
+              "spaceBetween": 18
+            },
+            "1180": {
+              "slidesPerView": 3,
+              "spaceBetween": 20
+            }
+          }
+        }
+      </script>
+
+
+      <div class="swiper-wrapper">
+
+
+        <!-- Vanessa -->
+        <div class="swiper-slide">
+
+          <article class="im-testimonial-card">
+
+            <div class="im-testimonial-quote">
+              <i class="bi bi-quote"></i>
+            </div>
+
+            <p>
+              Investmetrics carries their work with high level of
+              professionalism, i experienced tremendous support and unending
+              cooperation through out. I came with mixed and confusing ideas
+              but they were able to set clear solutions within a small timeline
+              that met my deadlines.
+            </p>
+
+            <div class="im-testimonial-person">
+
+              <img
+                src="{% static 'assets/img/testimonials/Vannesa.jpeg' %}"
+                alt="Vanessa Hesbon">
+
+              <div>
+                <strong>Vanessa Hesbon</strong>
+                <span>Operations Manager &amp; Entrepreneur</span>
+              </div>
+
+            </div>
+
+          </article>
+
+        </div>
+
+
+        <!-- TASA -->
+        <div class="swiper-slide">
+
+          <article class="im-testimonial-card">
+
+            <div class="im-testimonial-quote">
+              <i class="bi bi-quote"></i>
+            </div>
+
+            <p>
+              During the consultation, TASA learned about developing the
+              chain of partnership with giant NGOs, where up to date TASA has
+              a partner more than 3 partners who are non profit organisation
+              and other companies.
+            </p>
+
+            <div class="im-testimonial-person">
+
+              <img
+                src="{% static 'assets/img/testimonials/Tasa.png' %}"
+                alt="Tanzania Safety Alliance">
+
+              <div>
+                <strong>Tanzania Safety Alliance</strong>
+                <span>Executive Director</span>
+              </div>
+
+            </div>
+
+          </article>
+
+        </div>
+
+
+        <!-- Berkant -->
+        <div class="swiper-slide">
+
+          <article class="im-testimonial-card">
+
+            <div class="im-testimonial-quote">
+              <i class="bi bi-quote"></i>
+            </div>
+
+            <p>
+              I am really happy to get this service. It was more effective
+              and more professional than I expected.
+            </p>
+
+            <div class="im-testimonial-person">
+
+              <img
+                src="{% static 'assets/img/testimonials/berkant.jpg' %}"
+                alt="Berkant Uslu">
+
+              <div>
+                <strong>Berkant Uslu</strong>
+                <span>Psychologist</span>
+              </div>
+
+            </div>
+
+          </article>
+
+        </div>
+
+
+      </div>
+
+
+      <div class="swiper-pagination"></div>
+
+    </div>
+
+  </div>
+
+</section>
+<!-- /Partner Experience -->
+
+<!-- Team -->
+<section id="team" class="im-team-section">
+
+  <div class="im-container">
+
+    <div class="im-team-heading" data-aos="fade-up">
+
+      <div>
+        <span class="im-eyebrow">OUR PEOPLE</span>
+
+        <h2>
+          Expertise behind
+          <span>the intelligence.</span>
+        </h2>
+      </div>
+
+      <p>
+        Investmetrics combines leadership, research, administration and
+        institutional capability to deliver disciplined work across
+        assignments and partnerships.
+      </p>
+
+    </div>
+
+
+    <div class="im-team-grid">
+
+      <!-- Veronica -->
+      <article class="im-team-card"
+               data-aos="fade-up">
+
+        <a href="{% url 'team-2.html' %}"
+           class="im-team-photo">
+
+          <img
+            src="{% static 'assets/img/team/resized/team_2.1.jpg' %}"
+            alt="Veronica Kamwela">
+
+          <div class="im-team-photo-overlay">
+            <span>View Profile</span>
+            <i class="bi bi-arrow-up-right"></i>
+          </div>
+
+        </a>
+
+        <div class="im-team-body">
+
+          <span class="im-team-category">
+            LEADERSHIP
+          </span>
+
+          <h3>Veronica Kamwela</h3>
+
+          <p>Chief Executive Officer</p>
+
+          <a href="{% url 'team-2.html' %}"
+             class="im-team-link">
+            Profile
+            <i class="bi bi-arrow-right"></i>
+          </a>
+
+        </div>
+
+      </article>
+
+
+      <!-- Habibu -->
+      <article class="im-team-card"
+               data-aos="fade-up"
+               data-aos-delay="70">
+
+        <a href="{% url 'team-4.html' %}"
+           class="im-team-photo">
+
+          <img
+            src="{% static 'assets/img/team/resized/team_4.jpg' %}"
+            alt="Habibu Omari">
+
+          <div class="im-team-photo-overlay">
+            <span>View Profile</span>
+            <i class="bi bi-arrow-up-right"></i>
+          </div>
+
+        </a>
+
+        <div class="im-team-body">
+
+          <span class="im-team-category">
+            ADMINISTRATION
+          </span>
+
+          <h3>Habibu Omari</h3>
+
+          <p>Administrative Manager &amp; Company Secretary</p>
+
+          <a href="{% url 'team-4.html' %}"
+             class="im-team-link">
+            Profile
+            <i class="bi bi-arrow-right"></i>
+          </a>
+
+        </div>
+
+      </article>
+
+
+      <!-- Winniemary -->
+      <article class="im-team-card"
+               data-aos="fade-up"
+               data-aos-delay="140">
+
+        <a href="{% url 'team-1.html' %}"
+           class="im-team-photo">
+
+          <img
+            src="{% static 'assets/img/team/resized/team_1.jpg' %}"
+            alt="Winniemary Erasto Mfugale">
+
+          <div class="im-team-photo-overlay">
+            <span>View Profile</span>
+            <i class="bi bi-arrow-up-right"></i>
+          </div>
+
+        </a>
+
+        <div class="im-team-body">
+
+          <span class="im-team-category">
+            CORPORATE SERVICES
+          </span>
+
+          <h3>Winniemary Erasto Mfugale</h3>
+
+          <p>Finance &amp; Human Resource</p>
+
+          <a href="{% url 'team-1.html' %}"
+             class="im-team-link">
+            Profile
+            <i class="bi bi-arrow-right"></i>
+          </a>
+
+        </div>
+
+      </article>
+
+    </div>
+
+
+    <div class="im-team-footer" data-aos="fade-up">
+
+      <span>
+        Our delivery model also draws on specialist expertise according
+        to the requirements of each assignment.
+      </span>
+
+      <a href="{% url 'company-profile' %}#skills">
+        Explore our capabilities
+        <i class="bi bi-arrow-right"></i>
+      </a>
+
+    </div>
+
+  </div>
+
+</section>
+<!-- /Team -->
+
+
+<!-- Professional Learning & Research Capability -->
+<section id="research-training" class="im-learning-section">
+
+  <div class="im-container">
+
+    <div class="im-learning-heading" data-aos="fade-up">
+
+      <div>
+        <span class="im-eyebrow">
+          PROFESSIONAL INTELLIGENCE
+        </span>
+
+        <h2>
+          Build capability.
+          <span>Work more intelligently.</span>
+        </h2>
+      </div>
+
+      <p>
+        Investmetrics develops research and professional capability through
+        structured mentorship, applied learning and intelligent systems
+        designed around real work.
+      </p>
+
+    </div>
+
+
+    <div class="im-learning-grid">
+
+
+      <!-- Academic Mentorship -->
+      <a href="{% url 'academic-mentorship-and-training.html' %}"
+         class="im-learning-card"
+         data-aos="fade-up">
+
+        <div class="im-learning-card-head">
+
+          <div class="im-learning-icon">
+            <i class="bi bi-mortarboard"></i>
+          </div>
+
+          <span>01</span>
+
+        </div>
+
+        <div class="im-learning-type">
+          RESEARCH DEVELOPMENT
+        </div>
+
+        <h3>Academic Mentorship</h3>
+
+        <p>
+          Structured support for researchers and students working through
+          research design, methodology, analysis, interpretation and
+          scholarly writing.
+        </p>
+
+        <ul>
+          <li>
+            <i class="bi bi-check2"></i>
+            Research design &amp; methodology
+          </li>
+          <li>
+            <i class="bi bi-check2"></i>
+            Quantitative &amp; qualitative analysis
+          </li>
+          <li>
+            <i class="bi bi-check2"></i>
+            Academic writing &amp; publication support
+          </li>
+        </ul>
+
+        <div class="im-learning-link">
+          Explore mentorship
+          <i class="bi bi-arrow-up-right"></i>
+        </div>
+
+      </a>
+
+
+      <!-- AI at Work -->
+      <a href="{% url 'ai_at_work:home' %}"
+         class="im-learning-card im-learning-ai"
+         data-aos="fade-up"
+         data-aos-delay="80">
+
+        <div class="im-learning-card-head">
+
+          <div class="im-learning-icon">
+            <i class="bi bi-stars"></i>
+          </div>
+
+          <span>02</span>
+
+        </div>
+
+        <div class="im-learning-type">
+          PROFESSIONAL LEARNING
+        </div>
+
+        <h3>AI at Work</h3>
+
+        <p>
+          Practical professional learning for using Artificial Intelligence
+          responsibly, effectively and productively across everyday work.
+        </p>
+
+        <ul>
+          <li>
+            <i class="bi bi-check2"></i>
+            Better prompting &amp; task design
+          </li>
+          <li>
+            <i class="bi bi-check2"></i>
+            Research and professional workflows
+          </li>
+          <li>
+            <i class="bi bi-check2"></i>
+            Responsible AI principles
+          </li>
+        </ul>
+
+        <div class="im-learning-link">
+          Enter AI at Work
+          <i class="bi bi-arrow-up-right"></i>
+        </div>
+
+      </a>
+
+
+      <!-- IRIS -->
+      <div class="im-learning-card im-learning-iris"
+           data-aos="fade-up"
+           data-aos-delay="160">
+
+        <div class="im-iris-glow"></div>
+
+        <div class="im-learning-card-head">
+
+          <div class="im-learning-icon">
+            <i class="bi bi-cpu"></i>
+          </div>
+
+          <span>03</span>
+
+        </div>
+
+        <div class="im-learning-type">
+          RESEARCH INTELLIGENCE SYSTEM
+        </div>
+
+        <h3>IRIS</h3>
+
+        <p>
+          The Investmetrics Research Intelligence System brings research,
+          evidence, analysis and professional workflows into an integrated
+          intelligence environment.
+        </p>
+
+        <ul>
+          <li>
+            <i class="bi bi-check2"></i>
+            Evidence-aware research workflows
+          </li>
+          <li>
+            <i class="bi bi-check2"></i>
+            Analytical and decision support
+          </li>
+          <li>
+            <i class="bi bi-check2"></i>
+            Intelligent professional execution
+          </li>
+        </ul>
+
+        <a href="{% url 'home' %}#contact"
+           class="im-learning-link">
+          Discuss IRIS
+          <i class="bi bi-arrow-up-right"></i>
+        </a>
+
+      </div>
+
+    </div>
+
+
+    <!-- Learning close -->
+    <div class="im-learning-cta"
+         data-aos="fade-up">
+
+      <div>
+
+        <span class="im-learning-cta-label">
+          INVESTMETRICS PROFESSIONAL INTELLIGENCE
+        </span>
+
+        <h3>
+          Research capability and intelligent work,
+          designed around real professional needs.
+        </h3>
+
+      </div>
+
+      <div class="im-learning-cta-actions">
+
+        <a href="{% url 'ai_at_work:home' %}"
+           class="im-btn im-btn-gold">
+          Explore Learning
+          <i class="bi bi-arrow-right"></i>
+        </a>
+
+        <a href="{% url 'home' %}#contact"
+           class="im-learning-contact">
+          Talk to Investmetrics
+        </a>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+<!-- /Professional Learning & Research Capability -->
+
+
+<!-- Contact Section -->
+
+<!-- Contact -->
+<section id="contact" class="im-contact-section">
+
+  <div class="im-container">
+
+    <!-- Heading -->
+    <div class="im-contact-heading" data-aos="fade-up">
+
+      <div>
+        <span class="im-eyebrow">START A CONVERSATION</span>
+
+        <h2>
+          Bring us the question.
+          <span>We will help structure the answer.</span>
+        </h2>
+      </div>
+
+      <p>
+        Talk to Investmetrics about research, analytics, programme and policy
+        support, academic mentorship, professional learning or research
+        intelligence systems.
+      </p>
+
+    </div>
+
+
+    <div class="im-contact-grid">
+
+      <!-- Contact information -->
+      <div class="im-contact-side" data-aos="fade-up">
+
+        <div class="im-contact-intro">
+
+          <span class="im-contact-label">
+            INVESTMETRICS
+          </span>
+
+          <h3>
+            Research intelligence starts with a clear conversation.
+          </h3>
+
+          <p>
+            Tell us what you are trying to understand, solve or build.
+            We can help identify the right combination of evidence,
+            analytical capability and professional support.
+          </p>
+
+        </div>
+
+
+        <div class="im-contact-details">
+
+          <a href="mailto:info@investmetrics.co.tz"
+             class="im-contact-detail">
+
+            <div class="im-contact-detail-icon">
+              <i class="bi bi-envelope"></i>
+            </div>
+
+            <div>
+              <span>Email</span>
+              <strong>info@investmetrics.co.tz</strong>
+            </div>
+
+          </a>
+
+
+          <a href="tel:+255689660000"
+             class="im-contact-detail">
+
+            <div class="im-contact-detail-icon">
+              <i class="bi bi-telephone"></i>
+            </div>
+
+            <div>
+              <span>Phone</span>
+              <strong>+255 689 660 000</strong>
+            </div>
+
+          </a>
+
+
+          <div class="im-contact-detail">
+
+            <div class="im-contact-detail-icon">
+              <i class="bi bi-geo-alt"></i>
+            </div>
+
+            <div>
+              <span>Location</span>
+              <strong>Kimara Korogwe, Dar es Salaam</strong>
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- Map -->
+        <div class="im-contact-map">
+
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3961.676775755126!2d39.17399967410492!3d-6.809114466596613!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x185c4f2f1d513831%3A0xeff28c012304c909!2sInvestmetrics!5e0!3m2!1sen!2stz!4v1729168102738!5m2!1sen!2stz"
+            loading="lazy"
+            allowfullscreen=""
+            title="Investmetrics location">
+          </iframe>
+
+        </div>
+
+      </div>
+
+
+      <!-- Contact form -->
+      <div class="im-contact-form-card"
+           data-aos="fade-up"
+           data-aos-delay="100">
+
+        <div class="im-contact-form-head">
+
+          <span>CONTACT INVESTMETRICS</span>
+
+          <h3>Tell us what you need.</h3>
+
+          <p>
+            Give us enough context to understand your requirement.
+            A member of the Investmetrics team can then respond appropriately.
+          </p>
+
+        </div>
+
+
+        {% if messages %}
+          <div class="im-contact-messages">
+
+            {% for message in messages %}
+              <div class="alert alert-{{ message.tags }} alert-dismissible fade show"
+                   role="alert">
+
+                <i class="bi {% if message.tags == 'success' %}bi-check-circle{% else %}bi-exclamation-circle{% endif %} me-2"></i>
+
+                {{ message }}
+
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="alert"
+                        aria-label="Close"></button>
+
+              </div>
+            {% endfor %}
+
+          </div>
+        {% endif %}
+
+
+        <form method="post"
+              class="im-contact-form"
+              id="contactForm">
+
+          {% csrf_token %}
+
+          <div class="im-form-grid">
+
+            <div class="im-form-group">
+              <label for="{{ form.name.id_for_label }}">
+                Your name
+              </label>
+              {{ form.name }}
+            </div>
+
+            <div class="im-form-group">
+              <label for="{{ form.email.id_for_label }}">
+                Email address
+              </label>
+              {{ form.email }}
+            </div>
+
+            <div class="im-form-group im-form-full">
+              <label for="{{ form.subject.id_for_label }}">
+                Subject
+              </label>
+              {{ form.subject }}
+            </div>
+
+            <div class="im-form-group im-form-full">
+              <label for="{{ form.message.id_for_label }}">
+                Tell us about your requirement
+              </label>
+              {{ form.message }}
+            </div>
+
+          </div>
+
+
+          <div class="im-contact-submit">
+
+            <p>
+              Your information is used only to respond to your enquiry.
+            </p>
+
+            <button type="submit"
+                    class="im-btn im-btn-gold">
+
+              Send Enquiry
+              <i class="bi bi-arrow-right"></i>
+
+            </button>
+
+          </div>
+
+        </form>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+<!-- /Contact -->
+
+<!-- /Contact Section -->
+
+    </main>
+  
+{% endblock %}
+

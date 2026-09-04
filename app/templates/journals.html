@@ -1,0 +1,1296 @@
+﻿{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Investmetrics Journals | Research & Interdisciplinary Research & Intelligence{% endblock %}
+
+{% block content %}
+
+<style>
+/* ==========================================================
+   INVESTMETRICS JOURNALS
+   Editorial Research Library
+   ========================================================== */
+
+.im-journals {
+    background: #FAF9F5;
+    color: #20242A;
+    overflow: hidden;
+}
+
+.im-journal-container {
+    width: min(1180px, calc(100% - 40px));
+    margin: 0 auto;
+}
+
+/* ----------------------------------------------------------
+   HERO
+   ---------------------------------------------------------- */
+
+.im-journal-hero {
+    position: relative;
+    padding: 118px 0 90px;
+    background: #0B3D2E;
+    overflow: hidden;
+}
+
+.im-journal-hero::before {
+    content: "";
+    position: absolute;
+    width: 560px;
+    height: 560px;
+    border: 1px solid rgba(201,162,39,.15);
+    border-radius: 50%;
+    right: -190px;
+    top: -230px;
+}
+
+.im-journal-hero::after {
+    content: "";
+    position: absolute;
+    width: 310px;
+    height: 310px;
+    border: 1px solid rgba(250,249,245,.08);
+    border-radius: 50%;
+    right: 100px;
+    bottom: -210px;
+}
+
+.im-journal-hero-grid {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: minmax(0, 1.3fr) minmax(300px, .7fr);
+    gap: 72px;
+    align-items: center;
+}
+
+.im-journal-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 22px;
+    font-size: 12px;
+    line-height: 1;
+    font-weight: 700;
+    letter-spacing: .17em;
+    text-transform: uppercase;
+    color: #E0C56A;
+}
+
+.im-journal-eyebrow::before {
+    content: "";
+    width: 35px;
+    height: 1px;
+    background: #C9A227;
+}
+
+.im-journal-hero h1 {
+    margin: 0;
+    max-width: 780px;
+    font-size: clamp(44px, 5vw, 72px);
+    line-height: 1.01;
+    letter-spacing: -.045em;
+    color: #FAF9F5;
+}
+
+.im-journal-hero-lead {
+    max-width: 720px;
+    margin: 26px 0 0;
+    font-size: 18px;
+    line-height: 1.75;
+    color: rgba(250,249,245,.72);
+}
+
+.im-journal-hero-panel {
+    position: relative;
+    min-height: 390px;
+    padding: 36px;
+    border-radius: 26px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background: #F5F1E6;
+    border: 1px solid rgba(201,162,39,.28);
+    box-shadow: 0 30px 70px rgba(201,162,39,.18);
+    overflow: hidden;
+}
+
+.im-journal-hero-panel::before {
+    content: "";
+    position: absolute;
+    width: 240px;
+    height: 240px;
+    border-radius: 50%;
+    border: 1px solid rgba(31,110,82,.16);
+    right: -100px;
+    top: 74px;
+}
+
+.im-journal-panel-label {
+    position: relative;
+    z-index: 2;
+    font-size: 11px;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: #1F6E52;
+}
+
+.im-journal-panel-number {
+    position: relative;
+    z-index: 2;
+    margin-top: 22px;
+    font-size: 72px;
+    line-height: 1;
+    font-weight: 700;
+    color: #0B3D2E;
+}
+
+.im-journal-panel-bottom {
+    position: relative;
+    z-index: 2;
+}
+
+.im-journal-panel-bottom strong {
+    display: block;
+    max-width: 240px;
+    font-size: 22px;
+    line-height: 1.25;
+    color: #20242A;
+}
+
+.im-journal-panel-rule {
+    width: 55px;
+    height: 4px;
+    margin-top: 18px;
+    border-radius: 99px;
+    background: #C9A227;
+}
+
+/* ----------------------------------------------------------
+   INTRODUCTION
+   ---------------------------------------------------------- */
+
+.im-journal-intro {
+    padding: 74px 0 64px;
+    background: #F5F1E6;
+}
+
+.im-journal-intro-grid {
+    display: grid;
+    grid-template-columns: .7fr 1.3fr;
+    gap: 70px;
+    align-items: start;
+}
+
+.im-journal-intro-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    color: #1F6E52;
+}
+
+.im-journal-intro h2 {
+    margin: 0 0 18px;
+    font-size: clamp(30px, 4vw, 45px);
+    line-height: 1.08;
+    letter-spacing: -.035em;
+    color: #0B3D2E;
+}
+
+.im-journal-intro p {
+    margin: 0;
+    max-width: 780px;
+    font-size: 16px;
+    line-height: 1.8;
+    color: #555F5A;
+}
+
+/* ----------------------------------------------------------
+   JOURNAL LIBRARY
+   ---------------------------------------------------------- */
+
+.im-journal-library {
+    padding: 80px 0 100px;
+    background: #FAF9F5;
+}
+
+.im-journal-library-head {
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
+    align-items: end;
+    margin-bottom: 38px;
+}
+
+.im-journal-library-head span {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    color: #1F6E52;
+}
+
+.im-journal-library-head h2 {
+    margin: 0;
+    font-size: clamp(30px, 4vw, 44px);
+    line-height: 1.08;
+    color: #0B3D2E;
+}
+
+.im-journal-library-note {
+    max-width: 400px;
+    font-size: 14px;
+    line-height: 1.65;
+    color: #65706A;
+}
+
+/* ----------------------------------------------------------
+   JOURNAL CARD
+   ---------------------------------------------------------- */
+
+.im-journal-card {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 280px;
+    gap: 0;
+    margin-bottom: 28px;
+    overflow: hidden;
+    border-radius: 25px;
+    background: #F5F1E6;
+    border: 1px solid rgba(11,61,46,.10);
+    box-shadow: 0 24px 54px rgba(82,99,63,.10);
+    transition: transform .22s ease, box-shadow .22s ease;
+}
+
+.im-journal-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 30px 64px rgba(82,99,63,.14);
+}
+
+.im-journal-card-main {
+    padding: 34px 36px 36px;
+}
+
+.im-journal-author {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.im-journal-author-image,
+.im-journal-author-placeholder {
+    width: 54px;
+    height: 54px;
+    flex: 0 0 54px;
+    border-radius: 50%;
+}
+
+.im-journal-author-image {
+    object-fit: cover;
+    border: 2px solid rgba(201,162,39,.55);
+}
+
+.im-journal-author-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #E2E8DA;
+    border: 1px solid rgba(11,61,46,.12);
+}
+
+.im-journal-author-placeholder::before {
+    content: "I";
+    font-size: 18px;
+    font-weight: 700;
+    color: #0B3D2E;
+}
+
+.im-journal-author-name {
+    font-size: 14px;
+    font-weight: 700;
+    color: #0B3D2E;
+}
+
+.im-journal-date {
+    margin-top: 3px;
+    font-size: 12px;
+    color: #758078;
+}
+
+.im-journal-type {
+    display: inline-block;
+    margin-bottom: 13px;
+    padding: 7px 11px;
+    border-radius: 999px;
+    background: #E2E8DA;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: #1F6E52;
+}
+
+.im-journal-title {
+    margin: 0 0 16px;
+    font-size: clamp(23px, 3vw, 31px);
+    line-height: 1.22;
+    letter-spacing: -.02em;
+    color: #20242A;
+}
+
+.im-journal-excerpt {
+    font-size: 15.5px;
+    line-height: 1.76;
+    color: #58615C;
+}
+
+.im-journal-excerpt p:last-child {
+    margin-bottom: 0;
+}
+
+.im-journal-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 25px;
+}
+
+.im-journal-btn {
+    min-height: 43px;
+    padding: 0 17px;
+    border-radius: 999px;
+    border: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    font-size: 12px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: .2s ease;
+    cursor: pointer;
+}
+
+.im-journal-btn-primary {
+    background: #0B3D2E;
+    color: #FAF9F5;
+}
+
+.im-journal-btn-primary:hover {
+    color: #FAF9F5;
+    transform: translateY(-1px);
+}
+
+.im-journal-btn-cite {
+    background: transparent;
+    color: #0B3D2E;
+    border: 1px solid rgba(11,61,46,.22);
+}
+
+.im-journal-btn-cite:hover {
+    background: #E2E8DA;
+    color: #0B3D2E;
+}
+
+/* ----------------------------------------------------------
+   CARD VISUAL
+   ---------------------------------------------------------- */
+
+.im-journal-visual {
+    position: relative;
+    min-height: 100%;
+    background: #0B3D2E;
+    overflow: hidden;
+}
+
+.im-journal-visual::before {
+    content: "";
+    position: absolute;
+    width: 230px;
+    height: 230px;
+    border: 1px solid rgba(224,197,106,.18);
+    border-radius: 50%;
+    right: -105px;
+    top: 30px;
+}
+
+.im-journal-visual::after {
+    content: "";
+    position: absolute;
+    width: 140px;
+    height: 140px;
+    border: 1px solid rgba(250,249,245,.10);
+    border-radius: 50%;
+    right: -40px;
+    bottom: 25px;
+}
+
+.im-journal-image {
+    width: 100%;
+    height: 100%;
+    min-height: 320px;
+    object-fit: cover;
+    position: relative;
+    z-index: 2;
+}
+
+.im-journal-visual-default {
+    position: relative;
+    z-index: 2;
+    min-height: 320px;
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.im-journal-visual-kicker {
+    font-size: 10px;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: #E0C56A;
+}
+
+.im-journal-visual-mark {
+    font-size: 64px;
+    font-weight: 700;
+    line-height: 1;
+    color: rgba(250,249,245,.92);
+}
+
+.im-journal-visual-bottom {
+    font-size: 14px;
+    line-height: 1.45;
+    color: rgba(250,249,245,.70);
+}
+
+/* ----------------------------------------------------------
+   EMPTY STATE
+   ---------------------------------------------------------- */
+
+.im-journal-empty {
+    padding: 62px 30px;
+    border-radius: 24px;
+    text-align: center;
+    background: #E2E8DA;
+    border: 1px solid rgba(11,61,46,.10);
+    box-shadow: 0 22px 50px rgba(82,99,63,.08);
+}
+
+.im-journal-empty-icon {
+    margin-bottom: 15px;
+    font-size: 35px;
+    color: #1F6E52;
+}
+
+.im-journal-empty h3 {
+    margin-bottom: 8px;
+    color: #0B3D2E;
+}
+
+.im-journal-empty p {
+    margin: 0;
+    color: #5F6964;
+}
+
+/* ----------------------------------------------------------
+   PAGINATION
+   ---------------------------------------------------------- */
+
+.im-journal-pagination {
+    display: flex;
+    justify-content: center;
+    gap: 7px;
+    margin-top: 48px;
+    padding: 0;
+    list-style: none;
+}
+
+.im-journal-pagination a,
+.im-journal-pagination span {
+    min-width: 40px;
+    height: 40px;
+    padding: 0 12px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.im-journal-pagination a {
+    color: #0B3D2E;
+    background: #F5F1E6;
+    border: 1px solid rgba(11,61,46,.14);
+}
+
+.im-journal-pagination a:hover {
+    background: #E2E8DA;
+}
+
+.im-journal-pagination .active span {
+    background: #0B3D2E;
+    color: #FAF9F5;
+}
+
+/* ----------------------------------------------------------
+   CITATION MODAL
+   ---------------------------------------------------------- */
+
+.im-citation-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    padding: 24px;
+    align-items: center;
+    justify-content: center;
+    background: rgba(11,14,13,.70);
+    backdrop-filter: blur(7px);
+}
+
+.im-citation-card {
+    width: min(640px, 100%);
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    padding: 34px;
+    border-radius: 24px;
+    background: #FAF9F5;
+    box-shadow: 0 35px 90px rgba(0,0,0,.25);
+}
+
+.im-citation-close {
+    position: absolute;
+    top: 17px;
+    right: 20px;
+    border: 0;
+    background: transparent;
+    font-size: 28px;
+    line-height: 1;
+    color: #5D675F;
+    cursor: pointer;
+}
+
+.im-citation-card span.im-citation-eyebrow {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 10px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: #1F6E52;
+}
+
+.im-citation-card h3 {
+    margin: 0 0 26px;
+    font-size: 28px;
+    color: #0B3D2E;
+}
+
+.im-citation-format {
+    margin-bottom: 20px;
+}
+
+.im-citation-format h4 {
+    margin: 0 0 7px;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: .11em;
+    color: #A98722;
+}
+
+.im-citation-format p {
+    margin: 0;
+    padding: 15px 17px;
+    border-radius: 13px;
+    background: #F5F1E6;
+    font-size: 13px;
+    line-height: 1.65;
+    color: #47504B;
+    word-break: break-word;
+}
+
+.im-citation-copy {
+    border: 0;
+    min-height: 45px;
+    padding: 0 19px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #0B3D2E;
+    color: #FAF9F5;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+/* ----------------------------------------------------------
+   EDITORIAL PRINCIPLE
+   ---------------------------------------------------------- */
+
+.im-journal-principle {
+    padding: 76px 0;
+    background: #E2E8DA;
+}
+
+.im-journal-principle-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 22px;
+}
+
+.im-journal-principle-card {
+    padding: 30px;
+    border-radius: 22px;
+    background: #FAF9F5;
+    border: 1px solid rgba(11,61,46,.10);
+    box-shadow: 0 20px 45px rgba(82,99,63,.09);
+}
+
+.im-journal-principle-card span {
+    display: block;
+    margin-bottom: 16px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .14em;
+    color: #A98722;
+}
+
+.im-journal-principle-card h3 {
+    margin: 0 0 10px;
+    font-size: 20px;
+    color: #0B3D2E;
+}
+
+.im-journal-principle-card p {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.68;
+    color: #616B66;
+}
+
+/* ----------------------------------------------------------
+   CTA
+   ---------------------------------------------------------- */
+
+.im-journal-cta {
+    padding: 80px 0;
+    background: #FAF9F5;
+}
+
+.im-journal-cta-panel {
+    padding: 54px;
+    border-radius: 28px;
+    text-align: center;
+    background: #0B3D2E;
+    box-shadow: 0 30px 70px rgba(201,162,39,.16);
+}
+
+.im-journal-cta-panel span {
+    font-size: 11px;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: #E0C56A;
+}
+
+.im-journal-cta-panel h2 {
+    max-width: 720px;
+    margin: 14px auto 16px;
+    font-size: clamp(30px, 4vw, 46px);
+    line-height: 1.08;
+    color: #FAF9F5;
+}
+
+.im-journal-cta-panel p {
+    max-width: 670px;
+    margin: 0 auto 27px;
+    font-size: 16px;
+    line-height: 1.7;
+    color: rgba(250,249,245,.70);
+}
+
+.im-journal-cta-btn {
+    min-height: 48px;
+    padding: 0 22px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 700;
+    background: #C9A227;
+    color: #0B3D2E;
+}
+
+.im-journal-cta-btn:hover {
+    color: #0B3D2E;
+}
+
+/* ----------------------------------------------------------
+   RESPONSIVE
+   ---------------------------------------------------------- */
+
+@media (max-width: 991px) {
+    .im-journal-hero-grid,
+    .im-journal-intro-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .im-journal-card {
+        grid-template-columns: 1fr;
+    }
+
+    .im-journal-visual {
+        min-height: 260px;
+    }
+
+    .im-journal-image,
+    .im-journal-visual-default {
+        min-height: 260px;
+    }
+
+    .im-journal-principle-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 700px) {
+    .im-journal-container {
+        width: min(100% - 26px, 1180px);
+    }
+
+    .im-journal-hero {
+        padding: 92px 0 62px;
+    }
+
+    .im-journal-hero h1 {
+        font-size: 42px;
+    }
+
+    .im-journal-library-head {
+        display: block;
+    }
+
+    .im-journal-library-note {
+        margin-top: 14px;
+    }
+
+    .im-journal-card-main {
+        padding: 27px 22px 29px;
+    }
+
+    .im-journal-author-image,
+    .im-journal-author-placeholder {
+        width: 46px;
+        height: 46px;
+        flex-basis: 46px;
+    }
+
+    .im-journal-cta-panel {
+        padding: 40px 23px;
+    }
+
+    .im-citation-card {
+        padding: 30px 20px 24px;
+    }
+}
+</style>
+
+
+<div class="im-journals">
+
+    <!-- HERO -->
+    <section class="im-journal-hero">
+        <div class="im-journal-container">
+
+            <div class="im-journal-hero-grid">
+
+                <div>
+                    <div class="im-journal-eyebrow">
+                        Interdisciplinary Research & Intelligence
+                    </div>
+
+                    <h1>
+                        Investmetrics Journals
+                    </h1>
+
+                    <p class="im-journal-hero-lead">
+                        Research papers, scholarly analysis and evidence-based
+                        contributions developed to advance knowledge, strengthen
+                        professional practice and support informed decision-making.
+                    </p>
+                </div>
+
+                <aside class="im-journal-hero-panel">
+                    <div>
+                        <div class="im-journal-panel-label">
+                            Research Library
+                        </div>
+
+                        <div class="im-journal-panel-number">
+                            J
+                        </div>
+                    </div>
+
+                    <div class="im-journal-panel-bottom">
+                        <strong>
+                            Evidence. Scholarship. Intelligence.
+                        </strong>
+                        <div class="im-journal-panel-rule"></div>
+                    </div>
+                </aside>
+
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- INTRO -->
+    <section class="im-journal-intro">
+        <div class="im-journal-container">
+
+            <div class="im-journal-intro-grid">
+
+                <div class="im-journal-intro-label">
+                    Publication Platform
+                </div>
+
+                <div>
+                    <h2>
+                        A growing archive of research and analytical scholarship.
+                    </h2>
+
+                    <p>
+                        Investmetrics Journals provides access to scholarly work
+                        produced by our researchers and contributors. Publications
+                        combine analytical rigor, contextual understanding and
+                        practical relevance across research, policy, development
+                        and applied professional disciplines.
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- JOURNAL LIBRARY -->
+    <section class="im-journal-library">
+        <div class="im-journal-container">
+
+            <div class="im-journal-library-head">
+
+                <div>
+                    <span>Journal Archive</span>
+                    <h2>Latest publications</h2>
+                </div>
+
+                <div class="im-journal-library-note">
+                    Open an available article in PDF format or use the citation
+                    tool to generate a reference in APA, MLA or Chicago style.
+                </div>
+
+            </div>
+
+
+            {% for journal in journals %}
+
+            <article class="im-journal-card">
+
+                <div class="im-journal-card-main">
+
+                    <div class="im-journal-author">
+
+                        {% if journal.author.authorprofile.image %}
+                            <img
+                                src="{{ journal.author.authorprofile.image.url }}"
+                                alt="{{ journal.author.first_name }} {{ journal.author.last_name }}"
+                                class="im-journal-author-image"
+                            >
+                        {% else %}
+                            <div class="im-journal-author-placeholder"></div>
+                        {% endif %}
+
+                        <div>
+                            <div class="im-journal-author-name">
+                                {{ journal.author.first_name|title }}
+                                {{ journal.author.last_name|title }}
+                            </div>
+
+                            <div class="im-journal-date">
+                                {{ journal.published_date|date:"F d, Y" }}
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <span class="im-journal-type">
+                        Journal Article
+                    </span>
+
+                    <h2 class="im-journal-title">
+                        {{ journal.header|title }}
+                    </h2>
+
+                    <div class="im-journal-excerpt">
+                        {{ journal.excerpt|safe }}
+                    </div>
+
+
+                    <div class="im-journal-actions">
+
+                        {% if journal.pdf_file %}
+                            <a
+                                href="{{ journal.pdf_file.url }}"
+                                class="im-journal-btn im-journal-btn-primary"
+                                target="_blank"
+                                rel="noopener"
+                            >
+                                <i class="bi bi-file-earmark-pdf"></i>
+                                View Full Article
+                            </a>
+                        {% endif %}
+
+                        <button
+                            type="button"
+                            class="im-journal-btn im-journal-btn-cite"
+                            onclick="showCitation(this)"
+                            data-apa="{{ journal.apa_citation|default:'' }}"
+                            data-mla="{{ journal.mla_citation|default:'' }}"
+                            data-chicago="{{ journal.chicago_citation|default:'' }}"
+                            data-journal-title="{{ journal.header }}"
+                            data-author="{{ journal.author.first_name }} {{ journal.author.last_name }}"
+                            data-date="{{ journal.published_date|date:'Y' }}"
+                        >
+                            <i class="bi bi-quote"></i>
+                            How to Cite
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <div class="im-journal-visual">
+
+                    {% if journal.image %}
+                        <img
+                            src="{{ journal.image.url }}"
+                            alt="{{ journal.header }}"
+                            class="im-journal-image"
+                            loading="lazy"
+                        >
+                    {% else %}
+
+                        <div class="im-journal-visual-default">
+
+                            <div class="im-journal-visual-kicker">
+                                Investmetrics Journal
+                            </div>
+
+                            <div class="im-journal-visual-mark">
+                                IJ
+                            </div>
+
+                            <div class="im-journal-visual-bottom">
+                                Research intelligence for better decisions.
+                            </div>
+
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+            </article>
+
+
+            {% empty %}
+
+            <div class="im-journal-empty">
+                <div class="im-journal-empty-icon">
+                    <i class="bi bi-journal-text"></i>
+                </div>
+
+                <h3>Journal archive in development</h3>
+
+                <p>
+                    New scholarly publications will appear here as they are released.
+                </p>
+            </div>
+
+            {% endfor %}
+
+
+            <!-- PAGINATION -->
+            {% if is_paginated %}
+
+            <nav aria-label="Journal page navigation">
+
+                <ul class="im-journal-pagination">
+
+                    {% if page_obj.has_previous %}
+                    <li>
+                        <a href="?page={{ page_obj.previous_page_number }}">
+                            <i class="bi bi-chevron-left"></i>
+                        </a>
+                    </li>
+                    {% endif %}
+
+
+                    {% for num in page_obj.paginator.page_range %}
+
+                        {% if page_obj.number == num %}
+
+                        <li class="active">
+                            <span>{{ num }}</span>
+                        </li>
+
+                        {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+
+                        <li>
+                            <a href="?page={{ num }}">{{ num }}</a>
+                        </li>
+
+                        {% endif %}
+
+                    {% endfor %}
+
+
+                    {% if page_obj.has_next %}
+                    <li>
+                        <a href="?page={{ page_obj.next_page_number }}">
+                            <i class="bi bi-chevron-right"></i>
+                        </a>
+                    </li>
+                    {% endif %}
+
+                </ul>
+
+            </nav>
+
+            {% endif %}
+
+        </div>
+    </section>
+
+
+    <!-- PUBLICATION PRINCIPLES -->
+    <section class="im-journal-principle">
+        <div class="im-journal-container">
+
+            <div class="im-journal-principle-grid">
+
+                <div class="im-journal-principle-card">
+                    <span>01</span>
+                    <h3>Research Rigor</h3>
+                    <p>
+                        Publications are structured around evidence,
+                        analytical reasoning and transparent research practice.
+                    </p>
+                </div>
+
+                <div class="im-journal-principle-card">
+                    <span>02</span>
+                    <h3>Contextual Relevance</h3>
+                    <p>
+                        Research is interpreted within the economic, institutional,
+                        policy and social contexts in which decisions are made.
+                    </p>
+                </div>
+
+                <div class="im-journal-principle-card">
+                    <span>03</span>
+                    <h3>Practical Contribution</h3>
+                    <p>
+                        Scholarship is positioned not only to inform knowledge,
+                        but also to support better policy and professional practice.
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- CTA -->
+    <section class="im-journal-cta">
+        <div class="im-journal-container">
+
+            <div class="im-journal-cta-panel">
+
+                <span>Research &amp; Publications</span>
+
+                <h2>
+                    From research questions to publishable evidence.
+                </h2>
+
+                <p>
+                    Investmetrics supports research design, data analysis,
+                    scholarly writing and publication development across the
+                    research lifecycle.
+                </p>
+
+                <a
+                    href="/research-and-publications/"
+                    class="im-journal-cta-btn"
+                >
+                    Explore Research Services
+                </a>
+
+            </div>
+
+        </div>
+    </section>
+
+</div>
+
+
+<!-- ========================================================
+     CITATION MODAL
+     ======================================================== -->
+
+<div class="im-citation-modal" id="citationModal">
+
+    <div class="im-citation-card">
+
+        <button
+            type="button"
+            class="im-citation-close"
+            aria-label="Close citation window"
+        >
+            &times;
+        </button>
+
+        <span class="im-citation-eyebrow">
+            Citation Assistant
+        </span>
+
+        <h3>How to Cite</h3>
+
+
+        <div class="im-citation-format">
+            <h4>APA</h4>
+            <p id="apaCitation"></p>
+        </div>
+
+
+        <div class="im-citation-format">
+            <h4>MLA</h4>
+            <p id="mlaCitation"></p>
+        </div>
+
+
+        <div class="im-citation-format">
+            <h4>Chicago</h4>
+            <p id="chicagoCitation"></p>
+        </div>
+
+
+        <button
+            type="button"
+            class="im-citation-copy"
+            onclick="copyCitation()"
+        >
+            <i class="bi bi-clipboard"></i>
+            Copy APA Citation
+        </button>
+
+    </div>
+
+</div>
+
+
+<script>
+function showCitation(button) {
+
+    const modal = document.getElementById('citationModal');
+
+    const title = button.dataset.journalTitle || '';
+    const author = button.dataset.author || '';
+    const year = button.dataset.date || '';
+
+    const apaCitation =
+        button.dataset.apa ||
+        `${author}. (${year}). ${title}. Investmetrics Journal of Interdisciplinary Research and Intelligence.`;
+
+    const mlaCitation =
+        button.dataset.mla ||
+        `${author}. "${title}." Investmetrics Journal of Interdisciplinary Research and Intelligence, ${year}.`;
+
+    const chicagoCitation =
+        button.dataset.chicago ||
+        `${author}. "${title}." Investmetrics Journal (${year}).`;
+
+    document.getElementById('apaCitation').textContent = apaCitation;
+    document.getElementById('mlaCitation').textContent = mlaCitation;
+    document.getElementById('chicagoCitation').textContent = chicagoCitation;
+
+    modal.style.display = 'flex';
+}
+
+
+document.addEventListener('click', function(event) {
+
+    const modal = document.getElementById('citationModal');
+    const closeButton = document.querySelector('.im-citation-close');
+
+    if (
+        event.target === modal ||
+        event.target === closeButton
+    ) {
+        modal.style.display = 'none';
+    }
+
+});
+
+
+document.addEventListener('keydown', function(event) {
+
+    if (event.key === 'Escape') {
+        document.getElementById('citationModal').style.display = 'none';
+    }
+
+});
+
+
+function copyCitation() {
+
+    const citation =
+        document.getElementById('apaCitation').textContent;
+
+    navigator.clipboard.writeText(citation).then(() => {
+
+        const button =
+            document.querySelector('.im-citation-copy');
+
+        const originalText = button.innerHTML;
+
+        button.innerHTML =
+            '<i class="bi bi-check2"></i> Citation Copied';
+
+        setTimeout(() => {
+            button.innerHTML = originalText;
+        }, 1800);
+
+    });
+
+}
+</script>
+
+{% endblock %}
+

@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Begarving Arthur - Team Member{% endblock title %}
+
+{% block extra_css %}
+<style>
+  .member-img-container {
+    background-color: #000;
+    border-radius: 100px;
+    padding: 15px 40px;
+    display: inline-block;
+    margin-bottom: 20px;
+  }
+
+  .member-img {
+    position: relative;
+    z-index: 1;
+  }
+
+  .member-img img {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+  }
+
+  @media (max-width: 768px) {
+    .member-img-container {
+      padding: 8px 25px;
+      border-radius: 75px;
+    }
+
+    .member-img img {
+      width: 150px;
+      height: 150px;
+    }
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<main class="main">
+  <section id="team-member" class="team-member section" style="padding-top: 110px;">
+    <div class="container" data-aos="fade-up">
+      <div class="row gy-4 justify-content-center">
+        <div class="col-lg-8 col-md-10">
+          <div class="team-member d-flex flex-column flex-md-row">
+            <div class="member-img-container">
+              <div class="member-img flex-shrink-0 mb-4 mb-md-0 me-md-4">
+                <img src="{% static 'assets/img/team/team_3.JPG' %}" class="img-fluid rounded-circle" alt="Jesse Pinkman">
+              </div>
+            </div>
+            <div class="member-info flex-grow-1">
+              <h2 class="mb-1">Begarving  Arthur</h2>
+              <span class="d-block mb-3">Field Research and Data Expert</span>
+              <div class="social mb-3">
+                <a href="mailto:begarving@investmetrics.com"><i class="bi bi-envelope-fill"></i></a>
+                <a href="https://www.linkedin.com/in/begarving-arthur-00000022b/"><i class="bi bi-linkedin"></i></a>
+              </div>
+              <p class="mb-3" style="text-align: justify;">Begarving Mwakapala Arthur is a seasoned data, research, and business development consultant with extensive experience in the Tanzanian market. As the founder of Investmetrics, he leads a team dedicated to helping businesses and organizations make data-driven decisions to optimize investments and policies. With expertise in quantitative and qualitative research, business development, and data visualization, Begarving has been instrumental in driving systems-wide changes for sustainable impact.
+                <br><br>
+              Holding a BSc in Economic Policy and Planning from Mzumbe University, Begarving is currently pursuing a MicroMasters in Data, Economics, and Development Policy from MIT. His technical skills include proficiency in statistical research tools like SPSS, STATA, Python, Smart Pls, IBM AMOS, and advanced data collection platforms such as Kobo Toolbox and Google Suite. He is also a published author in several peer-reviewed journals, contributing to research on entrepreneurship, employee performance, and procurement systems in Tanzania.
+                <br><br>
+              Begarving has successfully led numerous consultancy projects, including market assessments, baseline studies, and evaluations for sectors ranging from agriculture to local government authorities. His vision for Investmetrics is to provide businesses with the insights they need to thrive in a rapidly evolving economy, leveraging innovative data solutions to achieve measurable results.</p>
+              <h5>Areas of Expertise:</h5>
+              <ul class="list-inline">
+                <li class="list-inline-item"><span class="badge bg-primary">Quantitative and Qualitative Research</span></li>
+                <li class="list-inline-item"><span class="badge bg-primary">Policy Analysis & Evaluation</span></li>
+                <li class="list-inline-item"><span class="badge bg-primary">Monitoring and Evaluation</span></li>
+                <li class="list-inline-item"><span class="badge bg-primary">Business Development</span></li>
+                <li class="list-inline-item"><span class="badge bg-primary">Data Collection, Management & Analysis</span></li>
+                <li class="list-inline-item"><span class="badge bg-primary">Data Visualization</span></li>
+              </ul>
+              <h5>Personal Interests:</h5>
+              <p>When not at work, Begarving enjoys watching movies, reading books, adventures.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+{% endblock %}

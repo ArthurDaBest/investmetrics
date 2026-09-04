@@ -1,0 +1,1646 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+Publish With Investmetrics | Research Reports & IJIRI
+{% endblock %}
+
+{% block content %}
+
+<style>
+
+/* ============================================================
+   PUBLISH WITH INVESTMETRICS
+   ============================================================ */
+
+.im-publish-page {
+    --im-green: #0B3D2E;
+    --im-emerald: #1F6E52;
+    --im-gold: #C9A227;
+    --im-gold-light: #E0C56A;
+    --im-cream: #F5F1E6;
+    --im-white: #FAF9F5;
+    --im-charcoal: #20242A;
+    --im-sage: #E2E8DA;
+    --im-grass: #D6E1CF;
+    --im-olive: #E4E0C6;
+    --im-moss: #6F7E4F;
+
+    background: var(--im-white);
+    color: var(--im-charcoal);
+}
+
+.im-publish-container {
+    width: min(1180px, calc(100% - 40px));
+    margin: 0 auto;
+}
+
+
+/* ============================================================
+   HERO
+   ============================================================ */
+
+.im-publish-hero {
+    position: relative;
+    overflow: hidden;
+    background: var(--im-green);
+    padding: 105px 0 95px;
+}
+
+.im-publish-hero::before {
+    content: "";
+    position: absolute;
+    width: 510px;
+    height: 510px;
+    border: 1px solid rgba(201, 162, 39, 0.18);
+    border-radius: 50%;
+    right: -190px;
+    top: -240px;
+}
+
+.im-publish-hero::after {
+    content: "";
+    position: absolute;
+    width: 310px;
+    height: 310px;
+    border: 1px solid rgba(245, 241, 230, 0.10);
+    border-radius: 50%;
+    left: -130px;
+    bottom: -190px;
+}
+
+.im-publish-hero-grid {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(300px, .8fr);
+    gap: 70px;
+    align-items: center;
+}
+
+.im-publish-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 11px;
+    color: var(--im-gold-light);
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+}
+
+.im-publish-eyebrow::before {
+    content: "";
+    width: 36px;
+    height: 1px;
+    background: var(--im-gold);
+}
+
+.im-publish-hero h1 {
+    color: #fff;
+    font-size: clamp(44px, 5.5vw, 76px);
+    line-height: 1.02;
+    letter-spacing: -.045em;
+    margin: 0 0 26px;
+    max-width: 820px;
+}
+
+.im-publish-hero-copy {
+    color: rgba(255,255,255,.73);
+    font-size: 18px;
+    line-height: 1.8;
+    max-width: 760px;
+    margin: 0 0 34px;
+}
+
+.im-publish-hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 13px;
+}
+
+.im-publish-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-height: 52px;
+    padding: 0 22px;
+    border-radius: 12px;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 800;
+    transition: .25s ease;
+}
+
+.im-publish-btn-primary {
+    background: var(--im-gold);
+    color: var(--im-green);
+}
+
+.im-publish-btn-primary:hover {
+    background: var(--im-gold-light);
+    color: var(--im-green);
+    transform: translateY(-2px);
+}
+
+.im-publish-btn-secondary {
+    border: 1px solid rgba(255,255,255,.25);
+    color: #fff;
+    background: rgba(255,255,255,.04);
+}
+
+.im-publish-btn-secondary:hover {
+    color: var(--im-gold-light);
+    border-color: rgba(224,197,106,.55);
+}
+
+
+/* ============================================================
+   HERO PUBLICATION CARD
+   ============================================================ */
+
+.im-publish-hero-card {
+    background: var(--im-cream);
+    border: 1px solid rgba(201,162,39,.42);
+    border-radius: 24px;
+    padding: 34px;
+    box-shadow:
+        0 28px 70px rgba(201,162,39,.16),
+        0 12px 30px rgba(0,0,0,.16);
+}
+
+.im-publish-hero-card-mark {
+    width: 62px;
+    height: 62px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--im-green);
+    color: var(--im-gold);
+    font-size: 25px;
+    margin-bottom: 28px;
+}
+
+.im-publish-hero-card small {
+    display: block;
+    color: var(--im-gold);
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+
+.im-publish-hero-card h2 {
+    color: var(--im-green);
+    font-size: 28px;
+    line-height: 1.2;
+    margin: 0 0 17px;
+}
+
+.im-publish-hero-card p {
+    color: #59615c;
+    font-size: 14px;
+    line-height: 1.75;
+    margin: 0;
+}
+
+.im-publish-card-divider {
+    height: 1px;
+    background: rgba(11,61,46,.11);
+    margin: 26px 0;
+}
+
+.im-publish-card-foot {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    color: var(--im-green);
+    font-size: 12px;
+    font-weight: 700;
+}
+
+
+/* ============================================================
+   INTRO
+   ============================================================ */
+
+.im-publish-intro {
+    padding: 85px 0 70px;
+}
+
+.im-publish-intro-grid {
+    display: grid;
+    grid-template-columns: .75fr 1.25fr;
+    gap: 85px;
+    align-items: start;
+}
+
+.im-publish-section-label {
+    color: var(--im-gold);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+}
+
+.im-publish-intro h2,
+.im-publish-section-heading {
+    color: var(--im-green);
+    font-size: clamp(34px, 4vw, 52px);
+    line-height: 1.12;
+    letter-spacing: -.035em;
+    margin: 0;
+}
+
+.im-publish-intro-copy {
+    font-size: 17px;
+    line-height: 1.85;
+    color: #4b524e;
+}
+
+.im-publish-intro-copy p {
+    margin: 0 0 18px;
+}
+
+
+/* ============================================================
+   PUBLICATION PATHS
+   ============================================================ */
+
+.im-publish-paths {
+    padding: 80px 0 90px;
+    background: var(--im-cream);
+}
+
+.im-publish-path-heading {
+    max-width: 780px;
+    margin-bottom: 48px;
+}
+
+.im-publish-path-heading p {
+    color: #626963;
+    font-size: 16px;
+    line-height: 1.8;
+    margin: 18px 0 0;
+}
+
+.im-publish-path-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 28px;
+}
+
+.im-publish-path-card {
+    position: relative;
+    overflow: hidden;
+    border-radius: 24px;
+    padding: 40px;
+    min-height: 520px;
+    display: flex;
+    flex-direction: column;
+}
+
+.im-publish-path-card.report {
+    background: var(--im-green);
+    color: white;
+    box-shadow: 0 22px 60px rgba(201,162,39,.14);
+}
+
+.im-publish-path-card.journal {
+    background: var(--im-sage);
+    border: 1px solid rgba(11,61,46,.11);
+    box-shadow: 0 22px 60px rgba(82,99,63,.13);
+}
+
+.im-publish-path-number {
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--im-gold);
+    margin-bottom: 27px;
+}
+
+.im-publish-path-icon {
+    width: 62px;
+    height: 62px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 25px;
+    margin-bottom: 30px;
+}
+
+.report .im-publish-path-icon {
+    background: rgba(255,255,255,.08);
+    color: var(--im-gold-light);
+}
+
+.journal .im-publish-path-icon {
+    background: var(--im-green);
+    color: var(--im-gold);
+}
+
+.im-publish-path-card h3 {
+    font-size: clamp(29px, 3vw, 39px);
+    line-height: 1.13;
+    letter-spacing: -.03em;
+    margin: 0 0 18px;
+}
+
+.report h3 {
+    color: white;
+}
+
+.journal h3 {
+    color: var(--im-green);
+}
+
+.im-publish-path-card > p {
+    font-size: 15px;
+    line-height: 1.8;
+    margin: 0 0 26px;
+}
+
+.report > p {
+    color: rgba(255,255,255,.72);
+}
+
+.journal > p {
+    color: #4f5851;
+}
+
+.im-publish-path-list {
+    margin: 0 0 30px;
+    padding: 0;
+    list-style: none;
+}
+
+.im-publish-path-list li {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 13px;
+    font-size: 14px;
+    line-height: 1.55;
+}
+
+.im-publish-path-list i {
+    color: var(--im-gold);
+    margin-top: 3px;
+}
+
+.report .im-publish-path-list li {
+    color: rgba(255,255,255,.82);
+}
+
+.journal .im-publish-path-list li {
+    color: #455049;
+}
+
+.im-publish-path-action {
+    margin-top: auto;
+    padding-top: 22px;
+}
+
+.im-publish-template-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 11px 14px;
+    border-radius: 10px;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: .05em;
+    text-transform: uppercase;
+}
+
+.report .im-publish-template-status {
+    background: rgba(201,162,39,.14);
+    color: var(--im-gold-light);
+}
+
+.journal .im-publish-template-status {
+    background: rgba(11,61,46,.08);
+    color: var(--im-green);
+}
+
+
+.im-publish-downloads {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 11px;
+}
+
+.im-publish-download {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    min-height: 44px;
+    padding: 0 15px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-size: 11px;
+    font-weight: 800;
+    line-height: 1.25;
+    transition: .22s ease;
+}
+
+.im-publish-download.primary {
+    background: var(--im-green);
+    color: #fff;
+    border: 1px solid var(--im-green);
+}
+
+.im-publish-download.primary:hover {
+    color: var(--im-gold-light);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(11,61,46,.16);
+}
+
+.im-publish-download.secondary {
+    background: rgba(11,61,46,.04);
+    color: var(--im-green);
+    border: 1px solid rgba(11,61,46,.18);
+}
+
+.im-publish-download.secondary:hover {
+    background: var(--im-cream);
+    color: var(--im-green);
+    border-color: rgba(201,162,39,.55);
+    transform: translateY(-2px);
+}
+
+.im-publish-internal-note {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    padding: 11px 14px;
+    border-radius: 10px;
+    background: rgba(201,162,39,.14);
+    color: var(--im-gold-light);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+}
+
+
+/* ============================================================
+   WHAT TO PREPARE
+   ============================================================ */
+
+.im-publish-requirements {
+    padding: 95px 0;
+}
+
+.im-publish-requirements-head {
+    max-width: 780px;
+    margin-bottom: 50px;
+}
+
+.im-publish-requirements-head p {
+    font-size: 16px;
+    line-height: 1.8;
+    color: #5d655f;
+    margin-top: 17px;
+}
+
+.im-publish-requirements-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 22px;
+}
+
+.im-publish-requirement-card {
+    background: #fff;
+    border: 1px solid rgba(11,61,46,.10);
+    border-radius: 19px;
+    padding: 29px;
+    box-shadow: 0 17px 42px rgba(82,99,63,.08);
+}
+
+.im-publish-requirement-icon {
+    width: 48px;
+    height: 48px;
+    background: var(--im-cream);
+    border-radius: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--im-green);
+    font-size: 20px;
+    margin-bottom: 21px;
+}
+
+.im-publish-requirement-card h3 {
+    color: var(--im-green);
+    font-size: 19px;
+    margin: 0 0 11px;
+}
+
+.im-publish-requirement-card p {
+    color: #626963;
+    font-size: 14px;
+    line-height: 1.7;
+    margin: 0;
+}
+
+
+/* ============================================================
+   PROCESS
+   ============================================================ */
+
+.im-publish-process {
+    background: var(--im-green);
+    padding: 90px 0;
+}
+
+.im-publish-process .im-publish-section-heading {
+    color: white;
+}
+
+.im-publish-process-head {
+    max-width: 760px;
+    margin-bottom: 50px;
+}
+
+.im-publish-process-head p {
+    color: rgba(255,255,255,.68);
+    font-size: 16px;
+    line-height: 1.8;
+    margin: 17px 0 0;
+}
+
+.im-publish-process-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.im-publish-process-card {
+    padding: 29px 25px;
+    border: 1px solid rgba(255,255,255,.10);
+    border-radius: 18px;
+    background: rgba(255,255,255,.035);
+}
+
+.im-publish-process-number {
+    color: var(--im-gold);
+    font-size: 13px;
+    font-weight: 800;
+    margin-bottom: 24px;
+}
+
+.im-publish-process-card h3 {
+    color: white;
+    font-size: 18px;
+    margin: 0 0 10px;
+}
+
+.im-publish-process-card p {
+    color: rgba(255,255,255,.64);
+    font-size: 13px;
+    line-height: 1.7;
+    margin: 0;
+}
+
+
+/* ============================================================
+   STANDARDS
+   ============================================================ */
+
+.im-publish-standards {
+    padding: 95px 0;
+    background: var(--im-white);
+}
+
+.im-publish-standards-grid {
+    display: grid;
+    grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr);
+    gap: 80px;
+    align-items: center;
+}
+
+.im-publish-standard-panel {
+    background: var(--im-olive);
+    border-radius: 24px;
+    padding: 38px;
+    border: 1px solid rgba(111,126,79,.14);
+    box-shadow: 0 22px 55px rgba(82,99,63,.12);
+}
+
+.im-publish-standard-row {
+    display: flex;
+    gap: 17px;
+    padding: 19px 0;
+    border-bottom: 1px solid rgba(11,61,46,.11);
+}
+
+.im-publish-standard-row:first-child {
+    padding-top: 0;
+}
+
+.im-publish-standard-row:last-child {
+    border-bottom: 0;
+    padding-bottom: 0;
+}
+
+.im-publish-standard-row i {
+    color: var(--im-gold);
+    font-size: 20px;
+    margin-top: 2px;
+}
+
+.im-publish-standard-row h4 {
+    color: var(--im-green);
+    font-size: 16px;
+    margin: 0 0 6px;
+}
+
+.im-publish-standard-row p {
+    color: #535c55;
+    font-size: 13px;
+    line-height: 1.65;
+    margin: 0;
+}
+
+.im-publish-standards-copy p {
+    color: #555e58;
+    font-size: 16px;
+    line-height: 1.82;
+    margin: 20px 0 0;
+}
+
+
+/* ============================================================
+   SUBMISSION CTA
+   ============================================================ */
+
+.im-publish-submission {
+    padding: 80px 0 105px;
+    background: var(--im-cream);
+}
+
+.im-publish-submission-box {
+    background: var(--im-green);
+    border-radius: 26px;
+    padding: 55px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 50px;
+    align-items: center;
+    box-shadow: 0 26px 65px rgba(201,162,39,.15);
+}
+
+.im-publish-submission-box h2 {
+    color: white;
+    font-size: clamp(32px, 4vw, 48px);
+    line-height: 1.12;
+    letter-spacing: -.035em;
+    margin: 0 0 14px;
+}
+
+.im-publish-submission-box p {
+    color: rgba(255,255,255,.69);
+    max-width: 700px;
+    font-size: 15px;
+    line-height: 1.75;
+    margin: 0;
+}
+
+.im-publish-submission-contact {
+    text-align: right;
+}
+
+.im-publish-submission-contact small {
+    display: block;
+    color: var(--im-gold-light);
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    margin-bottom: 7px;
+}
+
+.im-publish-submission-contact a {
+    color: white;
+    text-decoration: none;
+    font-size: 17px;
+    font-weight: 700;
+}
+
+.im-publish-submission-contact a:hover {
+    color: var(--im-gold-light);
+}
+
+
+.im-publish-submission-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 11px;
+    margin-top: 15px;
+}
+
+.im-publish-submission-contact .im-publish-btn {
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.im-publish-submission-contact .im-publish-btn-primary {
+    color: var(--im-green);
+}
+
+.im-publish-submission-contact .im-publish-btn-primary:hover {
+    color: var(--im-green);
+}
+
+.im-publish-submission-contact .im-publish-btn-secondary {
+    color: #fff;
+}
+
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+@media (max-width: 992px) {
+
+    .im-publish-hero-grid,
+    .im-publish-intro-grid,
+    .im-publish-standards-grid,
+    .im-publish-submission-box {
+        grid-template-columns: 1fr;
+    }
+
+    .im-publish-path-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .im-publish-requirements-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .im-publish-process-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .im-publish-submission-contact {
+        text-align: left;
+    }
+
+    .im-publish-submission-actions {
+        justify-content: flex-start;
+    }
+}
+
+@media (max-width: 650px) {
+
+    .im-publish-container {
+        width: min(100% - 28px, 1180px);
+    }
+
+    .im-publish-hero {
+        padding: 72px 0 65px;
+    }
+
+    .im-publish-requirements-grid,
+    .im-publish-process-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .im-publish-path-card {
+        padding: 29px 24px;
+        min-height: auto;
+    }
+
+    .im-publish-submission-box {
+        padding: 33px 25px;
+    }
+}
+
+</style>
+
+
+<div class="im-publish-page">
+
+
+    <!-- =====================================================
+         HERO
+         ===================================================== -->
+
+    <section class="im-publish-hero">
+
+        <div class="im-publish-container">
+
+            <div class="im-publish-hero-grid">
+
+                <div>
+
+                    <div class="im-publish-eyebrow">
+                        Research · Scholarship · Intelligence
+                    </div>
+
+                    <h1>
+                        Publish With Investmetrics.
+                    </h1>
+
+                    <p class="im-publish-hero-copy">
+                        A publication platform for Investmetrics research intelligence
+                        and interdisciplinary scholarship. Investmetrics research
+                        reports are produced internally, while external researchers
+                        may submit scholarly manuscripts to IJIRI.
+                    </p>
+
+                    <div class="im-publish-hero-actions">
+
+                        <a
+                            href="#publication-pathways"
+                            class="im-publish-btn im-publish-btn-primary"
+                        >
+                            Explore Publication Paths
+                            <i class="bi bi-arrow-down"></i>
+                        </a>
+
+                        <a
+                            href="#submission-guidance"
+                            class="im-publish-btn im-publish-btn-secondary"
+                        >
+                            Submission Guidance
+                        </a>
+
+                    </div>
+
+                </div>
+
+
+                <div class="im-publish-hero-card">
+
+                    <div class="im-publish-hero-card-mark">
+                        <i class="bi bi-journal-richtext"></i>
+                    </div>
+
+                    <small>
+                        Investmetrics Publications
+                    </small>
+
+                    <h2>
+                        Two publication streams. Distinct purposes. One standard for credible evidence.
+                    </h2>
+
+                    <p>
+                        Investmetrics publishes internally generated research reports
+                        and also provides an external scholarly manuscript
+                        pathway through the Investmetrics Journal of
+                        Interdisciplinary Research and Intelligence (IJIRI).
+                    </p>
+
+                    <div class="im-publish-card-divider"></div>
+
+                    <div class="im-publish-card-foot">
+
+                        <span>
+                            Research Reports
+                        </span>
+
+                        <span>
+                            IJIRI
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         INTRODUCTION
+         ===================================================== -->
+
+    <section class="im-publish-intro">
+
+        <div class="im-publish-container">
+
+            <div class="im-publish-intro-grid">
+
+                <div>
+
+                    <div class="im-publish-section-label">
+                        Publication Platform
+                    </div>
+
+                    <h2>
+                        Evidence deserves a clear and credible platform.
+                    </h2>
+
+                </div>
+
+
+                <div class="im-publish-intro-copy">
+
+                    <p>
+                        Investmetrics uses its publication platform to communicate
+                        analytical work that contributes to research, markets,
+                        policy, development practice, public affairs and informed
+                        decision-making.
+                    </p>
+
+                    <p>
+                        Investmetrics Research Reports are an internal publication
+                        stream. They draw on secondary-data analysis, market insights,
+                        internal research and other evidence products developed by
+                        the Investmetrics team, including analytical tables, charts
+                        and concise research intelligence based on currently
+                        available information.
+                    </p>
+
+                    <p>
+                        External scholarly submissions are accepted through IJIRI.
+                        Authors preparing a journal manuscript can download the
+                        official Author Guidelines and Manuscript Template below
+                        before submission.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         PUBLICATION PATHWAYS
+         ===================================================== -->
+
+    <section
+        class="im-publish-paths"
+        id="publication-pathways"
+    >
+
+        <div class="im-publish-container">
+
+            <div class="im-publish-path-heading">
+
+                <div class="im-publish-section-label">
+                    Choose Your Path
+                </div>
+
+                <h2 class="im-publish-section-heading">
+                    Our publication streams.
+                </h2>
+
+                <p>
+                    The Investmetrics report stream is produced internally. IJIRI is
+                    the external scholarly publication stream for researchers
+                    seeking to submit manuscripts for editorial consideration.
+                </p>
+
+            </div>
+
+
+            <div class="im-publish-path-grid">
+
+
+                <!-- REPORT PATH -->
+
+                <article
+                    class="im-publish-path-card report"
+                    id="report-template"
+                >
+
+                    <div class="im-publish-path-number">
+                        Stream 01
+                    </div>
+
+                    <div class="im-publish-path-icon">
+                        <i class="bi bi-file-earmark-bar-graph"></i>
+                    </div>
+
+                    <h3>
+                        Investmetrics Research Reports
+                    </h3>
+
+                    <p>
+                        An internal Investmetrics publication stream for concise and
+                        substantive research intelligence generated from
+                        internal analysis and currently available evidence.
+                    </p>
+
+                    <ul class="im-publish-path-list">
+
+                        <li>
+                            <i class="bi bi-check2"></i>
+                            <span>
+                                Secondary-data analysis and evidence synthesis
+                            </span>
+                        </li>
+
+                        <li>
+                            <i class="bi bi-check2"></i>
+                            <span>
+                                Market insights and analytical briefs
+                            </span>
+                        </li>
+
+                        <li>
+                            <i class="bi bi-check2"></i>
+                            <span>
+                                Internal research reports and thematic intelligence
+                            </span>
+                        </li>
+
+                        <li>
+                            <i class="bi bi-check2"></i>
+                            <span>
+                                Tables, charts and evidence-based analytical outputs
+                            </span>
+                        </li>
+
+                    </ul>
+
+                    <div class="im-publish-path-action">
+
+                        <span class="im-publish-internal-note">
+                            <i class="bi bi-shield-lock"></i>
+                            Investmetrics Internal Publication
+                        </span>
+
+                    </div>
+
+                </article>
+
+
+                <!-- JOURNAL PATH -->
+
+                <article
+                    class="im-publish-path-card journal"
+                    id="journal-template"
+                >
+
+                    <div class="im-publish-path-number">
+                        Stream 02
+                    </div>
+
+                    <div class="im-publish-path-icon">
+                        <i class="bi bi-journal-text"></i>
+                    </div>
+
+                    <h3>
+                        IJIRI Journal Manuscripts
+                    </h3>
+
+                    <p>
+                        A manuscript pathway for interdisciplinary research
+                        intended for the Investmetrics Journal of
+                        Interdisciplinary Research and Intelligence (IJIRI).
+                    </p>
+
+                    <ul class="im-publish-path-list">
+
+                        <li>
+                            <i class="bi bi-check2"></i>
+                            <span>
+                                Original interdisciplinary research
+                            </span>
+                        </li>
+
+                        <li>
+                            <i class="bi bi-check2"></i>
+                            <span>
+                                Empirical and analytical manuscripts
+                            </span>
+                        </li>
+
+                        <li>
+                            <i class="bi bi-check2"></i>
+                            <span>
+                                Clearly documented methodology and evidence
+                            </span>
+                        </li>
+
+                        <li>
+                            <i class="bi bi-check2"></i>
+                            <span>
+                                Complete scholarly references and declarations
+                            </span>
+                        </li>
+
+                    </ul>
+
+                    <div class="im-publish-path-action">
+
+                        <div class="im-publish-downloads">
+
+                            <a
+                                href="{% url 'ijiri-submit' %}"
+                                class="im-publish-download primary"
+                            >
+                                <i class="bi bi-send"></i>
+                                Submit Manuscript
+                            </a>
+
+                            <a
+                                href="{% static 'assets/publications/templates/IJIRI_Author_Guidelines.docx' %}"
+                                class="im-publish-download secondary"
+                                download
+                            >
+                                <i class="bi bi-download"></i>
+                                Author Guidelines
+                            </a>
+
+                            <a
+                                href="{% static 'assets/publications/templates/IJIRI_Manuscript_Template.docx' %}"
+                                class="im-publish-download secondary"
+                                download
+                            >
+                                <i class="bi bi-file-earmark-word"></i>
+                                Manuscript Template
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         REQUIREMENTS
+         ===================================================== -->
+
+    <section
+        class="im-publish-requirements"
+        id="submission-guidance"
+    >
+
+        <div class="im-publish-container">
+
+            <div class="im-publish-requirements-head">
+
+                <div class="im-publish-section-label">
+                    Before Submission
+                </div>
+
+                <h2 class="im-publish-section-heading">
+                    Prepare your IJIRI manuscript carefully.
+                </h2>
+
+                <p>
+                    Download and use the official IJIRI resources above. Before
+                    submission, authors should ensure that the manuscript
+                    satisfies the journal's core preparation requirements.
+                </p>
+
+            </div>
+
+
+            <div class="im-publish-requirements-grid">
+
+
+                <div class="im-publish-requirement-card">
+
+                    <div class="im-publish-requirement-icon">
+                        <i class="bi bi-person-vcard"></i>
+                    </div>
+
+                    <h3>
+                        Author Information
+                    </h3>
+
+                    <p>
+                        Provide complete author names and affiliations, identify the
+                        corresponding author, and include a valid email address.
+                        ORCID should be provided where available.
+                    </p>
+
+                </div>
+
+
+                <div class="im-publish-requirement-card">
+
+                    <div class="im-publish-requirement-icon">
+                        <i class="bi bi-card-text"></i>
+                    </div>
+
+                    <h3>
+                        Clear Abstract or Summary
+                    </h3>
+
+                    <p>
+                        Keep the paper title within 15 words and the optional
+                        subtitle within 10 words. The abstract should not exceed
+                        300 words. Include 3–5 distinct, relevant keywords.
+                    </p>
+
+                </div>
+
+
+                <div class="im-publish-requirement-card">
+
+                    <div class="im-publish-requirement-icon">
+                        <i class="bi bi-diagram-3"></i>
+                    </div>
+
+                    <h3>
+                        Transparent Methodology
+                    </h3>
+
+                    <p>
+                        Explain how evidence was generated, analysed
+                        and interpreted so that readers can understand
+                        the basis of the conclusions.
+                    </p>
+
+                </div>
+
+
+                <div class="im-publish-requirement-card">
+
+                    <div class="im-publish-requirement-icon">
+                        <i class="bi bi-bar-chart-line"></i>
+                    </div>
+
+                    <h3>
+                        Evidence-Based Findings
+                    </h3>
+
+                    <p>
+                        Present results clearly using appropriate
+                        narrative, tables, figures or analytical
+                        visualisations.
+                    </p>
+
+                </div>
+
+
+                <div class="im-publish-requirement-card">
+
+                    <div class="im-publish-requirement-icon">
+                        <i class="bi bi-quote"></i>
+                    </div>
+
+                    <h3>
+                        References & Attribution
+                    </h3>
+
+                    <p>
+                        Use APA 7th Edition consistently for in-text citations and
+                        the reference list. Every citation must have a matching
+                        reference entry and vice versa.
+                    </p>
+
+                </div>
+
+
+                <div class="im-publish-requirement-card">
+
+                    <div class="im-publish-requirement-icon">
+                        <i class="bi bi-shield-check"></i>
+                    </div>
+
+                    <h3>
+                        Research Declarations
+                    </h3>
+
+                    <p>
+                        Include relevant ethics, funding, conflict-of-interest, data-use,
+                        authorship and AI-use declarations. Similarity should be
+                        below 18% and AI-generated content below 15%, with AI use
+                        acknowledged where applicable.
+                    </p>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         IJIRI EDITORIAL PROCESS
+         ===================================================== -->
+
+    <section class="im-publish-process">
+
+        <div class="im-publish-container">
+
+            <div class="im-publish-process-head">
+
+                <div class="im-publish-section-label">
+                    IJIRI Editorial Journey
+                </div>
+
+                <h2 class="im-publish-section-heading">
+                    From submission to publication.
+                </h2>
+
+                <p>
+                    IJIRI manuscripts move through a structured editorial
+                    and review process. The stated periods are operational
+                    targets and may vary with manuscript complexity,
+                    reviewer availability and the extent of revision required.
+                </p>
+
+            </div>
+
+
+            <div class="im-publish-process-grid">
+
+                <div class="im-publish-process-card">
+                    <div class="im-publish-process-number">01</div>
+                    <h3>Initial Submission</h3>
+                    <p>
+                        The corresponding author submits the manuscript,
+                        author information and required declarations.
+                    </p>
+                </div>
+
+                <div class="im-publish-process-card">
+                    <div class="im-publish-process-number">02</div>
+                    <h3>Editorial Check</h3>
+                    <p>
+                        Initial screening for completeness, scope,
+                        formatting and submission compliance — within 24 hours.
+                    </p>
+                </div>
+
+                <div class="im-publish-process-card">
+                    <div class="im-publish-process-number">03</div>
+                    <h3>Deep Review</h3>
+                    <p>
+                        Editorial assessment of research quality,
+                        originality, relevance and readiness — 2–3 business days.
+                    </p>
+                </div>
+
+                <div class="im-publish-process-card">
+                    <div class="im-publish-process-number">04</div>
+                    <h3>Decision Communicated</h3>
+                    <p>
+                        The editorial decision and required next action
+                        are communicated — normally within 4–6 business days.
+                    </p>
+                </div>
+
+                <div class="im-publish-process-card">
+                    <div class="im-publish-process-number">05</div>
+                    <h3>Peer Review</h3>
+                    <p>
+                        Manuscripts proceeding to external review are
+                        assessed by relevant reviewers — target about 2 working days.
+                    </p>
+                </div>
+
+                <div class="im-publish-process-card">
+                    <div class="im-publish-process-number">06</div>
+                    <h3>Revision & Approval</h3>
+                    <p>
+                        Authors respond to review comments and the revised
+                        manuscript is assessed — target about 3 working days.
+                    </p>
+                </div>
+
+                <div class="im-publish-process-card">
+                    <div class="im-publish-process-number">07</div>
+                    <h3>Galley Proof</h3>
+                    <p>
+                        Final proofreading, formatting and publication
+                        preparation — target about 1 working day.
+                    </p>
+                </div>
+
+                <div class="im-publish-process-card">
+                    <div class="im-publish-process-number">08</div>
+                    <h3>Publication</h3>
+                    <p>
+                        Approved articles are published online and included
+                        in applicable journal indexing or archiving arrangements.
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         STANDARDS
+         ===================================================== -->
+
+    <section class="im-publish-standards">
+
+        <div class="im-publish-container">
+
+            <div class="im-publish-standards-grid">
+
+
+                <div class="im-publish-standard-panel">
+
+
+                    <div class="im-publish-standard-row">
+
+                        <i class="bi bi-check-circle"></i>
+
+                        <div>
+
+                            <h4>
+                                Originality
+                            </h4>
+
+                            <p>
+                                Submitted work should represent genuine
+                                intellectual or analytical contribution.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="im-publish-standard-row">
+
+                        <i class="bi bi-check-circle"></i>
+
+                        <div>
+
+                            <h4>
+                                Methodological Clarity
+                            </h4>
+
+                            <p>
+                                Methods and evidence should be reported
+                                sufficiently clearly for the intended audience.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="im-publish-standard-row">
+
+                        <i class="bi bi-check-circle"></i>
+
+                        <div>
+
+                            <h4>
+                                Responsible Attribution
+                            </h4>
+
+                            <p>
+                                Sources, authorship and intellectual
+                                contributions should be acknowledged appropriately.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="im-publish-standard-row">
+
+                        <i class="bi bi-check-circle"></i>
+
+                        <div>
+
+                            <h4>
+                                Publication Readiness
+                            </h4>
+
+                            <p>
+                                Manuscripts should be coherent, complete
+                                and presented to a professional standard.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+                <div class="im-publish-standards-copy">
+
+                    <div class="im-publish-section-label">
+                        Publication Standards
+                    </div>
+
+                    <h2 class="im-publish-section-heading">
+                        Quality begins before publication.
+                    </h2>
+
+                    <p>
+                        IJIRI publication resources are designed to strengthen
+                        clarity, consistency and scholarly presentation.
+                        The Author Guidelines and Manuscript Template provide
+                        structure, while responsibility for accuracy,
+                        originality, ethical conduct and appropriate attribution
+                        remains with the authors.
+                    </p>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         SUBMISSION
+         ===================================================== -->
+
+    <section class="im-publish-submission">
+
+        <div class="im-publish-container">
+
+            <div class="im-publish-submission-box">
+
+                <div>
+
+                    <div class="im-publish-section-label">
+                        IJIRI Submissions
+                    </div>
+
+                    <h2>
+                        Preparing a manuscript for IJIRI?
+                    </h2>
+
+                    <p>
+                        Download the Author Guidelines and Manuscript Template
+                        before preparing your submission. The dedicated online
+                        manuscript submission form collects the paper title,
+                        optional subtitle, abstract, category, author details,
+                        declarations and the manuscript file.
+                    </p>
+
+                </div>
+
+
+                <div class="im-publish-submission-contact">
+
+                    <small>
+                        IJIRI Online Submission
+                    </small>
+
+                    <div class="im-publish-submission-actions">
+
+                        <a
+                            href="{% url 'ijiri-submit' %}"
+                            class="im-publish-btn im-publish-btn-primary"
+                        >
+                            Submit Manuscript
+                            <i class="bi bi-arrow-right"></i>
+                        </a>
+
+                        <a
+                            href="mailto:ijiri@investmetrics.co.tz"
+                            class="im-publish-btn im-publish-btn-secondary"
+                        >
+                            Editorial Enquiry
+                        </a>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+</div>
+
+{% endblock %}

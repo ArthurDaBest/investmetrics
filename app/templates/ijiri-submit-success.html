@@ -1,0 +1,191 @@
+{% extends "base.html" %}
+
+{% block title %}Submission Received | IJIRI{% endblock %}
+
+{% block content %}
+
+<style>
+  :root {
+    --im-deep-green: #0B3D2E;
+    --im-emerald: #1F6E52;
+    --im-gold: #C9A227;
+    --im-cream: #F5F1E6;
+    --im-warm-white: #FAF9F5;
+    --im-charcoal: #20242A;
+  }
+
+  .ijiri-success-page {
+    min-height: 78vh;
+    background: var(--im-warm-white);
+    padding: 105px 0 85px;
+    display: flex;
+    align-items: center;
+  }
+
+  .success-card {
+    max-width: 820px;
+    margin: 0 auto;
+    background: #fff;
+    border: 1px solid rgba(11,61,46,.10);
+    border-radius: 26px;
+    padding: 48px;
+    text-align: center;
+    box-shadow: 0 25px 60px rgba(11,61,46,.09);
+  }
+
+  .success-icon {
+    width: 76px;
+    height: 76px;
+    border-radius: 50%;
+    margin: 0 auto 24px;
+    display: grid;
+    place-items: center;
+    background: var(--im-deep-green);
+    color: var(--im-gold);
+    font-size: 2rem;
+  }
+
+  .success-kicker {
+    color: var(--im-emerald);
+    text-transform: uppercase;
+    font-size: .76rem;
+    font-weight: 800;
+    letter-spacing: .12em;
+    margin-bottom: 11px;
+  }
+
+  .success-card h1 {
+    color: var(--im-deep-green);
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    font-weight: 750;
+    margin-bottom: 16px;
+  }
+
+  .success-card > p {
+    color: #677069;
+    line-height: 1.75;
+    max-width: 620px;
+    margin: 0 auto 25px;
+  }
+
+  .reference-box {
+    background: var(--im-cream);
+    border: 1px solid rgba(201,162,39,.30);
+    border-radius: 17px;
+    padding: 20px;
+    margin: 26px auto;
+    max-width: 470px;
+  }
+
+  .reference-label {
+    display: block;
+    color: #72786f;
+    font-size: .78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    margin-bottom: 7px;
+  }
+
+  .reference-number {
+    color: var(--im-deep-green);
+    font-size: 1.45rem;
+    font-weight: 800;
+    word-break: break-word;
+  }
+
+  .success-note {
+    background: #f7faf6;
+    border-radius: 14px;
+    padding: 16px 18px;
+    color: #58615b;
+    font-size: .88rem;
+    line-height: 1.65;
+    margin: 25px 0 28px;
+  }
+
+  .success-actions {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .success-btn {
+    text-decoration: none;
+    padding: 12px 18px;
+    border-radius: 11px;
+    font-weight: 700;
+    transition: .2s ease;
+  }
+
+  .success-btn.primary {
+    background: var(--im-gold);
+    color: var(--im-deep-green);
+  }
+
+  .success-btn.secondary {
+    border: 1px solid rgba(11,61,46,.16);
+    color: var(--im-deep-green);
+    background: #fff;
+  }
+
+  .success-btn:hover {
+    transform: translateY(-1px);
+    color: var(--im-deep-green);
+  }
+
+  @media (max-width: 767px) {
+    .ijiri-success-page {
+      padding: 80px 15px 65px;
+    }
+    .success-card {
+      padding: 34px 20px;
+    }
+  }
+</style>
+
+<main class="ijiri-success-page">
+  <div class="container">
+    <div class="success-card">
+
+      <div class="success-icon">
+        <i class="bi bi-check-lg"></i>
+      </div>
+
+      <div class="success-kicker">Submission Recorded</div>
+
+      <h1>Thank you for submitting to IJIRI.</h1>
+
+      <p>
+        Your manuscript has been recorded in the Investmetrics Journal of
+        Interdisciplinary Research and Intelligence submission system.
+      </p>
+
+      <div class="reference-box">
+        <span class="reference-label">Submission Reference</span>
+        <div class="reference-number">{{ reference }}</div>
+      </div>
+
+      <div class="success-note">
+        Keep this reference for all future correspondence with the IJIRI Editorial Office.
+        The manuscript will proceed through editorial screening and the applicable review
+        stages. An acknowledgement email is also attempted using the corresponding author
+        email supplied in the submission form.
+      </div>
+
+      <div class="success-actions">
+        <a href="{% url 'journal_list' %}" class="success-btn primary">
+          View IJIRI Publications
+        </a>
+
+        <a href="{% url 'publish-with-investmetrics' %}" class="success-btn secondary">
+          Publication Information
+        </a>
+      </div>
+
+    </div>
+  </div>
+</main>
+
+{% endblock %}

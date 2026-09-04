@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Gerald - Team Member{% endblock title %}
+
+{% block extra_css %}
+<style>
+  .member-img-container {
+    background-color: #000;
+    border-radius: 100px;
+    padding: 15px 40px;
+    display: inline-block;
+    margin-bottom: 20px;
+  }
+
+  .member-img {
+    position: relative;
+    z-index: 1;
+  }
+
+  .member-img img {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+  }
+
+  @media (max-width: 768px) {
+    .member-img-container {
+      padding: 8px 25px;
+      border-radius: 75px;
+    }
+
+    .member-img img {
+      width: 150px;
+      height: 150px;
+    }
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<main class="main">
+  <section id="team-member" class="team-member section" style="padding-top: 110px;">
+    <div class="container" data-aos="fade-up">
+      <div class="row gy-4 justify-content-center">
+        <div class="col-lg-8 col-md-10">
+          <div class="team-member d-flex flex-column flex-md-row">
+            <div class="member-img-container">
+              <div class="member-img flex-shrink-0 mb-4 mb-md-0 me-md-4">
+                <img src="{% static 'assets/img/team/team_6.png' %}" class=" rounded-circle" alt="Gerald">
+              </div>
+            </div>
+            <div class="member-info flex-grow-1">
+              <h2 class="mb-1">Dr. Gerald Usika (PhD)</h2>
+              <span class="d-block mb-3">Monitoring, Evaluation and Learning Expert</span>
+              <div class="social mb-3">
+                <a href="mailto:begarving@investmetrics.com"><i class="bi bi-envelope-fill"></i></a>
+                <a href="https://www.linkedin.com/in/begarving-arthur-00000022b/"><i class="bi bi-linkedin"></i></a>
+              </div>
+              <p class="mb-3" style="text-align: justify;">
+                I am a versatile professional with over 10 years of progressive experience in designing and operationalizing Monitoring, Evaluation, and Learning (MEL) systems, research designs, and methods. I have also served as senior-level program manager, leading country-level teams in designing, managing, and implementing monitoring (performance and program quality) interventions, rolling out large evaluations (over 20 evaluations) in agriculture, nutrition, child protection, education, health, HIV/TB (Care, Treatment and Testing), child rights governance, humanitarian response, Neglected Tropical Diseases (NTD), WASH, early childhood development, and family planning. Additionally, conducting surveys and performance evaluations including cost-effective assessments, outcome harvesting, and performance evaluations using mixed qualitative designs (primary data collection using focus group discussions, key informant interviews, in-depth interviews, and structured document review).
+                <br><br>
+                My capabilities range from conducting quantitative data collection and analysis to analyzing performance against targets, cascade analysis, and trending, this includes presenting analysed data in various formats including Microsoft PowerPoint, charts, graphs, and GIS. I am competent in doing qualitative analysis using NVivo, MAXQDA, and Dedoose and in quantitative data analysis using Microsoft Excel (pivot tables), SPSS, and Stata. I am also versatile in the use of various digital data systems, excel spreadsheets linked with dynamic dashboards, and various indicator management platforms. Adept at drafting high-quality proposals and reports. I have a proven track record evaluating large and small projects supported by USAID/PEPFAR, Canada's Department of Foreign Affairs, Trade and Development (DFATD), the United Kingdom's Department for International Development (DFID), Irish Aid, SIDA, UNICEF, and the Bill and Melinda Gates Foundation. I have excellent communication skills for relaying information for improvement and process changes and familiarity in leadership and standard corporate operations.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+{% endblock %}

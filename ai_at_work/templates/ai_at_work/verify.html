@@ -1,0 +1,28 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Verify Certificate | Investmetrics</title>
+<style>
+body{margin:0;font-family:Arial,sans-serif;background:#f5f1e6;color:#20242a}
+.wrap{max-width:760px;margin:8vh auto;padding:24px}
+.card{background:#fff;border:1px solid #d8d2c2;border-top:6px solid #0b3d2e;border-radius:18px;padding:30px;box-shadow:0 18px 50px rgba(11,61,46,.12)}
+.logo{width:70px;display:block;margin-bottom:18px}
+.ok{display:inline-block;background:#eaf5ee;color:#0b3d2e;border:1px solid #bed8c7;padding:7px 12px;border-radius:999px;font-weight:700}
+h1{margin:15px 0 6px}.grid{display:grid;grid-template-columns:180px 1fr;gap:12px;margin-top:22px}.k{color:#68706d}.v{font-weight:700}
+</style>
+</head>
+<body><div class="wrap"><div class="card">
+<img class="logo" src="{% static 'ai_at_work/logo.png' %}" alt="Investmetrics">
+<span class="ok">Valid Investmetrics Certificate</span>
+<h1>{{ certificate.profile.display_name }}</h1>
+<p>AI at Work — Certificate of Completion</p>
+<div class="grid">
+<div class="k">Certificate ID</div><div class="v">{{ certificate.certificate_id }}</div>
+<div class="k">Pathway</div><div class="v">{{ certificate.get_pathway_display }}</div>
+{% if certificate.professional_role %}<div class="k">Professional role</div><div class="v">{{ certificate.professional_role|title }}</div>{% endif %}
+<div class="k">Assessment score</div><div class="v">{{ certificate.assessment_score }}%</div>
+<div class="k">Issued</div><div class="v">{{ certificate.issued_at|date:"d F Y" }}</div>
+<div class="k">Issuer</div><div class="v">Infometrics Solution Limited · Investmetrics</div>
+</div></div></div></body></html>

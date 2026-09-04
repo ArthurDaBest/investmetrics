@@ -1,0 +1,768 @@
+﻿{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Reports | Investmetrics{% endblock %}
+
+{% block content %}
+
+<main class="im-reports-page">
+
+
+  <!-- =====================================================
+       HERO
+       ===================================================== -->
+  <section class="im-reports-hero">
+
+    <div class="im-container">
+
+      <div class="im-reports-hero-grid">
+
+
+        <div class="im-reports-hero-content"
+             data-aos="fade-up">
+
+          <span class="im-eyebrow">
+            INVESTMETRICS EVIDENCE LIBRARY
+          </span>
+
+          <h1>
+            Research reports built for
+            <span>understanding and action.</span>
+          </h1>
+
+          <p>
+            Explore Investmetrics reports covering research methods,
+            analytical models, economic performance and other evidence
+            developed to support learning, research and informed decisions.
+          </p>
+
+
+          <div class="im-reports-hero-actions">
+
+            <a href="#report-library"
+               class="im-btn im-btn-gold">
+
+              Browse Reports
+              <i class="bi bi-arrow-down"></i>
+
+            </a>
+
+            <a href="{% url 'research-and-publications-service.html' %}"
+               class="im-reports-secondary">
+
+              Research Services
+              <i class="bi bi-arrow-up-right"></i>
+
+            </a>
+
+          </div>
+
+
+          <div class="im-reports-hero-meta">
+
+            <div>
+              <strong>03</strong>
+              <span>Current reports</span>
+            </div>
+
+            <div>
+              <strong>Evidence</strong>
+              <span>Research Â· Analysis Â· Insight</span>
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- VISUAL -->
+        <div class="im-reports-hero-library"
+             data-aos="fade-left"
+             data-aos-delay="70">
+
+          <div class="im-reports-library-top">
+
+            <span>PUBLICATION COLLECTION</span>
+
+            <i class="bi bi-journals"></i>
+
+          </div>
+
+
+          <div class="im-reports-library-stack">
+
+            <div class="im-reports-stack-card im-reports-stack-1">
+              <span>01</span>
+              <strong>Qualitative Models</strong>
+            </div>
+
+            <div class="im-reports-stack-card im-reports-stack-2">
+              <span>02</span>
+              <strong>Statistical Models</strong>
+            </div>
+
+            <div class="im-reports-stack-card im-reports-stack-3">
+              <span>03</span>
+              <strong>Agricultural Export Performance</strong>
+            </div>
+
+          </div>
+
+
+          <div class="im-reports-library-bottom">
+
+            <span>
+              INVESTMETRICS
+            </span>
+
+            <strong>
+              Reports &amp; Analytical Publications
+            </strong>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- =====================================================
+       LIBRARY INTRO
+       ===================================================== -->
+  <section class="im-reports-intro">
+
+    <div class="im-container">
+
+      <div class="im-reports-intro-grid">
+
+        <div data-aos="fade-up">
+
+          <span class="im-eyebrow">
+            REPORT COLLECTION
+          </span>
+
+          <h2>
+            Evidence worth
+            <span>returning to.</span>
+          </h2>
+
+        </div>
+
+
+        <div data-aos="fade-up"
+             data-aos-delay="70">
+
+          <p>
+            Our report collection brings together methodological guidance,
+            analytical reference materials and applied research covering
+            issues relevant to researchers, professionals and decision-makers.
+          </p>
+
+          <p>
+            Each publication can be opened individually for a more detailed
+            reading experience.
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- =====================================================
+       REPORT LIBRARY
+       ===================================================== -->
+  <section id="report-library"
+           class="im-reports-library">
+
+    <div class="im-container">
+
+
+      <div class="im-reports-library-heading"
+           data-aos="fade-up">
+
+        <div>
+
+          <span class="im-eyebrow">
+            CURRENT PUBLICATIONS
+          </span>
+
+          <h2>
+            Investmetrics
+            <span>Reports.</span>
+          </h2>
+
+        </div>
+
+
+        <div class="im-reports-library-index">
+          <span>2024 COLLECTION</span>
+          <strong>01 â€” 03</strong>
+        </div>
+
+      </div>
+
+
+
+      <div class="im-reports-grid">
+
+
+        <!-- =================================================
+             REPORT 01
+             ================================================= -->
+        <article class="im-report-card im-report-card-a"
+                 data-aos="fade-up">
+
+          <div class="im-report-card-top">
+
+            <span class="im-report-number">
+              01
+            </span>
+
+            <div class="im-report-icon">
+              <i class="bi bi-chat-square-text"></i>
+            </div>
+
+          </div>
+
+
+          <div class="im-report-type">
+            RESEARCH METHODS
+          </div>
+
+
+          <h3>
+            Comprehensive
+            <span>Qualitative Models.</span>
+          </h3>
+
+
+          <p class="im-report-description">
+            Explore key qualitative analysis methods and their
+            applications in research.
+          </p>
+
+
+          <div class="im-report-tags">
+
+            <span>Qualitative Research</span>
+            <span>Research Methods</span>
+            <span>Analysis</span>
+
+          </div>
+
+
+          <div class="im-report-meta">
+
+            <div>
+              <small>AUTHOR</small>
+              <strong>Begarving Arthur</strong>
+            </div>
+
+            <div>
+              <small>PUBLISHED</small>
+              <strong>27 Nov 2024</strong>
+            </div>
+
+          </div>
+
+
+          <a href="{% url 'report-1' %}"
+             class="im-report-open">
+
+            Read Full Report
+            <i class="bi bi-arrow-up-right"></i>
+
+          </a>
+
+        </article>
+
+
+
+        <!-- =================================================
+             REPORT 02
+             ================================================= -->
+        <article class="im-report-card im-report-card-b"
+                 data-aos="fade-up"
+                 data-aos-delay="70">
+
+          <div class="im-report-card-top">
+
+            <span class="im-report-number">
+              02
+            </span>
+
+            <div class="im-report-icon">
+              <i class="bi bi-bar-chart-line"></i>
+            </div>
+
+          </div>
+
+
+          <div class="im-report-type">
+            STATISTICAL ANALYSIS
+          </div>
+
+
+          <h3>
+            Comprehensive
+            <span>Statistical Models.</span>
+          </h3>
+
+
+          <p class="im-report-description">
+            Explore key statistical models and their uses in predictive,
+            descriptive and exploratory analyses.
+          </p>
+
+
+          <div class="im-report-tags">
+
+            <span>Statistics</span>
+            <span>Modelling</span>
+            <span>Data Analysis</span>
+
+          </div>
+
+
+          <div class="im-report-meta">
+
+            <div>
+              <small>AUTHOR</small>
+              <strong>Begarving Arthur</strong>
+            </div>
+
+            <div>
+              <small>PUBLISHED</small>
+              <strong>27 Nov 2024</strong>
+            </div>
+
+          </div>
+
+
+          <a href="{% url 'report-2' %}"
+             class="im-report-open">
+
+            Read Full Report
+            <i class="bi bi-arrow-up-right"></i>
+
+          </a>
+
+        </article>
+
+
+
+        <!-- =================================================
+             REPORT 03
+             ================================================= -->
+        <article class="im-report-card im-report-card-feature"
+                 data-aos="fade-up"
+                 data-aos-delay="140">
+
+          <div class="im-report-card-top">
+
+            <span class="im-report-number">
+              03
+            </span>
+
+            <div class="im-report-icon">
+              <i class="bi bi-graph-up-arrow"></i>
+            </div>
+
+          </div>
+
+
+          <div class="im-report-type">
+            AGRICULTURAL ECONOMICS
+          </div>
+
+
+          <h3>
+            Tanzania Agricultural
+            <span>Export Performance 1998/99â€“2022/23.</span>
+          </h3>
+
+
+          <p class="im-report-description">
+            An examination of trends, drivers and challenges affecting
+            Tanzania's key agricultural commodity exports between
+            1998 and 2023.
+          </p>
+
+
+          <div class="im-report-tags">
+
+            <span>Agriculture</span>
+            <span>Exports</span>
+            <span>Tanzania</span>
+            <span>Economic Analysis</span>
+
+          </div>
+
+
+          <div class="im-report-meta">
+
+            <div>
+              <small>AUTHOR</small>
+              <strong>Begarving Arthur</strong>
+            </div>
+
+            <div>
+              <small>PUBLISHED</small>
+              <strong>27 Nov 2024</strong>
+            </div>
+
+          </div>
+
+
+          <a href="{% url 'report-3' %}"
+             class="im-report-open">
+
+            Read Full Report
+            <i class="bi bi-arrow-up-right"></i>
+
+          </a>
+
+        </article>
+
+
+      </div>
+
+
+      {% if reports %}
+
+      <!-- =================================================
+           DYNAMIC REPORT COLLECTION
+           Reports published through Django Admin
+           ================================================= -->
+
+      <div class="im-reports-library-heading"
+           style="margin-top: 72px;"
+           data-aos="fade-up">
+
+        <div>
+
+          <span class="im-eyebrow">
+            NEW PUBLICATIONS
+          </span>
+
+          <h2>
+            Latest
+            <span>Reports.</span>
+          </h2>
+
+        </div>
+
+        <div class="im-reports-library-index">
+          <span>INVESTMETRICS INTELLIGENCE</span>
+          <strong>{{ reports|length }} NEW</strong>
+        </div>
+
+      </div>
+
+
+      <div class="im-reports-grid">
+
+        {% for report in reports %}
+
+        <article class="im-report-card
+                       {% if report.featured %}im-report-card-feature{% else %}im-report-card-a{% endif %}"
+                 data-aos="fade-up">
+
+          <div class="im-report-card-top">
+
+            <span class="im-report-number">
+              {% if report.report_number %}
+                {{ report.report_number }}
+              {% else %}
+                {{ forloop.counter|add:"3"|stringformat:"02d" }}
+              {% endif %}
+            </span>
+
+            <div class="im-report-icon">
+
+              {% if report.theme == "agriculture" %}
+                <i class="bi bi-graph-up-arrow"></i>
+
+              {% elif report.theme == "statistics" %}
+                <i class="bi bi-bar-chart-line"></i>
+
+              {% elif report.theme == "economics" %}
+                <i class="bi bi-currency-exchange"></i>
+
+              {% elif report.theme == "policy" %}
+                <i class="bi bi-building"></i>
+
+              {% elif report.theme == "technology" %}
+                <i class="bi bi-cpu"></i>
+
+              {% elif report.theme == "development" %}
+                <i class="bi bi-diagram-3"></i>
+
+              {% else %}
+                <i class="bi bi-file-earmark-richtext"></i>
+              {% endif %}
+
+            </div>
+
+          </div>
+
+
+          <div class="im-report-type">
+            {% if report.category %}
+              {{ report.category|upper }}
+            {% else %}
+              RESEARCH REPORT
+            {% endif %}
+          </div>
+
+
+          <h3>
+            {{ report.title }}
+          </h3>
+
+
+          {% if report.summary %}
+          <p class="im-report-description">
+            {{ report.summary|truncatewords:32 }}
+          </p>
+          {% endif %}
+
+
+          <div class="im-report-tags">
+
+            {% if report.category %}
+            <span>{{ report.category }}</span>
+            {% endif %}
+
+            <span>Investmetrics</span>
+
+            {% if report.featured %}
+            <span>Featured</span>
+            {% endif %}
+
+          </div>
+
+
+          <div class="im-report-meta">
+
+            <div>
+              <small>AUTHOR{% if "," in report.authors %}S{% endif %}</small>
+              <strong>{{ report.authors }}</strong>
+            </div>
+
+            <div>
+              <small>PUBLISHED</small>
+              <strong>{{ report.publication_date|date:"d M Y" }}</strong>
+            </div>
+
+          </div>
+
+
+          <a href="{% url 'report-detail' report.slug %}"
+             class="im-report-open">
+
+            Read Full Report
+            <i class="bi bi-arrow-up-right"></i>
+
+          </a>
+
+        </article>
+
+        {% endfor %}
+
+      </div>
+
+      {% endif %}
+
+
+    </div>
+
+  </section>
+
+
+
+  <!-- =====================================================
+       PUBLICATION PRINCIPLE
+       ===================================================== -->
+  <section class="im-reports-principle">
+
+    <div class="im-container">
+
+      <div class="im-reports-principle-panel"
+           data-aos="fade-up">
+
+
+        <div class="im-reports-principle-mark">
+
+          <span>
+            EVIDENCE LIBRARY
+          </span>
+
+          <i class="bi bi-file-earmark-richtext"></i>
+
+        </div>
+
+
+        <div>
+
+          <h2>
+            Research becomes more useful
+            <span>when knowledge remains accessible.</span>
+          </h2>
+
+          <p>
+            The Investmetrics Evidence Library provides a growing home for
+            analytical reports, methodological resources and applied
+            research outputs.
+          </p>
+
+        </div>
+
+
+        <a href="{% url 'research-and-publications-service.html' %}">
+
+          Explore Research Services
+          <i class="bi bi-arrow-up-right"></i>
+
+        </a>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- =====================================================
+       REPORTS + JOURNALS
+       ===================================================== -->
+  <section class="im-reports-publications">
+
+    <div class="im-container">
+
+      <div class="im-reports-publications-grid">
+
+
+        <article class="im-reports-pub-current">
+
+          <div>
+
+            <span>
+              YOU ARE VIEWING
+            </span>
+
+            <h3>Reports</h3>
+
+            <p>
+              Applied research, analytical reports and methodological
+              reference publications.
+            </p>
+
+          </div>
+
+          <i class="bi bi-file-earmark-bar-graph"></i>
+
+        </article>
+
+
+        <article class="im-reports-pub-next">
+
+          <div>
+
+            <span>
+              ALSO IN PUBLICATIONS
+            </span>
+
+            <h3>Journals</h3>
+
+            <p>
+              Explore academic and scholarly publication outputs from
+              Investmetrics.
+            </p>
+
+          </div>
+
+          <i class="bi bi-journal-richtext"></i>
+
+        </article>
+
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- =====================================================
+       CTA
+       ===================================================== -->
+  <section class="im-reports-close">
+
+    <div class="im-container">
+
+      <div class="im-reports-close-panel"
+           data-aos="fade-up">
+
+        <div>
+
+          <span>
+            RESEARCH &amp; PUBLICATIONS
+          </span>
+
+          <h2>
+            Need evidence designed
+            <span>around your own research question?</span>
+          </h2>
+
+          <p>
+            Investmetrics provides end-to-end research, analytical and
+            publication support for organisations, researchers and
+            professional teams.
+          </p>
+
+        </div>
+
+
+        <div class="im-reports-close-actions">
+
+          <a href="{% url 'research-and-publications-service.html' %}"
+             class="im-btn im-btn-gold">
+
+            Research Services
+            <i class="bi bi-arrow-right"></i>
+
+          </a>
+
+          <a href="{% url 'home' %}#contact"
+             class="im-reports-close-secondary">
+
+            Contact Investmetrics
+            <i class="bi bi-arrow-up-right"></i>
+
+          </a>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+</main>
+
+{% endblock %}

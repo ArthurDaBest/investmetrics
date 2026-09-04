@@ -1,0 +1,975 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+{{ report.title }} | Investmetrics
+{% endblock %}
+
+{% block content %}
+
+<style>
+/* ============================================================
+   INVESTMETRICS DYNAMIC REPORT READER
+   ============================================================ */
+
+.im-dynamic-report {
+    --im-green: #0B3D2E;
+    --im-emerald: #1F6E52;
+    --im-gold: #C9A227;
+    --im-gold-light: #E0C56A;
+    --im-cream: #F5F1E6;
+    --im-white: #FAF9F5;
+    --im-charcoal: #20242A;
+    --im-sage: #E2E8DA;
+    --im-moss: #6F7E4F;
+
+    background: var(--im-white);
+    color: var(--im-charcoal);
+}
+
+
+/* ============================================================
+   HERO
+   ============================================================ */
+
+.im-report-hero {
+    position: relative;
+    overflow: hidden;
+    background: var(--im-green);
+    padding: 90px 0 80px;
+}
+
+.im-report-hero::before {
+    content: "";
+    position: absolute;
+    width: 420px;
+    height: 420px;
+    right: -130px;
+    top: -170px;
+    border: 1px solid rgba(201, 162, 39, 0.22);
+    border-radius: 50%;
+}
+
+.im-report-hero::after {
+    content: "";
+    position: absolute;
+    width: 280px;
+    height: 280px;
+    left: -120px;
+    bottom: -150px;
+    border: 1px solid rgba(245, 241, 230, 0.12);
+    border-radius: 50%;
+}
+
+.im-report-container {
+    width: min(1180px, calc(100% - 40px));
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+}
+
+.im-report-hero-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 290px;
+    gap: 70px;
+    align-items: center;
+}
+
+.im-report-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--im-gold-light);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    margin-bottom: 22px;
+}
+
+.im-report-eyebrow::before {
+    content: "";
+    width: 34px;
+    height: 1px;
+    background: var(--im-gold);
+}
+
+.im-report-title {
+    color: #ffffff;
+    font-size: clamp(38px, 5vw, 68px);
+    line-height: 1.05;
+    font-weight: 700;
+    letter-spacing: -0.035em;
+    max-width: 900px;
+    margin: 0 0 24px;
+}
+
+.im-report-summary {
+    max-width: 760px;
+    color: rgba(255, 255, 255, 0.76);
+    font-size: 17px;
+    line-height: 1.8;
+    margin: 0 0 32px;
+}
+
+.im-report-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 26px;
+    color: rgba(255,255,255,0.72);
+    font-size: 13px;
+}
+
+.im-report-meta-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.im-report-meta-item i {
+    color: var(--im-gold);
+}
+
+
+/* ============================================================
+   COVER
+   ============================================================ */
+
+.im-report-cover {
+    min-height: 380px;
+    border-radius: 22px;
+    overflow: hidden;
+    position: relative;
+    box-shadow:
+        0 24px 65px rgba(201, 162, 39, 0.18),
+        0 8px 22px rgba(0, 0, 0, 0.18);
+}
+
+.im-report-cover img {
+    width: 100%;
+    height: 100%;
+    min-height: 380px;
+    object-fit: cover;
+    display: block;
+}
+
+.im-report-cover-default {
+    min-height: 380px;
+    padding: 34px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background: var(--im-cream);
+    border: 1px solid rgba(201,162,39,.4);
+}
+
+.im-report-cover-brand {
+    color: var(--im-green);
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+}
+
+.im-report-cover-mark {
+    font-size: 82px;
+    line-height: 1;
+    color: var(--im-green);
+    font-weight: 700;
+}
+
+.im-report-cover-number {
+    color: var(--im-gold);
+    font-size: 16px;
+    font-weight: 700;
+}
+
+
+/* ============================================================
+   CONTENT
+   ============================================================ */
+
+.im-report-body {
+    padding: 80px 0 100px;
+}
+
+.im-report-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 310px;
+    gap: 64px;
+    align-items: start;
+}
+
+.im-report-section {
+    padding: 0 0 50px;
+    margin-bottom: 52px;
+    border-bottom: 1px solid rgba(11,61,46,.11);
+}
+
+.im-report-section:last-child {
+    border-bottom: 0;
+}
+
+.im-report-section-number {
+    display: inline-block;
+    color: var(--im-gold);
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+}
+
+.im-report-section h2 {
+    color: var(--im-green);
+    font-size: clamp(28px, 3vw, 40px);
+    line-height: 1.2;
+    margin: 0 0 22px;
+    letter-spacing: -.025em;
+}
+
+.im-report-richtext {
+    font-size: 16px;
+    line-height: 1.85;
+    color: #434946;
+}
+
+.im-report-richtext p {
+    margin-bottom: 18px;
+}
+
+.im-report-richtext h3,
+.im-report-richtext h4 {
+    color: var(--im-green);
+    margin-top: 30px;
+}
+
+.im-report-richtext ul,
+.im-report-richtext ol {
+    padding-left: 24px;
+    margin-bottom: 22px;
+}
+
+.im-report-richtext img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 15px;
+}
+
+.im-report-abstract {
+    background: var(--im-cream);
+    border: 1px solid rgba(11,61,46,.10);
+    border-radius: 20px;
+    padding: 34px;
+    margin-bottom: 54px;
+    box-shadow: 0 18px 45px rgba(82,99,63,.10);
+}
+
+.im-report-abstract-label {
+    color: var(--im-gold);
+    font-size: 11px;
+    letter-spacing: .17em;
+    font-weight: 800;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+}
+
+.im-report-abstract h2 {
+    color: var(--im-green);
+    font-size: 30px;
+    margin: 0 0 18px;
+}
+
+.im-report-section-image {
+    margin-top: 28px;
+}
+
+.im-report-section-image img {
+    width: 100%;
+    border-radius: 18px;
+    display: block;
+}
+
+.im-report-caption {
+    font-size: 12px;
+    line-height: 1.6;
+    color: #727773;
+    margin-top: 9px;
+}
+
+
+/* ============================================================
+   DOCUMENT-ONLY PUBLICATION NOTICE
+   ============================================================ */
+
+.im-report-document-note {
+    background: var(--im-sage);
+    border-radius: 18px;
+    padding: 30px;
+    margin-top: 15px;
+    box-shadow: 0 18px 42px rgba(82,99,63,.11);
+}
+
+.im-report-document-note h3 {
+    color: var(--im-green);
+    font-size: 22px;
+    margin: 0 0 10px;
+}
+
+.im-report-document-note p {
+    margin: 0;
+    color: #4a514c;
+    line-height: 1.7;
+}
+
+
+/* ============================================================
+   SIDEBAR
+   ============================================================ */
+
+.im-report-sidebar {
+    position: sticky;
+    top: 110px;
+}
+
+.im-report-info-card {
+    background: var(--im-green);
+    border-radius: 20px;
+    padding: 30px;
+    color: white;
+    margin-bottom: 22px;
+    box-shadow: 0 20px 50px rgba(201,162,39,.13);
+}
+
+.im-report-info-card h3 {
+    color: var(--im-gold-light);
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: .15em;
+    margin: 0 0 24px;
+}
+
+.im-report-info-row {
+    padding: 14px 0;
+    border-bottom: 1px solid rgba(255,255,255,.11);
+}
+
+.im-report-info-row:last-child {
+    border-bottom: 0;
+}
+
+.im-report-info-label {
+    color: rgba(255,255,255,.55);
+    font-size: 10px;
+    letter-spacing: .13em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+}
+
+.im-report-info-value {
+    color: white;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.im-report-downloads {
+    background: var(--im-cream);
+    border: 1px solid rgba(11,61,46,.10);
+    border-radius: 20px;
+    padding: 26px;
+    margin-bottom: 22px;
+}
+
+.im-report-downloads h3 {
+    color: var(--im-green);
+    font-size: 18px;
+    margin: 0 0 17px;
+}
+
+.im-report-download-btn {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    padding: 15px 17px;
+    border-radius: 12px;
+    margin-top: 11px;
+    font-size: 13px;
+    font-weight: 700;
+    transition: .25s ease;
+}
+
+.im-report-download-btn.pdf {
+    background: var(--im-green);
+    color: white;
+}
+
+.im-report-download-btn.document {
+    background: white;
+    color: var(--im-green);
+    border: 1px solid rgba(11,61,46,.14);
+}
+
+.im-report-download-btn:hover {
+    transform: translateY(-2px);
+    color: var(--im-gold);
+}
+
+.im-report-back {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    min-height: 50px;
+    border: 1px solid rgba(11,61,46,.14);
+    border-radius: 13px;
+    color: var(--im-green);
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+    background: white;
+}
+
+.im-report-back:hover {
+    color: var(--im-gold);
+}
+
+
+/* ============================================================
+   CLOSING CTA
+   ============================================================ */
+
+.im-report-cta {
+    background: var(--im-cream);
+    padding: 70px 0;
+}
+
+.im-report-cta-box {
+    background: var(--im-green);
+    border-radius: 24px;
+    padding: 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 40px;
+    box-shadow: 0 24px 60px rgba(201,162,39,.13);
+}
+
+.im-report-cta-box h2 {
+    color: white;
+    font-size: clamp(28px, 3vw, 42px);
+    margin: 0 0 10px;
+}
+
+.im-report-cta-box p {
+    color: rgba(255,255,255,.68);
+    margin: 0;
+    max-width: 640px;
+}
+
+.im-report-cta-link {
+    white-space: nowrap;
+    background: var(--im-gold);
+    color: var(--im-green);
+    text-decoration: none;
+    padding: 16px 24px;
+    border-radius: 12px;
+    font-weight: 800;
+}
+
+.im-report-cta-link:hover {
+    background: var(--im-gold-light);
+    color: var(--im-green);
+}
+
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+@media (max-width: 992px) {
+
+    .im-report-hero-grid,
+    .im-report-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .im-report-hero-grid {
+        gap: 42px;
+    }
+
+    .im-report-cover {
+        max-width: 390px;
+    }
+
+    .im-report-sidebar {
+        position: static;
+    }
+
+    .im-report-cta-box {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+@media (max-width: 576px) {
+
+    .im-report-container {
+        width: min(100% - 28px, 1180px);
+    }
+
+    .im-report-hero {
+        padding: 65px 0 55px;
+    }
+
+    .im-report-body {
+        padding: 55px 0 70px;
+    }
+
+    .im-report-abstract {
+        padding: 25px;
+    }
+
+    .im-report-cta-box {
+        padding: 30px 24px;
+    }
+
+    .im-report-meta {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+
+</style>
+
+
+<div class="im-dynamic-report">
+
+
+    <!-- =====================================================
+         HERO
+         ===================================================== -->
+
+    <section class="im-report-hero">
+
+        <div class="im-report-container">
+
+            <div class="im-report-hero-grid">
+
+                <div>
+
+                    <div class="im-report-eyebrow">
+                        {% if report.eyebrow %}
+                            {{ report.eyebrow }}
+                        {% elif report.category %}
+                            {{ report.category }}
+                        {% else %}
+                            Investmetrics Research Publication
+                        {% endif %}
+                    </div>
+
+                    <h1 class="im-report-title">
+                        {{ report.title }}
+                    </h1>
+
+                    {% if report.summary %}
+                    <p class="im-report-summary">
+                        {{ report.summary }}
+                    </p>
+                    {% endif %}
+
+                    <div class="im-report-meta">
+
+                        <div class="im-report-meta-item">
+                            <i class="bi bi-person"></i>
+                            <span>{{ report.authors }}</span>
+                        </div>
+
+                        <div class="im-report-meta-item">
+                            <i class="bi bi-calendar3"></i>
+                            <span>
+                                {{ report.publication_date|date:"F Y" }}
+                            </span>
+                        </div>
+
+                        {% if report.category %}
+                        <div class="im-report-meta-item">
+                            <i class="bi bi-grid"></i>
+                            <span>{{ report.category }}</span>
+                        </div>
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+
+                <div class="im-report-cover">
+
+                    {% if report.cover_image %}
+
+                        <img
+                            src="{{ report.cover_image.url }}"
+                            alt="{{ report.title }}"
+                        >
+
+                    {% else %}
+
+                        <div class="im-report-cover-default">
+
+                            <div class="im-report-cover-brand">
+                                Investmetrics
+                            </div>
+
+                            <div class="im-report-cover-mark">
+                                R
+                            </div>
+
+                            <div class="im-report-cover-number">
+                                {% if report.report_number %}
+                                    {{ report.report_number }}
+                                {% else %}
+                                    Research Intelligence
+                                {% endif %}
+                            </div>
+
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         REPORT BODY
+         ===================================================== -->
+
+    <section class="im-report-body">
+
+        <div class="im-report-container">
+
+            <div class="im-report-layout">
+
+
+                <!-- MAIN CONTENT -->
+
+                <main>
+
+
+                    {% if report.abstract %}
+
+                    <article class="im-report-abstract">
+
+                        <div class="im-report-abstract-label">
+                            Publication Overview
+                        </div>
+
+                        <h2>Abstract</h2>
+
+                        <div class="im-report-richtext">
+                            {{ report.abstract|safe }}
+                        </div>
+
+                    </article>
+
+                    {% endif %}
+
+
+                    <!-- REPORT SECTIONS -->
+
+                    {% for section in report.sections.all %}
+
+                    <article class="im-report-section">
+
+                        <div class="im-report-section-number">
+                            Section {{ forloop.counter|stringformat:"02d" }}
+                        </div>
+
+                        <h2>
+                            {{ section.heading }}
+                        </h2>
+
+                        {% if section.content %}
+
+                        <div class="im-report-richtext">
+                            {{ section.content|safe }}
+                        </div>
+
+                        {% endif %}
+
+
+                        {% if section.image %}
+
+                        <figure class="im-report-section-image">
+
+                            <img
+                                src="{{ section.image.url }}"
+                                alt="{{ section.heading }}"
+                            >
+
+                            {% if section.image_caption %}
+
+                            <figcaption class="im-report-caption">
+                                {{ section.image_caption }}
+                            </figcaption>
+
+                            {% endif %}
+
+                        </figure>
+
+                        {% endif %}
+
+                    </article>
+
+
+                    {% empty %}
+
+                        {% if report.pdf_file or report.document_file %}
+
+                        <div class="im-report-document-note">
+
+                            <h3>
+                                Full publication available
+                            </h3>
+
+                            <p>
+                                This publication is provided as a complete
+                                document rather than an online sectional
+                                report. Use the publication files provided
+                                on this page to access the full report.
+                            </p>
+
+                        </div>
+
+                        {% else %}
+
+                        <div class="im-report-document-note">
+
+                            <h3>
+                                Publication record
+                            </h3>
+
+                            <p>
+                                The publication information is available,
+                                but no full report document or online
+                                analytical sections have been published.
+                            </p>
+
+                        </div>
+
+                        {% endif %}
+
+                    {% endfor %}
+
+
+                </main>
+
+
+                <!-- =================================================
+                     SIDEBAR
+                     ================================================= -->
+
+                <aside class="im-report-sidebar">
+
+
+                    <div class="im-report-info-card">
+
+                        <h3>
+                            Report Profile
+                        </h3>
+
+
+                        <div class="im-report-info-row">
+
+                            <div class="im-report-info-label">
+                                Authors
+                            </div>
+
+                            <div class="im-report-info-value">
+                                {{ report.authors }}
+                            </div>
+
+                        </div>
+
+
+                        <div class="im-report-info-row">
+
+                            <div class="im-report-info-label">
+                                Published
+                            </div>
+
+                            <div class="im-report-info-value">
+                                {{ report.publication_date|date:"d F Y" }}
+                            </div>
+
+                        </div>
+
+
+                        {% if report.category %}
+
+                        <div class="im-report-info-row">
+
+                            <div class="im-report-info-label">
+                                Category
+                            </div>
+
+                            <div class="im-report-info-value">
+                                {{ report.category }}
+                            </div>
+
+                        </div>
+
+                        {% endif %}
+
+
+                        <div class="im-report-info-row">
+
+                            <div class="im-report-info-label">
+                                Research Theme
+                            </div>
+
+                            <div class="im-report-info-value">
+                                {{ report.get_theme_display }}
+                            </div>
+
+                        </div>
+
+
+                        {% if report.report_number %}
+
+                        <div class="im-report-info-row">
+
+                            <div class="im-report-info-label">
+                                Publication Number
+                            </div>
+
+                            <div class="im-report-info-value">
+                                {{ report.report_number }}
+                            </div>
+
+                        </div>
+
+                        {% endif %}
+
+
+                    </div>
+
+
+                    {% if report.pdf_file or report.document_file %}
+
+                    <div class="im-report-downloads">
+
+                        <h3>
+                            Publication Files
+                        </h3>
+
+
+                        {% if report.pdf_file %}
+
+                        <a
+                            href="{{ report.pdf_file.url }}"
+                            class="im-report-download-btn pdf"
+                            target="_blank"
+                            rel="noopener"
+                        >
+                            <span>
+                                <i class="bi bi-file-earmark-pdf"></i>
+                                Read PDF
+                            </span>
+
+                            <i class="bi bi-arrow-up-right"></i>
+                        </a>
+
+                        {% endif %}
+
+
+                        {% if report.document_file %}
+
+                        <a
+                            href="{{ report.document_file.url }}"
+                            class="im-report-download-btn document"
+                        >
+                            <span>
+                                <i class="bi bi-file-earmark-word"></i>
+                                Download Document
+                            </span>
+
+                            <i class="bi bi-download"></i>
+                        </a>
+
+                        {% endif %}
+
+                    </div>
+
+                    {% endif %}
+
+
+                    <a
+                        href="{% url 'reports' %}"
+                        class="im-report-back"
+                    >
+                        <i class="bi bi-arrow-left"></i>
+                        All Reports
+                    </a>
+
+
+                </aside>
+
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         CLOSING CTA
+         ===================================================== -->
+
+    <section class="im-report-cta">
+
+        <div class="im-report-container">
+
+            <div class="im-report-cta-box">
+
+                <div>
+
+                    <h2>
+                        From evidence to better decisions.
+                    </h2>
+
+                    <p>
+                        Explore Investmetrics research, analytical services
+                        and publication capabilities across markets,
+                        development, policy and public affairs.
+                    </p>
+
+                </div>
+
+
+                <a
+                    href="/research-and-publications/"
+                    class="im-report-cta-link"
+                >
+                    Research & Publications
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+</div>
+
+{% endblock %}

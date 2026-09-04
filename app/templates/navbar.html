@@ -1,0 +1,161 @@
+{% load static %}
+
+<header id="header" class="im-header">
+  <div class="im-header-inner">
+
+    <!-- Brand -->
+    <a href="{% url 'home' %}" class="im-logo" aria-label="Investmetrics home">
+      <img
+        src="{% static 'assets/img/logo/logo5.png' %}"
+        alt="Investmetrics"
+      >
+    </a>
+
+    <!-- Main navigation -->
+    <nav id="navmenu" class="navmenu im-nav" aria-label="Primary navigation">
+      <ul>
+
+        <li>
+          <a href="{% url 'home' %}#hero" class="active">Home</a>
+        </li>
+
+        <!-- About -->
+        <li class="dropdown">
+          <a href="{% url 'company-profile' %}">
+            <span>About</span>
+            <i class="bi bi-chevron-down toggle-dropdown"></i>
+          </a>
+
+          <ul class="im-dropdown-menu">
+            <li>
+              <a href="{% url 'company-profile' %}#about">
+                About Investmetrics
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'company-profile' %}#mission">
+                Our Mission
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'company-profile' %}#vision">
+                Our Vision
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'company-profile' %}#skills">
+                Our Capabilities
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'home' %}#team">
+                Our Team
+              </a>
+            </li>
+          </ul>
+        </li>
+
+        <!-- Consulting -->
+        <li class="dropdown">
+          <a href="{% url 'home' %}#services">
+            <span>Consulting</span>
+            <i class="bi bi-chevron-down toggle-dropdown"></i>
+          </a>
+
+          <ul class="im-dropdown-menu">
+            <li>
+              <a href="{% url 'research-and-publications-service.html' %}">
+                Research &amp; Publications
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'proj-dvt-and-management.html' %}">
+                Project Development &amp; Management
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'policy-review-and-analysis.html' %}">
+                Policy Review &amp; Analysis
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'academic-mentorship-and-training.html' %}">
+                Academic Mentorship
+              </a>
+            </li>
+          </ul>
+        </li>
+
+        <!-- Publications -->
+        <li class="dropdown">
+          <a href="#">
+            <span>Publications</span>
+            <i class="bi bi-chevron-down toggle-dropdown"></i>
+          </a>
+
+          <ul class="im-dropdown-menu">
+            <li>
+              <a href="{% url 'reports' %}">
+                Reports
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'journal_list' %}">
+                Journals
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'company-profile' %}">
+                Company Profile
+              </a>
+            </li>
+          </ul>
+        </li>
+
+        <!-- Learning -->
+        <li class="dropdown">
+          <a href="{% url 'ai_at_work:home' %}">
+            <span>Learning</span>
+            <i class="bi bi-chevron-down toggle-dropdown"></i>
+          </a>
+
+          <ul class="im-dropdown-menu">
+            <li>
+              <a href="{% url 'ai_at_work:home' %}">
+                AI at Work
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'academic-mentorship-and-training.html' %}">
+                Academic Mentorship
+              </a>
+            </li>
+          </ul>
+        </li>
+
+        <li>
+          <a href="{% url 'home' %}#team">Career</a>
+        </li>
+
+        <li>
+          <a href="{% url 'home' %}#contact">Contact</a>
+        </li>
+
+      </ul>
+    </nav>
+
+    <!-- Primary CTA -->
+    <a class="im-btn im-btn-gold d-none d-xl-inline-flex"
+       href="{% url 'home' %}#services">
+      Explore Services
+      <i class="bi bi-arrow-right"></i>
+    </a>
+
+    <!-- Mobile navigation trigger -->
+    <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+
+  </div>
+</header>
+
+<!-- Fixed-header spacing -->
+<div style="height: 88px;" aria-hidden="true"></div>

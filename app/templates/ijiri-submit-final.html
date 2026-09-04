@@ -1,0 +1,682 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Submit Manuscript | IJIRI{% endblock %}
+
+{% block content %}
+
+<style>
+  :root {
+    --im-deep-green: #0B3D2E;
+    --im-emerald: #1F6E52;
+    --im-gold: #C9A227;
+    --im-cream: #F5F1E6;
+    --im-warm-white: #FAF9F5;
+    --im-charcoal: #20242A;
+    --im-sage: #E2E8DA;
+    --im-grass: #D6E1CF;
+    --im-moss: #6F7E4F;
+    --im-danger: #B3423C;
+  }
+
+  .ijiri-page {
+    background: var(--im-warm-white);
+    color: var(--im-charcoal);
+    min-height: 100vh;
+  }
+
+  .ijiri-hero {
+    position: relative;
+    overflow: hidden;
+    background: var(--im-deep-green);
+    color: #fff;
+    padding: 105px 0 72px;
+  }
+
+  .ijiri-hero::before,
+  .ijiri-hero::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+  }
+
+  .ijiri-hero::before {
+    width: 420px;
+    height: 420px;
+    right: -150px;
+    top: -180px;
+    border: 1px solid rgba(201, 162, 39, .26);
+  }
+
+  .ijiri-hero::after {
+    width: 260px;
+    height: 260px;
+    right: 40px;
+    bottom: -170px;
+    border: 1px solid rgba(255, 255, 255, .10);
+  }
+
+  .ijiri-kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    padding: 7px 13px;
+    border: 1px solid rgba(201,162,39,.45);
+    border-radius: 999px;
+    color: #e8d48d;
+    font-size: .76rem;
+    font-weight: 700;
+    letter-spacing: .11em;
+    text-transform: uppercase;
+    margin-bottom: 22px;
+  }
+
+  .ijiri-hero h1 {
+    font-family: "Poppins", sans-serif;
+    color: #FAF9F5;
+    font-size: clamp(2.2rem, 5vw, 4.4rem);
+    line-height: 1.06;
+    max-width: 900px;
+    margin: 0 0 20px;
+    font-weight: 700;
+  }
+
+  .ijiri-hero p {
+    max-width: 790px;
+    color: rgba(255,255,255,.78);
+    font-size: 1.05rem;
+    line-height: 1.8;
+    margin: 0;
+  }
+
+  .ijiri-shell {
+    padding: 62px 0 90px;
+  }
+
+  .ijiri-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 330px;
+    gap: 28px;
+    align-items: start;
+  }
+
+  .ijiri-card {
+    background: #fff;
+    border: 1px solid rgba(11,61,46,.10);
+    border-radius: 22px;
+    box-shadow: 0 20px 55px rgba(11,61,46,.08);
+  }
+
+  .ijiri-form-card {
+    padding: 34px;
+  }
+
+  .section-head {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    padding-bottom: 17px;
+    margin: 28px 0 22px;
+    border-bottom: 1px solid rgba(11,61,46,.10);
+  }
+
+  .section-head:first-child {
+    margin-top: 0;
+  }
+
+  .section-index {
+    width: 38px;
+    height: 38px;
+    flex: 0 0 38px;
+    border-radius: 12px;
+    background: var(--im-deep-green);
+    color: var(--im-gold);
+    display: grid;
+    place-items: center;
+    font-weight: 700;
+  }
+
+  .section-head h2 {
+    font-size: 1.17rem;
+    margin: 0 0 3px;
+    color: var(--im-deep-green);
+    font-weight: 700;
+  }
+
+  .section-head p {
+    margin: 0;
+    color: #6e756f;
+    font-size: .9rem;
+  }
+
+  .ijiri-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+  }
+
+  .ijiri-field {
+    margin-bottom: 20px;
+  }
+
+  .ijiri-field label {
+    display: block;
+    font-weight: 650;
+    color: var(--im-deep-green);
+    margin-bottom: 7px;
+    font-size: .92rem;
+  }
+
+  .ijiri-field .form-control,
+  .ijiri-field .form-select {
+    border: 1px solid #d7ddd8;
+    border-radius: 12px;
+    min-height: 48px;
+    padding: 12px 14px;
+    background: #fff;
+    box-shadow: none;
+  }
+
+  .ijiri-field textarea.form-control {
+    min-height: 120px;
+  }
+
+  .ijiri-field .form-control:focus,
+  .ijiri-field .form-select:focus {
+    border-color: var(--im-emerald);
+    box-shadow: 0 0 0 4px rgba(31,110,82,.10);
+  }
+
+  .help-text {
+    color: #7c837d;
+    font-size: .79rem;
+    margin-top: 6px;
+  }
+
+  .field-error,
+  .form-errors {
+    color: var(--im-danger);
+    font-size: .82rem;
+    margin-top: 6px;
+  }
+
+  .form-errors {
+    border: 1px solid rgba(179,66,60,.22);
+    background: #fff7f6;
+    border-radius: 12px;
+    padding: 13px 15px;
+    margin-bottom: 18px;
+  }
+
+  .upload-panel {
+    border: 1px dashed rgba(11,61,46,.30);
+    background: var(--im-cream);
+    border-radius: 16px;
+    padding: 18px;
+  }
+
+  .declarations {
+    display: grid;
+    gap: 12px;
+  }
+
+  .declaration-item {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    padding: 14px 15px;
+    background: #fafcf9;
+    border: 1px solid rgba(11,61,46,.08);
+    border-radius: 13px;
+  }
+
+  .declaration-item .form-check-input {
+    width: 19px;
+    height: 19px;
+    margin-top: 2px;
+    flex: 0 0 auto;
+  }
+
+  .declaration-item label {
+    margin: 0;
+    color: #3f4741;
+    font-size: .88rem;
+    line-height: 1.55;
+  }
+
+  .submit-strip {
+    margin-top: 28px;
+    padding-top: 24px;
+    border-top: 1px solid rgba(11,61,46,.10);
+    display: flex;
+    justify-content: space-between;
+    gap: 18px;
+    align-items: center;
+  }
+
+  .submit-note {
+    max-width: 510px;
+    color: #707873;
+    font-size: .82rem;
+    line-height: 1.55;
+  }
+
+  .btn-ijiri {
+    border: 0;
+    background: var(--im-gold);
+    color: var(--im-deep-green);
+    padding: 13px 21px;
+    border-radius: 12px;
+    font-weight: 750;
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    white-space: nowrap;
+    transition: .2s ease;
+  }
+
+  .btn-ijiri:hover {
+    transform: translateY(-1px);
+    background: #d4b341;
+    color: var(--im-deep-green);
+  }
+
+  .ijiri-sidebar {
+    position: sticky;
+    top: 110px;
+  }
+
+  .side-card {
+    padding: 24px;
+    margin-bottom: 18px;
+  }
+
+  .side-card h3 {
+    color: var(--im-deep-green);
+    font-size: 1rem;
+    margin: 0 0 15px;
+    font-weight: 750;
+  }
+
+  .requirement {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 12px;
+    color: #59625c;
+    font-size: .86rem;
+    line-height: 1.5;
+  }
+
+  .requirement i {
+    color: var(--im-emerald);
+    margin-top: 2px;
+  }
+
+  .resource-btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 14px;
+    border-radius: 12px;
+    text-decoration: none;
+    border: 1px solid rgba(11,61,46,.12);
+    color: var(--im-deep-green);
+    background: #fff;
+    margin-top: 10px;
+    font-size: .86rem;
+    font-weight: 650;
+  }
+
+  .resource-btn:hover {
+    background: var(--im-cream);
+    color: var(--im-deep-green);
+  }
+
+  .editorial-card {
+    background: var(--im-deep-green);
+    color: #fff;
+    border: 0;
+    box-shadow: 0 20px 45px rgba(201,162,39,.14);
+  }
+
+  .editorial-card h3 {
+    color: #fff;
+  }
+
+  .editorial-card p {
+    color: rgba(255,255,255,.72);
+    font-size: .86rem;
+    line-height: 1.65;
+  }
+
+  .editorial-card a {
+    color: #e8d48d;
+    text-decoration: none;
+  }
+
+  @media (max-width: 991px) {
+    .ijiri-grid {
+      grid-template-columns: 1fr;
+    }
+    .ijiri-sidebar {
+      position: static;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .ijiri-hero {
+      padding: 85px 0 55px;
+    }
+    .ijiri-shell {
+      padding: 38px 0 70px;
+    }
+    .ijiri-form-card {
+      padding: 22px 17px;
+    }
+    .ijiri-row {
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+    .submit-strip {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .btn-ijiri {
+      justify-content: center;
+    }
+  }
+</style>
+
+<main class="ijiri-page">
+  <section class="ijiri-hero">
+    <div class="container position-relative">
+      <div class="ijiri-kicker">
+        <i class="bi bi-journal-richtext"></i>
+        IJIRI Manuscript Submission
+      </div>
+      <h1>Submit your research manuscript.</h1>
+      <p>
+        Submit an original scholarly manuscript to the Investmetrics Journal of
+        Interdisciplinary Research and Intelligence (IJIRI). Complete all required
+        fields and attach the manuscript in Microsoft Word format.
+      </p>
+    </div>
+  </section>
+
+  <section class="ijiri-shell">
+    <div class="container">
+      <div class="ijiri-grid">
+
+        <div class="ijiri-card ijiri-form-card">
+          <form method="post" enctype="multipart/form-data" action="{% url 'ijiri-submit' %}" novalidate>
+            {% csrf_token %}
+
+            {% if form.non_field_errors %}
+              <div class="form-errors">
+                {% for error in form.non_field_errors %}
+                  <div>{{ error }}</div>
+                {% endfor %}
+              </div>
+            {% endif %}
+
+            <div class="section-head">
+              <div class="section-index">1</div>
+              <div>
+                <h2>Manuscript Information</h2>
+                <p>Provide the core scholarly information for the paper.</p>
+              </div>
+            </div>
+
+            <div class="ijiri-field">
+              <label for="{{ form.paper_title.id_for_label }}">{{ form.paper_title.label }}</label>
+              {{ form.paper_title }}
+              <div class="help-text">{{ form.paper_title.help_text }} <span id="title-word-count">0 / 15 words</span></div>
+              {% for error in form.paper_title.errors %}<div class="field-error">{{ error }}</div>{% endfor %}
+            </div>
+
+            <div class="ijiri-field">
+              <label for="{{ form.abstract.id_for_label }}">{{ form.abstract.label }}</label>
+              {{ form.abstract }}
+              <div class="help-text">{{ form.abstract.help_text }} <span id="abstract-word-count">0 / 300 words</span></div>
+              {% for error in form.abstract.errors %}<div class="field-error">{{ error }}</div>{% endfor %}
+            </div>
+
+            <div class="ijiri-row">
+              <div class="ijiri-field">
+                <label for="{{ form.research_category.id_for_label }}">{{ form.research_category.label }}</label>
+                {{ form.research_category }}
+                {% for error in form.research_category.errors %}<div class="field-error">{{ error }}</div>{% endfor %}
+              </div>
+
+              <div class="ijiri-field">
+                <label for="{{ form.keywords.id_for_label }}">{{ form.keywords.label }}</label>
+                {{ form.keywords }}
+                <div class="help-text">{{ form.keywords.help_text }}</div>
+                {% for error in form.keywords.errors %}<div class="field-error">{{ error }}</div>{% endfor %}
+              </div>
+            </div>
+
+            <div class="section-head">
+              <div class="section-index">2</div>
+              <div>
+                <h2>Author Details</h2>
+                <p>Identify all authors and the corresponding author.</p>
+              </div>
+            </div>
+
+            <div class="ijiri-field">
+              <label for="{{ form.author_details.id_for_label }}">{{ form.author_details.label }}</label>
+              {{ form.author_details }}
+              <div class="help-text">{{ form.author_details.help_text }}</div>
+              {% for error in form.author_details.errors %}<div class="field-error">{{ error }}</div>{% endfor %}
+            </div>
+
+            <div class="ijiri-row">
+              <div class="ijiri-field">
+                <label for="{{ form.corresponding_author_name.id_for_label }}">{{ form.corresponding_author_name.label }}</label>
+                {{ form.corresponding_author_name }}
+                {% for error in form.corresponding_author_name.errors %}<div class="field-error">{{ error }}</div>{% endfor %}
+              </div>
+
+              <div class="ijiri-field">
+                <label for="{{ form.corresponding_author_email.id_for_label }}">{{ form.corresponding_author_email.label }}</label>
+                {{ form.corresponding_author_email }}
+                {% for error in form.corresponding_author_email.errors %}<div class="field-error">{{ error }}</div>{% endfor %}
+              </div>
+            </div>
+
+            <div class="ijiri-row">
+              <div class="ijiri-field">
+                <label for="{{ form.country.id_for_label }}">{{ form.country.label }}</label>
+                {{ form.country }}
+                {% for error in form.country.errors %}<div class="field-error">{{ error }}</div>{% endfor %}
+              </div>
+
+              <div class="ijiri-field">
+                <label for="{{ form.mobile_number.id_for_label }}">{{ form.mobile_number.label }}</label>
+                {{ form.mobile_number }}
+                <div class="help-text">{{ form.mobile_number.help_text }}</div>
+                {% for error in form.mobile_number.errors %}<div class="field-error">{{ error }}</div>{% endfor %}
+              </div>
+            </div>
+
+            <div class="ijiri-field">
+              <label for="{{ form.orcid.id_for_label }}">{{ form.orcid.label }}</label>
+              {{ form.orcid }}
+              <div class="help-text">{{ form.orcid.help_text }}</div>
+              {% for error in form.orcid.errors %}<div class="field-error">{{ error }}</div>{% endfor %}
+            </div>
+
+            <div class="section-head">
+              <div class="section-index">3</div>
+              <div>
+                <h2>Manuscript File</h2>
+                <p>Attach the complete paper prepared for editorial review.</p>
+              </div>
+            </div>
+
+            <div class="upload-panel">
+              <div class="ijiri-field mb-0">
+                <label for="{{ form.manuscript_file.id_for_label }}">{{ form.manuscript_file.label }}</label>
+                {{ form.manuscript_file }}
+                <div class="help-text">{{ form.manuscript_file.help_text }}</div>
+                {% for error in form.manuscript_file.errors %}<div class="field-error">{{ error }}</div>{% endfor %}
+              </div>
+            </div>
+
+            <div class="section-head">
+              <div class="section-index">4</div>
+              <div>
+                <h2>AI Use Disclosure</h2>
+                <p>Disclose generative AI use where applicable.</p>
+              </div>
+            </div>
+
+            <div class="ijiri-field">
+              <label for="{{ form.ai_use_statement.id_for_label }}">{{ form.ai_use_statement.label }}</label>
+              {{ form.ai_use_statement }}
+              {% for error in form.ai_use_statement.errors %}<div class="field-error">{{ error }}</div>{% endfor %}
+            </div>
+
+            <div class="section-head">
+              <div class="section-index">5</div>
+              <div>
+                <h2>Author Declarations</h2>
+                <p>Each declaration must be confirmed before submission.</p>
+              </div>
+            </div>
+
+            <div class="declarations">
+              {% for field in form %}
+                {% if field.name == "originality_confirmed" or field.name == "similarity_confirmed" or field.name == "ai_threshold_confirmed" or field.name == "ai_use_acknowledged" or field.name == "apa7_confirmed" or field.name == "authorisation_confirmed" or field.name == "declaration_confirmed" %}
+                  <div>
+                    <div class="declaration-item">
+                      {{ field }}
+                      <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    </div>
+                    {% for error in field.errors %}<div class="field-error">{{ error }}</div>{% endfor %}
+                  </div>
+                {% endif %}
+              {% endfor %}
+            </div>
+
+            <div class="submit-strip">
+              <div class="submit-note">
+                By submitting, you acknowledge that editorial assessment does not guarantee
+                acceptance or publication. Editorial and review timelines are operational
+                targets and may vary.
+              </div>
+
+              <button type="submit" class="btn-ijiri">
+                Submit Manuscript
+                <i class="bi bi-arrow-right"></i>
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <aside class="ijiri-sidebar">
+          <div class="ijiri-card side-card">
+            <h3>Submission Requirements</h3>
+
+            <div class="requirement">
+              <i class="bi bi-check-circle-fill"></i>
+              <span>Paper title: maximum 15 words.</span>
+            </div>
+
+            <div class="requirement">
+              <i class="bi bi-check-circle-fill"></i>
+              <span>Abstract: maximum 300 words.</span>
+            </div>
+
+            <div class="requirement">
+              <i class="bi bi-check-circle-fill"></i>
+              <span>Keywords: 3–5 relevant terms.</span>
+            </div>
+
+            <div class="requirement">
+              <i class="bi bi-check-circle-fill"></i>
+              <span>Manuscript: DOC or DOCX, maximum 6 MB.</span>
+            </div>
+
+            <div class="requirement">
+              <i class="bi bi-check-circle-fill"></i>
+              <span>APA 7th Edition citations and references.</span>
+            </div>
+
+            <div class="requirement">
+              <i class="bi bi-check-circle-fill"></i>
+              <span>Similarity level below 18%.</span>
+            </div>
+
+            <div class="requirement">
+              <i class="bi bi-check-circle-fill"></i>
+              <span>AI-generated content below 15%, with AI use disclosed.</span>
+            </div>
+          </div>
+
+          <div class="ijiri-card side-card">
+            <h3>Author Resources</h3>
+
+            <a class="resource-btn"
+               href="{% static 'assets/publications/templates/IJIRI_Author_Guidelines.docx' %}">
+              <span><i class="bi bi-file-earmark-text me-2"></i>Author Guidelines</span>
+              <i class="bi bi-download"></i>
+            </a>
+
+            <a class="resource-btn"
+               href="{% static 'assets/publications/templates/IJIRI_Manuscript_Template.docx' %}">
+              <span><i class="bi bi-file-earmark-word me-2"></i>Manuscript Template</span>
+              <i class="bi bi-download"></i>
+            </a>
+          </div>
+
+          <div class="ijiri-card side-card editorial-card">
+            <h3>IJIRI Editorial Office</h3>
+            <p>
+              For journal submission enquiries, editorial correspondence, or technical
+              problems with manuscript submission, contact the IJIRI editorial office.
+            </p>
+            <a href="mailto:ijiri@investmetrics.co.tz">
+              <i class="bi bi-envelope me-2"></i>ijiri@investmetrics.co.tz
+            </a>
+          </div>
+        </aside>
+
+      </div>
+    </div>
+  </section>
+</main>
+
+<script>
+(function () {
+  function countWords(value) {
+    const trimmed = value.trim();
+    return trimmed ? trimmed.split(/\s+/).length : 0;
+  }
+
+  function bindCounter(fieldId, counterId, limit) {
+    const field = document.getElementById(fieldId);
+    const counter = document.getElementById(counterId);
+
+    if (!field || !counter) return;
+
+    const update = function () {
+      const count = countWords(field.value);
+      counter.textContent = count + " / " + limit + " words";
+      counter.style.fontWeight = count > limit ? "700" : "500";
+      counter.style.color = count > limit ? "#B3423C" : "#6F7E52";
+    };
+
+    field.addEventListener("input", update);
+    update();
+  }
+
+  bindCounter("{{ form.paper_title.id_for_label }}", "title-word-count", 15);
+  bindCounter("{{ form.abstract.id_for_label }}", "abstract-word-count", 300);
+})();
+</script>
+
+{% endblock %}

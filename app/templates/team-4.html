@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Habibu Omari - Team Member{% endblock title %}
+
+{% block extra_css %}
+<style>
+  .member-img-container {
+    background-color: #000;
+    border-radius: 100px;
+    padding: 15px 40px;
+    display: inline-block;
+    margin-bottom: 20px;
+  }
+
+  .member-img {
+    position: relative;
+    z-index: 1;
+  }
+
+  .member-img img {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+  }
+
+  @media (max-width: 768px) {
+    .member-img-container {
+      padding: 8px 25px;
+      border-radius: 75px;
+    }
+
+    .member-img img {
+      width: 150px;
+      height: 150px;
+    }
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<main class="main">
+  <section id="team-member" class="team-member section" style="padding-top: 110px;">
+    <div class="container" data-aos="fade-up">
+      <div class="row gy-4 justify-content-center">
+        <div class="col-lg-8 col-md-10">
+          <div class="team-member d-flex flex-column flex-md-row">
+            <div class="member-img-container">
+              <div class="member-img flex-shrink-0 mb-4 mb-md-0 me-md-4">
+                <img src="{% static 'assets/img/team/team_4.jpg' %}" class="img-fluid rounded-circle" alt="Jesse Pinkman">
+              </div>
+            </div>
+            <div class="member-info flex-grow-1">
+              <h2 class="mb-1">Habibu Omari</h2>
+              <span class="d-block mb-3">Administrative Manager and Company secretary</span>
+              <div class="social mb-3">
+                <a href="mailto:omarih@investmetrics.co.tz"><i class="bi bi-envelope-fill"></i></a>
+                <a href="https://www.linkedin.com/in/habibu-omari-00000022b/"><i class="bi bi-linkedin"></i></a>
+              </div>
+              <p class="mb-3" style="text-align: justify;">Habibu S. Omari is an accomplished data, research, and business development consultant with over 4 years of experience in research, business development, and data management in the Tanzanian market. At Investmetrics, Habibu S. Omari leads efforts to empower organizations with data-driven insights for optimizing strategies and enhancing decision-making processes. With expertise in research writing (both proposals and reports), data collection, and data analysis, Habibu has played a crucial role in delivering actionable solutions that drive efficiency and growth.
+                <br><br>
+              Holding a Bachelor of science in Insurance and Risk Management from Institute of Finance management (IFM), and currently, pursuing a Master's Degree in Monitoring & Evaluation (M&E) program at the Tanzania Institute of Project Management. His technical skills include proficiency in statistical research tools like SPSS, STATA, and advanced data collection platform such as Kobo Toolbox which enabling him to transform complex data into clear, impactful narratives. He is also a published author in several peer-reviewed journals.
+                <br><br>
+              Habibu continually seeks to expand his knowledge and skills to adapt to evolving market demands. His commitment to professional development is reflected in his dedication to exploring innovative data solutions that cater to diverse organizational needs. Habibu has successfully contributed to various projects, focusing on enhancing business strategies across sectors. His vision for Investmetrics is to help businesses thrive in a competitive landscape by leveraging high-quality research and data management practices.4In his personal time, Habibu enjoys watching constructive documentaries to gain new skills, participating in outdoor entertainment activities, and engaging in discussions about sports.
+              </p>
+              <h5>Areas of Expertise:</h5>
+              <ul class="list-inline">
+                <li class="list-inline-item"><span class="badge bg-primary">Research Writing (Proposal & Report)</span></li>
+                <li class="list-inline-item"><span class="badge bg-primary">Data Management and Analysis</span></li>
+                <li class="list-inline-item"><span class="badge bg-primary">Business Development</span></li>
+                <li class="list-inline-item"><span class="badge bg-primary">SPSS & Stata Proficiency</span></li>
+              </ul>
+              <h5>Personal Interests:</h5>
+              <p>When not working, Habibu enjoys watching constructive documentaries to gain new skills, participating in outdoor entertainment activities, and engaging in sports conversations.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+{% endblock %}
