@@ -8,11 +8,14 @@ mounted as a separate Django app under /learn/.
 from pathlib import Path
 import os
 
+
 BASE_DIR = Path(__file__).resolve().parent.parent
+
 
 # -----------------------------------------------------------------------------
 # Security / environment
 # -----------------------------------------------------------------------------
+
 DEBUG = os.getenv("DEBUG", "False").strip().lower() == "true"
 
 SECRET_KEY = os.getenv("SECRET_KEY")
@@ -27,10 +30,12 @@ if not SECRET_KEY:
             "SECRET_KEY environment variable is required in production."
         )
 
+
 RENDER_EXTERNAL_HOSTNAME = os.getenv(
     "RENDER_EXTERNAL_HOSTNAME",
     "",
 ).strip()
+
 
 ALLOWED_HOSTS = [
     "localhost",
@@ -47,6 +52,7 @@ if (
         RENDER_EXTERNAL_HOSTNAME
     )
 
+
 # Optional comma-separated extra hosts for preview/test services.
 for host in os.getenv(
     "ALLOWED_HOSTS",
@@ -60,6 +66,7 @@ for host in os.getenv(
             host
         )
 
+
 CSRF_TRUSTED_ORIGINS = [
     "https://investmetrics.co.tz",
     "https://www.investmetrics.co.tz",
@@ -69,6 +76,7 @@ if RENDER_EXTERNAL_HOSTNAME:
     CSRF_TRUSTED_ORIGINS.append(
         f"https://{RENDER_EXTERNAL_HOSTNAME}"
     )
+
 
 for origin in os.getenv(
     "CSRF_TRUSTED_ORIGINS",
@@ -85,6 +93,7 @@ for origin in os.getenv(
             origin
         )
 
+
 # Render terminates TLS at its proxy.
 SECURE_PROXY_SSL_HEADER = (
     "HTTP_X_FORWARDED_PROTO",
@@ -98,6 +107,7 @@ CSRF_COOKIE_SECURE = not DEBUG
 # -----------------------------------------------------------------------------
 # Applications
 # -----------------------------------------------------------------------------
+
 INSTALLED_APPS = [
 
     # Unfold must be before django.contrib.admin.
@@ -180,10 +190,12 @@ WSGI_APPLICATION = "investmetrics.wsgi.application"
 # -----------------------------------------------------------------------------
 # SQLite remains the fallback so the existing site can be tested immediately.
 # Set DATABASE_URL to a Render PostgreSQL URL for durable production learner data.
+
 DATABASE_URL = os.getenv(
     "DATABASE_URL",
     "",
 ).strip()
+
 
 if DATABASE_URL:
 
@@ -214,6 +226,7 @@ else:
 # -----------------------------------------------------------------------------
 # Password validation
 # -----------------------------------------------------------------------------
+
 AUTH_PASSWORD_VALIDATORS = [
     {
         "NAME": (
@@ -245,6 +258,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # -----------------------------------------------------------------------------
 # Internationalisation
 # -----------------------------------------------------------------------------
+
 LANGUAGE_CODE = "en-us"
 
 TIME_ZONE = os.getenv(
@@ -259,6 +273,7 @@ USE_TZ = True
 # -----------------------------------------------------------------------------
 # Static / media
 # -----------------------------------------------------------------------------
+
 STATIC_URL = "/static/"
 
 STATIC_ROOT = (
@@ -269,8 +284,10 @@ STATICFILES_DIRS = [
     BASE_DIR / "app" / "static"
 ]
 
+
 # Non-manifest WhiteNoise storage is deliberately used for the legacy site.
 # It avoids a full-site 500 when an old template references an optional asset.
+
 STORAGES = {
     "default": {
         "BACKEND": (
@@ -286,9 +303,11 @@ STORAGES = {
     },
 }
 
+
 # ============================================================
 # Uploaded / private media storage
 # ============================================================
+#
 # Local development:
 #     MEDIA_ROOT defaults to BASE_DIR / "apps"
 #
@@ -312,6 +331,7 @@ MEDIA_TYPES = {
     "pdf": "application/pdf",
 }
 
+
 DEFAULT_AUTO_FIELD = (
     "django.db.models.BigAutoField"
 )
@@ -320,6 +340,7 @@ DEFAULT_AUTO_FIELD = (
 # -----------------------------------------------------------------------------
 # Forms / editor
 # -----------------------------------------------------------------------------
+
 CRISPY_ALLOWED_TEMPLATE_PACKS = (
     "bootstrap4"
 )
@@ -327,6 +348,7 @@ CRISPY_ALLOWED_TEMPLATE_PACKS = (
 CRISPY_TEMPLATE_PACK = (
     "bootstrap4"
 )
+
 
 CKEDITOR_CONFIGS = {
     "default": {
@@ -357,6 +379,7 @@ CKEDITOR_CONFIGS = {
 # -----------------------------------------------------------------------------
 # Email
 # -----------------------------------------------------------------------------
+#
 # Email settings are controlled through environment variables.
 #
 # Local development may use the console backend if SMTP is not configured.
@@ -436,9 +459,11 @@ IJIRI_EDITORIAL_EMAIL = os.getenv(
 # -----------------------------------------------------------------------------
 # Unfold admin
 # -----------------------------------------------------------------------------
+
 UNFOLD = {
     "SITE_HEADER": "Investmetrics",
 }
+
 
 # ============================================================
 # PRODUCTION SECURITY
@@ -446,22 +471,55 @@ UNFOLD = {
 
 # Render terminates HTTPS at its reverse proxy and forwards
 # the original protocol through X-Forwarded-Proto.
-SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+
+SECURE_PROXY_SSL_HEADER = (
+    "HTTP_X_FORWARDED_PROTO",
+    "https",
+)
+
 
 # Enable production-only HTTPS security controls.
+
 if not DEBUG:
+
     SECURE_SSL_REDIRECT = True
+
+    # Render performs its internal health check over HTTP.
+    # Exempt only the dedicated health-check endpoint from HTTPS redirect.
+    SECURE_REDIRECT_EXEMPT = [
+        r"^healthz/?$"
+    ]
 
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
 
     # Start with a conservative HSTS period.
     # This can be increased after the production site is verified.
-    SECURE_HSTS_SECONDS = 3600
+    SECURE_HSTS_SECONDS = int(
+        os.getenv(
+            "SECURE_HSTS_SECONDS",
+            "3600",
+        )
+    )
+
     SECURE_HSTS_INCLUDE_SUBDOMAINS = False
     SECURE_HSTS_PRELOAD = False
+
+    SECURE_CONTENT_TYPE_NOSNIFF = True
+    X_FRAME_OPTIONS = "DENY"
+
 else:
+
     SECURE_SSL_REDIRECT = False
+    SECURE_REDIRECT_EXEMPT = []
+
     SESSION_COOKIE_SECURE = False
     CSRF_COOKIE_SECURE = False
+
     SECURE_HSTS_SECONDS = 0
+
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = False
+    SECURE_HSTS_PRELOAD = False
+
+    SECURE_CONTENT_TYPE_NOSNIFF = True
+    X_FRAME_OPTIONS = "DENY"
