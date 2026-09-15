@@ -1,11 +1,12 @@
-import logging
+﻿import logging
 import tempfile
 from datetime import datetime
 
 from django.conf import settings
 from django.contrib import messages
+from django.contrib.auth import get_user_model
 from django.core.mail import EmailMessage, send_mail
-from django.db import IntegrityError
+from django.db import IntegrityError, transaction
 from django.http import JsonResponse, FileResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template.loader import render_to_string
@@ -14,14 +15,23 @@ from django.views.generic import ListView, DetailView
 
 from rest_framework import generics
 
-from .forms import ContactForm, NewsletterForm, IJIRISubmissionForm
+from .forms import (
+    ContactForm,
+    NewsletterForm,
+    IJIRISubmissionForm,
+    TrainingApplicationForm,
+)
+
 from .models import (
     NewsletterSubscriber,
     Journal,
     Contact,
     Report,
+    TrainingApplication,
 )
+
 from .serializer import JournalSerializer
+from ai_at_work.models import LearnerProfile
 
 
 logger = logging.getLogger(__name__)
@@ -156,10 +166,258 @@ def policy_review_and_analysis(request):
     )
 
 
+# ============================================================
+# ACADEMIC MENTORSHIP AND TRAINING
+# ============================================================
+
+def _training_username(email):
+    """Build a unique Django username from the applicant's email address."""
+    User = get_user_model()
+
+    local_part = email.split("@", 1)[0].strip().lower()
+    cleaned = "".join(
+        character
+        for character in local_part
+        if character.isalnum() or character in "._-"
+    )
+    cleaned = cleaned.strip("._-") or "learner"
+
+    base_username = cleaned[:140]
+    username = base_username
+    counter = 1
+
+    while User.objects.filter(username__iexact=username).exists():
+        suffix = f"-{counter}"
+        username = f"{base_username[:150 - len(suffix)]}{suffix}"
+        counter += 1
+
+    return username
+
+
+def _prepare_training_learner(application):
+    """
+    Link an application to one existing learner when the email identifies
+    that learner unambiguously. Otherwise prepare a new pending learner.
+    """
+    User = get_user_model()
+    email = application.email.strip().lower()
+
+    matching_users = list(
+        User.objects.filter(email__iexact=email).order_by("id")
+    )
+
+    learner_users = [
+        user
+        for user in matching_users
+        if hasattr(user, "aiw_profile")
+    ]
+
+    if len(learner_users) == 1:
+        application.learner_user = learner_users[0]
+        application.save(
+            update_fields=[
+                "learner_user",
+                "updated_at",
+            ]
+        )
+        return learner_users[0]
+
+    if len(learner_users) > 1:
+        logger.warning(
+            "Training application %s has multiple learner accounts "
+            "using email %s. Learner assignment requires Admin review.",
+            application.application_reference,
+            email,
+        )
+        return None
+
+    eligible_existing_users = [
+        user
+        for user in matching_users
+        if not user.is_staff and not user.is_superuser
+    ]
+
+    if len(matching_users) == 1 and len(eligible_existing_users) == 1:
+        user = eligible_existing_users[0]
+
+        profile, _ = LearnerProfile.objects.get_or_create(
+            user=user,
+            defaults={
+                "organization": application.organisation or "",
+                "access_scope": LearnerProfile.ACCESS_RESEARCH,
+                "professional_role": LearnerProfile.ROLE_ANY,
+                "training_active": False,
+                "must_change_password": True,
+            },
+        )
+
+        profile.training_active = False
+        profile.must_change_password = True
+
+        if application.organisation and not profile.organization:
+            profile.organization = application.organisation
+
+        profile.save()
+
+        application.learner_user = user
+        application.save(
+            update_fields=[
+                "learner_user",
+                "updated_at",
+            ]
+        )
+        return user
+
+    if matching_users:
+        logger.warning(
+            "Training application %s uses email %s already attached "
+            "to an account that requires Admin review.",
+            application.application_reference,
+            email,
+        )
+        return None
+
+    name_parts = application.full_name.strip().split()
+    first_name = name_parts[0] if name_parts else ""
+    last_name = " ".join(name_parts[1:]) if len(name_parts) > 1 else ""
+
+    user = User(
+        username=_training_username(email),
+        email=email,
+        first_name=first_name[:150],
+        last_name=last_name[:150],
+        is_active=False,
+    )
+    user.set_unusable_password()
+    user.save()
+
+    LearnerProfile.objects.create(
+        user=user,
+        organization=application.organisation or "",
+        access_scope=LearnerProfile.ACCESS_RESEARCH,
+        professional_role=LearnerProfile.ROLE_ANY,
+        training_active=False,
+        must_change_password=True,
+    )
+
+    application.learner_user = user
+    application.save(
+        update_fields=[
+            "learner_user",
+            "updated_at",
+        ]
+    )
+
+    return user
+
+
+@require_http_methods(["GET", "POST"])
 def academic_mentorship_and_training(request):
+
+    if request.method == "POST":
+
+        training_form = TrainingApplicationForm(
+            request.POST
+        )
+
+        if training_form.is_valid():
+
+            with transaction.atomic():
+                application = training_form.save()
+                _prepare_training_learner(application)
+
+            from_email = getattr(
+                settings,
+                "DEFAULT_FROM_EMAIL",
+                getattr(
+                    settings,
+                    "EMAIL_HOST_USER",
+                    "noreply@investmetrics.co.tz",
+                ),
+            )
+
+            payment_subject = (
+                "Investmetrics Training Application Received - "
+                f"{application.application_reference}"
+            )
+
+            payment_body = (
+                f"Dear {application.full_name},\n\n"
+                "Thank you for applying for Investmetrics training.\n\n"
+                f"Application Reference: "
+                f"{application.application_reference}\n"
+                f"Training Area: "
+                f"{application.get_training_area_display()}\n"
+                f"Training Fee: TZS {application.training_fee:,}\n"
+                f"Current Status: "
+                f"{application.get_status_display()}\n\n"
+                "PAYMENT DETAILS\n"
+                f"Amount: TZS {application.training_fee:,}\n"
+                "Payment Number: +255 689 660 000\n"
+                "Account / Recipient Name: Begarving Arthur\n\n"
+                "Please use your application reference when making "
+                "payment or when contacting Investmetrics about your "
+                "training application.\n\n"
+        
+                "After payment confirmation, you will receive secure "
+                "instructions for setting your password and accessing "
+                "Investmetrics Learning.\n\n"
+                "Regards,\n"
+                "Investmetrics\n"
+                "www.investmetrics.co.tz"
+            )
+
+            try:
+
+                send_mail(
+                    subject=payment_subject,
+                    message=payment_body,
+                    from_email=from_email,
+                    recipient_list=[
+                        application.email
+                    ],
+                    fail_silently=False,
+                )
+
+            except Exception as exc:
+
+                logger.error(
+                    "Training application email failed for %s: %s",
+                    application.application_reference,
+                    exc,
+                )
+
+            return redirect(
+                "training-application-success",
+                reference=application.application_reference,
+            )
+
+    else:
+
+        training_form = TrainingApplicationForm()
+
     return render(
         request,
         "academic-mentorship-and-training.html",
+        {
+            "training_form": training_form,
+        },
+    )
+
+def training_application_success(request, reference):
+
+    application = get_object_or_404(
+        TrainingApplication,
+        application_reference=reference,
+    )
+
+    return render(
+        request,
+        "training-application-success.html",
+        {
+            "application": application,
+            "reference": application.application_reference,
+        },
     )
 
 
@@ -297,6 +555,7 @@ def ijiri_submit(request):
             # ------------------------------------------------
             # EDITORIAL OFFICE NOTIFICATION
             # ------------------------------------------------
+
             editorial_subject = (
                 f"New IJIRI Manuscript Submission - "
                 f"{submission.submission_reference}"
@@ -316,7 +575,8 @@ def ijiri_submit(request):
                 f"Country: {submission.country}\n"
                 f"Mobile Number: "
                 f"{submission.mobile_number or 'Not provided'}\n"
-                f"ORCID: {submission.orcid or 'Not provided'}\n"
+                f"ORCID: "
+                f"{submission.orcid or 'Not provided'}\n"
                 f"Keywords: {submission.keywords}\n\n"
                 "Author Details:\n"
                 f"{submission.author_details}\n\n"
@@ -341,7 +601,8 @@ def ijiri_submit(request):
                 f"{submission.declaration_confirmed}\n\n"
                 f"Current Status: "
                 f"{submission.get_status_display()}\n"
-                f"Submitted At: {submission.submitted_at}\n"
+                f"Submitted At: "
+                f"{submission.submitted_at}\n"
             )
 
             try:
@@ -350,7 +611,9 @@ def ijiri_submit(request):
                     subject=editorial_subject,
                     body=editorial_body,
                     from_email=from_email,
-                    to=[editorial_email],
+                    to=[
+                        editorial_email
+                    ],
                     reply_to=[
                         submission.corresponding_author_email
                     ],
@@ -387,6 +650,7 @@ def ijiri_submit(request):
             # ------------------------------------------------
             # AUTHOR ACKNOWLEDGEMENT
             # ------------------------------------------------
+
             acknowledgement_subject = (
                 "IJIRI Manuscript Submission Received - "
                 f"{submission.submission_reference}"
@@ -399,7 +663,8 @@ def ijiri_submit(request):
                 "and Intelligence (IJIRI).\n\n"
                 f"Submission Reference: "
                 f"{submission.submission_reference}\n"
-                f"Paper Title: {submission.paper_title}\n"
+                f"Paper Title: "
+                f"{submission.paper_title}\n"
                 f"Current Status: "
                 f"{submission.get_status_display()}\n\n"
                 "Your manuscript has been recorded in the IJIRI "
@@ -533,7 +798,10 @@ def download_company_profile(request):
         temp_file_path = temp_file.name
 
     response = FileResponse(
-        open(temp_file_path, "rb"),
+        open(
+            temp_file_path,
+            "rb",
+        ),
         content_type="text/html",
     )
 
@@ -556,11 +824,15 @@ def download_company_profile(request):
 @require_POST
 def newsletter_subscribe(request):
 
-    form = NewsletterForm(request.POST)
+    form = NewsletterForm(
+        request.POST
+    )
 
     if form.is_valid():
 
-        email = form.cleaned_data["email"]
+        email = form.cleaned_data[
+            "email"
+        ]
 
         try:
 
@@ -579,7 +851,9 @@ def newsletter_subscribe(request):
             return JsonResponse(
                 {
                     "success": False,
-                    "error": "This email is already subscribed.",
+                    "error": (
+                        "This email is already subscribed."
+                    ),
                 }
             )
 
@@ -600,7 +874,9 @@ def contact(request):
 
     if request.method == "POST":
 
-        form = ContactForm(request.POST)
+        form = ContactForm(
+            request.POST
+        )
 
         logger.info(
             "Contact form data received: %s",
@@ -609,10 +885,21 @@ def contact(request):
 
         if form.is_valid():
 
-            name = form.cleaned_data["name"]
-            email = form.cleaned_data["email"]
-            subject = form.cleaned_data["subject"]
-            message = form.cleaned_data["message"]
+            name = form.cleaned_data[
+                "name"
+            ]
+
+            email = form.cleaned_data[
+                "email"
+            ]
+
+            subject = form.cleaned_data[
+                "subject"
+            ]
+
+            message = form.cleaned_data[
+                "message"
+            ]
 
             try:
 
@@ -718,8 +1005,15 @@ def contact(request):
 class JournalListView(ListView):
 
     model = Journal
-    template_name = "journals.html"
-    context_object_name = "journals"
+
+    template_name = (
+        "journals.html"
+    )
+
+    context_object_name = (
+        "journals"
+    )
+
     paginate_by = 2
 
     ordering = [
@@ -730,5 +1024,11 @@ class JournalListView(ListView):
 class JournalDetailView(DetailView):
 
     model = Journal
-    template_name = "journal_detail.html"
-    context_object_name = "journal"
+
+    template_name = (
+        "journal_detail.html"
+    )
+
+    context_object_name = (
+        "journal"
+    )

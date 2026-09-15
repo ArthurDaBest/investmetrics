@@ -1,4 +1,4 @@
-from django.urls import path
+﻿from django.urls import path
 
 from . import views
 from .views import (
@@ -54,7 +54,11 @@ urlpatterns = [
         views.academic_mentorship_and_training,
         name="academic-mentorship-and-training.html",
     ),
-
+path(
+    "academic-mentorship-and-training/success/<str:reference>/",
+    views.training_application_success,
+    name="training-application-success",
+),
 
     # ========================================================
     # PUBLISH WITH INVESTMETRICS

@@ -42,11 +42,12 @@
 
           <div class="im-am-hero-actions">
 
-            <a href="{% url 'home' %}#contact"
-               class="im-btn im-btn-gold">
 
-              Discuss Mentorship
-              <i class="bi bi-arrow-right"></i>
+           <a href="#training-application"
+   class="im-btn im-btn-gold">
+
+  Apply for Training
+  <i class="bi bi-arrow-right"></i>
 
             </a>
 
@@ -966,7 +967,531 @@
 
   </section>
 
+  <!-- =====================================================
+       TRAINING APPLICATION
+       ===================================================== -->
 
+  <style>
+    .im-training-application {
+      padding: 100px 0;
+      background: #F5F1E6;
+    }
+
+    .im-training-application-wrap {
+      display: grid;
+      grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+      gap: 60px;
+      align-items: start;
+    }
+
+    .im-training-application-copy {
+      position: sticky;
+      top: 120px;
+    }
+
+    .im-training-application-copy .im-eyebrow {
+      display: inline-block;
+      margin-bottom: 18px;
+    }
+
+    .im-training-application-copy h2 {
+      margin: 0 0 22px;
+      color: #0B3D2E;
+      font-size: clamp(2rem, 4vw, 3.4rem);
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+    }
+
+    .im-training-application-copy h2 span {
+      color: #A98722;
+    }
+
+    .im-training-application-copy p {
+      margin: 0 0 28px;
+      color: #52633F;
+      font-size: 1rem;
+      line-height: 1.75;
+      max-width: 520px;
+    }
+
+    .im-training-fee-card {
+      padding: 26px;
+      background: #0B3D2E;
+      border-radius: 16px;
+      color: #ffffff;
+    }
+
+    .im-training-fee-label {
+      display: block;
+      margin-bottom: 7px;
+      color: #E0C56A;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .im-training-fee-value {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 1.8rem;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    .im-training-fee-card small {
+      display: block;
+      color: #E2E8DA;
+      line-height: 1.6;
+    }
+
+    .im-training-form-card {
+      padding: 42px;
+      background: #FAF9F5;
+      border: 1px solid #E2E8DA;
+      border-radius: 20px;
+      box-shadow: 0 18px 45px rgba(11, 61, 46, 0.08);
+    }
+
+    .im-training-form-heading {
+      margin-bottom: 30px;
+    }
+
+    .im-training-form-heading span {
+      display: inline-block;
+      margin-bottom: 8px;
+      color: #A98722;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .im-training-form-heading h3 {
+      margin: 0 0 10px;
+      color: #0B3D2E;
+      font-size: 1.8rem;
+      line-height: 1.2;
+    }
+
+    .im-training-form-heading p {
+      margin: 0;
+      color: #6F7E4F;
+      line-height: 1.65;
+    }
+
+    .im-training-form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 22px;
+    }
+
+    .im-training-field {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .im-training-field-full {
+      grid-column: 1 / -1;
+    }
+
+    .im-training-field label {
+      color: #0B3D2E;
+      font-size: 0.9rem;
+      font-weight: 650;
+    }
+
+    .im-training-field input,
+    .im-training-field select,
+    .im-training-field textarea {
+      width: 100%;
+      border: 1px solid #D6E1CF;
+      border-radius: 9px;
+      background: #ffffff;
+      color: #0B0E0D;
+      font: inherit;
+      padding: 13px 14px;
+      outline: none;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .im-training-field textarea {
+      resize: vertical;
+      min-height: 115px;
+    }
+
+    .im-training-field input:focus,
+    .im-training-field select:focus,
+    .im-training-field textarea:focus {
+      border-color: #1F6E52;
+      box-shadow: 0 0 0 3px rgba(31, 110, 82, 0.10);
+    }
+
+    .im-training-field-error {
+      color: #9B2C2C;
+      font-size: 0.82rem;
+      line-height: 1.45;
+    }
+
+    .im-training-form-errors {
+      margin-bottom: 24px;
+      padding: 15px 18px;
+      border-left: 4px solid #A98722;
+      border-radius: 8px;
+      background: #FFF8E5;
+      color: #6B4F00;
+      line-height: 1.6;
+    }
+
+    .im-training-payment-notice {
+      margin: 28px 0;
+      padding: 18px 20px;
+      background: #E2E8DA;
+      border-radius: 10px;
+      color: #0B3D2E;
+      font-size: 0.92rem;
+      line-height: 1.65;
+    }
+
+    .im-training-payment-notice strong {
+      color: #0B3D2E;
+    }
+
+    .im-training-submit {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      border: 0;
+      border-radius: 8px;
+      padding: 14px 24px;
+      background: #0B3D2E;
+      color: #ffffff;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s ease, transform 0.2s ease;
+    }
+
+    .im-training-submit:hover {
+      background: #1F6E52;
+      transform: translateY(-1px);
+    }
+
+    .im-training-required {
+      color: #A98722;
+    }
+
+    @media (max-width: 900px) {
+      .im-training-application-wrap {
+        grid-template-columns: 1fr;
+        gap: 38px;
+      }
+
+      .im-training-application-copy {
+        position: static;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .im-training-application {
+        padding: 70px 0;
+      }
+
+      .im-training-form-card {
+        padding: 28px 20px;
+      }
+
+      .im-training-form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .im-training-field-full {
+        grid-column: auto;
+      }
+
+      .im-training-submit {
+        width: 100%;
+      }
+    }
+  </style>
+
+
+  <section
+    class="im-training-application"
+    id="training-application"
+  >
+
+    <div class="im-container">
+
+      <div class="im-training-application-wrap">
+
+
+        <div
+          class="im-training-application-copy"
+          data-aos="fade-up"
+        >
+
+          <span class="im-eyebrow">
+            APPLY FOR TRAINING
+          </span>
+
+          <h2>
+            Select one area and
+            <span>build practical capability.</span>
+          </h2>
+
+          <p>
+            Complete the application form and select the training area
+            you want to undertake. Each application covers one training
+            area. Investmetrics will send payment instructions after
+            receiving your application.
+          </p>
+
+
+          <div class="im-training-fee-card">
+
+            <span class="im-training-fee-label">
+              Training Fee
+            </span>
+
+            <span class="im-training-fee-value">
+              TZS 280,000
+            </span>
+
+            <small>
+              Fee applies to one selected training area.
+              Training access is issued only after payment confirmation.
+            </small>
+
+          </div>
+
+        </div>
+
+
+        <div
+          class="im-training-form-card"
+          data-aos="fade-up"
+          data-aos-delay="100"
+        >
+
+          <div class="im-training-form-heading">
+
+            <span>
+              APPLICATION FORM
+            </span>
+
+            <h3>
+              Training Application
+            </h3>
+
+            <p>
+              Provide your details and choose one training area.
+              Fields marked with an asterisk are required.
+            </p>
+
+          </div>
+
+
+          {% if training_form.non_field_errors %}
+
+            <div class="im-training-form-errors">
+
+              {% for error in training_form.non_field_errors %}
+                {{ error }}
+              {% endfor %}
+
+            </div>
+
+          {% endif %}
+
+
+          <form
+            method="post"
+            action="{% url 'academic-mentorship-and-training.html' %}#training-application"
+          >
+
+            {% csrf_token %}
+
+
+            <div class="im-training-form-grid">
+
+
+              <div class="im-training-field">
+
+                <label for="{{ training_form.full_name.id_for_label }}">
+                  Full Name
+                  <span class="im-training-required">*</span>
+                </label>
+
+                {{ training_form.full_name }}
+
+                {% for error in training_form.full_name.errors %}
+                  <span class="im-training-field-error">
+                    {{ error }}
+                  </span>
+                {% endfor %}
+
+              </div>
+
+
+              <div class="im-training-field">
+
+                <label for="{{ training_form.email.id_for_label }}">
+                  Email Address
+                  <span class="im-training-required">*</span>
+                </label>
+
+                {{ training_form.email }}
+
+                {% for error in training_form.email.errors %}
+                  <span class="im-training-field-error">
+                    {{ error }}
+                  </span>
+                {% endfor %}
+
+              </div>
+
+
+              <div class="im-training-field">
+
+                <label for="{{ training_form.mobile_number.id_for_label }}">
+                  Mobile Number
+                  <span class="im-training-required">*</span>
+                </label>
+
+                {{ training_form.mobile_number }}
+
+                {% for error in training_form.mobile_number.errors %}
+                  <span class="im-training-field-error">
+                    {{ error }}
+                  </span>
+                {% endfor %}
+
+              </div>
+
+
+              <div class="im-training-field">
+
+                <label for="{{ training_form.country.id_for_label }}">
+                  Country
+                  <span class="im-training-required">*</span>
+                </label>
+
+                {{ training_form.country }}
+
+                {% for error in training_form.country.errors %}
+                  <span class="im-training-field-error">
+                    {{ error }}
+                  </span>
+                {% endfor %}
+
+              </div>
+
+
+              <div class="im-training-field">
+
+                <label for="{{ training_form.organisation.id_for_label }}">
+                  Organisation / University
+                </label>
+
+                {{ training_form.organisation }}
+
+                {% for error in training_form.organisation.errors %}
+                  <span class="im-training-field-error">
+                    {{ error }}
+                  </span>
+                {% endfor %}
+
+              </div>
+
+
+              <div class="im-training-field">
+
+                <label for="{{ training_form.role_or_academic_level.id_for_label }}">
+                  Current Role / Academic Level
+                  <span class="im-training-required">*</span>
+                </label>
+
+                {{ training_form.role_or_academic_level }}
+
+                {% for error in training_form.role_or_academic_level.errors %}
+                  <span class="im-training-field-error">
+                    {{ error }}
+                  </span>
+                {% endfor %}
+
+              </div>
+
+
+              <div class="im-training-field im-training-field-full">
+
+                <label for="{{ training_form.training_area.id_for_label }}">
+                  Training Area
+                  <span class="im-training-required">*</span>
+                </label>
+
+                {{ training_form.training_area }}
+
+                {% for error in training_form.training_area.errors %}
+                  <span class="im-training-field-error">
+                    {{ error }}
+                  </span>
+                {% endfor %}
+
+              </div>
+
+
+              <div class="im-training-field im-training-field-full">
+
+                <label for="{{ training_form.learning_expectation.id_for_label }}">
+                  Learning Expectation
+                </label>
+
+                {{ training_form.learning_expectation }}
+
+                {% for error in training_form.learning_expectation.errors %}
+                  <span class="im-training-field-error">
+                    {{ error }}
+                  </span>
+                {% endfor %}
+
+              </div>
+
+
+            </div>
+
+
+            <div class="im-training-payment-notice">
+
+              <strong>Payment and access:</strong>
+              After submitting this form, you will receive payment
+  instructions by email. Training access will be provided
+  after Investmetrics confirms receipt of payment.
+
+            </div>
+
+
+            <button
+              type="submit"
+              class="im-training-submit"
+            >
+
+              Submit Training Application
+              <i class="bi bi-arrow-right"></i>
+
+            </button>
+
+          </form>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
 
   <!-- =====================================================
        CLOSING CTA

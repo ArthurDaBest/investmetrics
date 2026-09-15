@@ -10,11 +10,14 @@ from django.contrib.auth import (
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import SetPasswordForm
 from django.contrib.auth.models import User
+from django.contrib.auth.tokens import default_token_generator
 from django.db.models import Q
 from django.http import JsonResponse, Http404
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.utils import timezone
+from django.utils.encoding import force_str
+from django.utils.http import urlsafe_base64_decode
 from django.views.decorators.http import require_POST
 
 from .forms import LearnerLoginForm
@@ -742,6 +745,112 @@ def change_password(request):
         },
     )
 
+
+
+# =============================================================================
+# INITIAL PASSWORD SETUP
+# =============================================================================
+
+def set_initial_password(request, uidb64, token):
+    """
+    Allow a newly approved learner to create the first account password
+    using Django's signed, time-limited password-reset token.
+    """
+    user = None
+
+    try:
+        user_id = force_str(
+            urlsafe_base64_decode(uidb64)
+        )
+        user = User.objects.get(pk=user_id)
+
+    except (
+        TypeError,
+        ValueError,
+        OverflowError,
+        User.DoesNotExist,
+    ):
+        user = None
+
+    token_is_valid = bool(
+        user
+        and default_token_generator.check_token(
+            user,
+            token,
+        )
+    )
+
+    if not token_is_valid:
+        return render(
+            request,
+            "ai_at_work/set_initial_password.html",
+            {
+                "link_invalid": True,
+            },
+            status=400,
+        )
+
+    try:
+        profile = user.aiw_profile
+    except LearnerProfile.DoesNotExist:
+        return render(
+            request,
+            "ai_at_work/set_initial_password.html",
+            {
+                "link_invalid": True,
+            },
+            status=400,
+        )
+
+    if not user.is_active or not profile.training_active:
+        return render(
+            request,
+            "ai_at_work/set_initial_password.html",
+            {
+                "link_invalid": True,
+            },
+            status=400,
+        )
+
+    if request.method == "POST":
+        form = SetPasswordForm(
+            user,
+            request.POST,
+        )
+
+        if form.is_valid():
+            form.save()
+
+            profile.must_change_password = False
+            profile.save(
+                update_fields=[
+                    "must_change_password",
+                    "updated_at",
+                ]
+            )
+
+            messages.success(
+                request,
+                (
+                    "Your password has been created successfully. "
+                    "Sign in to Investmetrics Learning."
+                ),
+            )
+
+            return redirect("ai_at_work:home")
+
+    else:
+        form = SetPasswordForm(user)
+
+    return render(
+        request,
+        "ai_at_work/set_initial_password.html",
+        {
+            "form": form,
+            "link_invalid": False,
+            "learner_name": profile.display_name,
+        },
+    )
 
 # =============================================================================
 # LOGOUT

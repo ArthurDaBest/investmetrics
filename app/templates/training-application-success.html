@@ -1,0 +1,265 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<style>
+    .training-success-section {
+        background: #FAF9F5;
+        padding: 90px 20px;
+        min-height: 70vh;
+    }
+
+    .training-success-container {
+        max-width: 860px;
+        margin: 0 auto;
+    }
+
+    .training-success-card {
+        background: #ffffff;
+        border: 1px solid #E2E8DA;
+        border-radius: 18px;
+        padding: 42px;
+        box-shadow: 0 10px 30px rgba(11, 61, 46, 0.08);
+    }
+
+    .training-success-eyebrow {
+        display: inline-block;
+        color: #A98722;
+        font-size: 0.82rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        margin-bottom: 14px;
+    }
+
+    .training-success-title {
+        color: #0B3D2E;
+        font-size: 2.1rem;
+        line-height: 1.2;
+        margin-bottom: 14px;
+    }
+
+    .training-success-intro {
+        color: #52633F;
+        font-size: 1rem;
+        line-height: 1.75;
+        margin-bottom: 30px;
+    }
+
+    .training-reference-box {
+        background: #F5F1E6;
+        border-left: 4px solid #C9A227;
+        border-radius: 10px;
+        padding: 22px 24px;
+        margin-bottom: 28px;
+    }
+
+    .training-reference-label {
+        color: #52633F;
+        font-size: 0.85rem;
+        margin-bottom: 6px;
+    }
+
+    .training-reference-value {
+        color: #0B3D2E;
+        font-size: 1.4rem;
+        font-weight: 700;
+        letter-spacing: 0.03em;
+    }
+
+    .training-details {
+        border-top: 1px solid #E2E8DA;
+        border-bottom: 1px solid #E2E8DA;
+        padding: 24px 0;
+        margin-bottom: 28px;
+    }
+
+    .training-detail-row {
+        display: flex;
+        justify-content: space-between;
+        gap: 24px;
+        padding: 9px 0;
+    }
+
+    .training-detail-label {
+        color: #6F7E4F;
+        font-weight: 600;
+    }
+
+    .training-detail-value {
+        color: #0B0E0D;
+        text-align: right;
+    }
+
+    .training-payment-note {
+        background: #E2E8DA;
+        border-radius: 12px;
+        padding: 22px 24px;
+        color: #0B3D2E;
+        line-height: 1.7;
+        margin-bottom: 28px;
+    }
+
+    .training-payment-note strong {
+        color: #0B3D2E;
+    }
+
+    .training-success-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px;
+    }
+
+    .training-btn-primary,
+    .training-btn-secondary {
+        display: inline-block;
+        padding: 13px 22px;
+        border-radius: 8px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: 0.2s ease;
+    }
+
+    .training-btn-primary {
+        background: #0B3D2E;
+        color: #ffffff;
+    }
+
+    .training-btn-primary:hover {
+        background: #1F6E52;
+        color: #ffffff;
+    }
+
+    .training-btn-secondary {
+        border: 1px solid #0B3D2E;
+        color: #0B3D2E;
+        background: transparent;
+    }
+
+    .training-btn-secondary:hover {
+        background: #F5F1E6;
+        color: #0B3D2E;
+    }
+
+    @media (max-width: 640px) {
+        .training-success-card {
+            padding: 28px 22px;
+        }
+
+        .training-success-title {
+            font-size: 1.65rem;
+        }
+
+        .training-detail-row {
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .training-detail-value {
+            text-align: left;
+        }
+    }
+</style>
+
+<section class="training-success-section">
+    <div class="training-success-container">
+        <div class="training-success-card">
+
+            <span class="training-success-eyebrow">
+                Training Application Received
+            </span>
+
+            <h1 class="training-success-title">
+                Your application has been submitted successfully.
+            </h1>
+
+            <p class="training-success-intro">
+                Investmetrics has received your training application.
+                Keep your application reference for payment and future correspondence.
+            </p>
+
+            <div class="training-reference-box">
+                <div class="training-reference-label">
+                    Application Reference
+                </div>
+
+                <div class="training-reference-value">
+                    {{ reference }}
+                </div>
+            </div>
+
+            <div class="training-details">
+
+                <div class="training-detail-row">
+                    <div class="training-detail-label">
+                        Applicant
+                    </div>
+
+                    <div class="training-detail-value">
+                        {{ application.full_name }}
+                    </div>
+                </div>
+
+                <div class="training-detail-row">
+                    <div class="training-detail-label">
+                        Training Area
+                    </div>
+
+                    <div class="training-detail-value">
+                        {{ application.get_training_area_display }}
+                    </div>
+                </div>
+
+                <div class="training-detail-row">
+                    <div class="training-detail-label">
+                        Training Fee
+                    </div>
+
+                    <div class="training-detail-value">
+                        TZS 280,000
+                    </div>
+                </div>
+
+                <div class="training-detail-row">
+                    <div class="training-detail-label">
+                        Current Status
+                    </div>
+
+                    <div class="training-detail-value">
+                        {{ application.get_status_display }}
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="training-payment-note">
+                <strong>What happens next?</strong><br>
+                Payment instructions will be sent to the email address entered
+                in your application. Training access is provided only after
+                Investmetrics confirms receipt of payment.
+            </div>
+
+            <div class="training-success-actions">
+
+                <a
+                    href="{% url 'academic-mentorship-and-training.html' %}"
+                    class="training-btn-primary"
+                >
+                    Return to Training
+                </a>
+
+                <a
+                    href="{% url 'home' %}"
+                    class="training-btn-secondary"
+                >
+                    Back to Home
+                </a>
+
+            </div>
+
+        </div>
+    </div>
+</section>
+
+{% endblock %}

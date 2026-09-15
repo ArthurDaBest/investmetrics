@@ -799,3 +799,140 @@ class IJIRISubmission(models.Model):
             if keyword.strip()
         ]
 
+# ============================================================
+# TRAINING APPLICATION SYSTEM
+# ============================================================
+
+class TrainingApplication(models.Model):
+    learner_user = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="training_applications",
+        help_text=(
+            "Investmetrics Learning account assigned to this "
+            "training application."
+        ),
+    )
+
+    TRAINING_CHOICES = (
+        ("research_fundamentals", "Research Fundamentals"),
+        ("research_design_methods", "Research Design & Methods"),
+        ("proposal_development", "Proposal Development"),
+        ("data_collection_techniques", "Data Collection Techniques"),
+        ("quantitative_analysis", "Quantitative Analysis"),
+        ("qualitative_analysis", "Qualitative Analysis"),
+    )
+
+    STATUS_CHOICES = (
+        ("pending_payment", "Pending Payment"),
+        ("payment_confirmed", "Payment Confirmed"),
+        ("access_sent", "Access Sent"),
+        ("cancelled", "Cancelled"),
+    )
+
+    application_reference = models.CharField(
+        max_length=30,
+        unique=True,
+        blank=True,
+        editable=False,
+    )
+
+    full_name = models.CharField(
+        max_length=200
+    )
+
+    email = models.EmailField()
+
+    mobile_number = models.CharField(
+        max_length=40
+    )
+
+    country = models.CharField(
+        max_length=100
+    )
+
+    organisation = models.CharField(
+        max_length=200,
+        blank=True
+    )
+
+    role_or_academic_level = models.CharField(
+        max_length=200
+    )
+
+    training_area = models.CharField(
+        max_length=50,
+        choices=TRAINING_CHOICES
+    )
+
+    learning_expectation = models.TextField(
+        blank=True
+    )
+
+    training_fee = models.PositiveIntegerField(
+        default=280000,
+        editable=False
+    )
+
+    status = models.CharField(
+        max_length=30,
+        choices=STATUS_CHOICES,
+        default="pending_payment"
+    )
+
+    payment_confirmed_at = models.DateTimeField(
+        null=True,
+        blank=True
+    )
+
+    training_access_link = models.URLField(
+        max_length=500,
+        blank=True
+    )
+
+    access_email_sent = models.BooleanField(
+        default=False
+    )
+
+    internal_notes = models.TextField(
+        blank=True
+    )
+
+    submitted_at = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    updated_at = models.DateTimeField(
+        auto_now=True
+    )
+
+    class Meta:
+        verbose_name = "Training Application"
+        verbose_name_plural = "Training Applications"
+        ordering = ["-submitted_at"]
+
+    def __str__(self):
+        if self.application_reference:
+            return (
+                f"{self.application_reference} - "
+                f"{self.full_name}"
+            )
+        return self.full_name
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+
+        if not self.application_reference:
+            reference = (
+                f"TRN-{self.submitted_at.year}-{self.pk:05d}"
+            )
+
+            TrainingApplication.objects.filter(
+                pk=self.pk
+            ).update(
+                application_reference=reference
+            )
+
+            self.application_reference = reference
