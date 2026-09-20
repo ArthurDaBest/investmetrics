@@ -32,6 +32,7 @@ from .models import (
 
 from .serializer import JournalSerializer
 from ai_at_work.models import LearnerProfile
+from ai_at_work.email_service import send_learning_email
 
 
 logger = logging.getLogger(__name__)
@@ -202,6 +203,11 @@ def _prepare_training_learner(application):
     User = get_user_model()
     email = application.email.strip().lower()
 
+    if application.training_pathway == TrainingApplication.PATHWAY_PROFESSIONAL:
+        requested_access_scope = LearnerProfile.ACCESS_PROFESSIONAL
+    else:
+        requested_access_scope = LearnerProfile.ACCESS_RESEARCH
+
     matching_users = list(
         User.objects.filter(email__iexact=email).order_by("id")
     )
@@ -244,7 +250,7 @@ def _prepare_training_learner(application):
             user=user,
             defaults={
                 "organization": application.organisation or "",
-                "access_scope": LearnerProfile.ACCESS_RESEARCH,
+                "access_scope": requested_access_scope,
                 "professional_role": LearnerProfile.ROLE_ANY,
                 "training_active": False,
                 "must_change_password": True,
@@ -294,7 +300,7 @@ def _prepare_training_learner(application):
     LearnerProfile.objects.create(
         user=user,
         organization=application.organisation or "",
-        access_scope=LearnerProfile.ACCESS_RESEARCH,
+        access_scope=requested_access_scope,
         professional_role=LearnerProfile.ROLE_ANY,
         training_active=False,
         must_change_password=True,
@@ -326,16 +332,6 @@ def academic_mentorship_and_training(request):
                 application = training_form.save()
                 _prepare_training_learner(application)
 
-            from_email = getattr(
-                settings,
-                "DEFAULT_FROM_EMAIL",
-                getattr(
-                    settings,
-                    "EMAIL_HOST_USER",
-                    "noreply@investmetrics.co.tz",
-                ),
-            )
-
             payment_subject = (
                 "Investmetrics Training Application Received - "
                 f"{application.application_reference}"
@@ -346,6 +342,8 @@ def academic_mentorship_and_training(request):
                 "Thank you for applying for Investmetrics training.\n\n"
                 f"Application Reference: "
                 f"{application.application_reference}\n"
+                f"Training Pathway: "
+                f"{application.get_training_pathway_display()}\n"
                 f"Training Area: "
                 f"{application.get_training_area_display()}\n"
                 f"Training Fee: TZS {application.training_fee:,}\n"
@@ -358,29 +356,22 @@ def academic_mentorship_and_training(request):
                 "Please use your application reference when making "
                 "payment or when contacting Investmetrics about your "
                 "training application.\n\n"
-        
                 "After payment confirmation, you will receive secure "
                 "instructions for setting your password and accessing "
                 "Investmetrics Learning.\n\n"
                 "Regards,\n"
-                "Investmetrics\n"
+                "Investmetrics Learning\n"
                 "www.investmetrics.co.tz"
             )
 
             try:
-
-                send_mail(
+                send_learning_email(
                     subject=payment_subject,
                     message=payment_body,
-                    from_email=from_email,
-                    recipient_list=[
-                        application.email
-                    ],
-                    fail_silently=False,
+                    recipient_list=[application.email],
                 )
 
             except Exception as exc:
-
                 logger.error(
                     "Training application email failed for %s: %s",
                     application.application_reference,

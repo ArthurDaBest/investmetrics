@@ -1423,7 +1423,28 @@
                 {% endfor %}
 
               </div>
+              <div class="im-training-field im-training-field-full">
 
+                <label for="{{ training_form.training_pathway.id_for_label }}">
+                  Training Pathway
+                  <span class="im-training-required">*</span>
+                </label>
+
+                {{ training_form.training_pathway }}
+
+                {% if training_form.training_pathway.help_text %}
+                  <span class="im-training-field-help">
+                    {{ training_form.training_pathway.help_text }}
+                  </span>
+                {% endif %}
+
+                {% for error in training_form.training_pathway.errors %}
+                  <span class="im-training-field-error">
+                    {{ error }}
+                  </span>
+                {% endfor %}
+
+              </div>
 
               <div class="im-training-field im-training-field-full">
 
@@ -1551,5 +1572,94 @@
 
 
 </main>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const pathwaySelect = document.getElementById("id_training_pathway");
+  const areaSelect = document.getElementById("id_training_area");
+
+  if (!pathwaySelect || !areaSelect) {
+    return;
+  }
+
+  const researchAreas = [
+    "research_fundamentals",
+    "research_design_methods",
+    "proposal_development",
+    "data_collection_techniques",
+    "quantitative_analysis",
+    "qualitative_analysis"
+  ];
+
+  const professionalAreas = [
+    "ai_client_stakeholder",
+    "ai_leadership_management",
+    "ai_operations_delivery"
+  ];
+
+  const originalOptions = Array.from(areaSelect.options).map(function (option) {
+    return {
+      value: option.value,
+      text: option.text
+    };
+  });
+
+  function updateTrainingAreas() {
+    const selectedPathway = pathwaySelect.value;
+    const currentArea = areaSelect.value;
+
+    areaSelect.innerHTML = "";
+
+    const placeholder = document.createElement("option");
+    placeholder.value = "";
+
+    if (selectedPathway === "research") {
+      placeholder.textContent = "Select a Research & Evidence training area";
+    } else if (selectedPathway === "professional") {
+      placeholder.textContent = "Select a General Professional Work training area";
+    } else {
+      placeholder.textContent = "Select a training pathway first";
+    }
+
+    areaSelect.appendChild(placeholder);
+
+    let allowedAreas = [];
+
+    if (selectedPathway === "research") {
+      allowedAreas = researchAreas;
+    } else if (selectedPathway === "professional") {
+      allowedAreas = professionalAreas;
+    }
+
+    originalOptions.forEach(function (optionData) {
+      if (!optionData.value || !allowedAreas.includes(optionData.value)) {
+        return;
+      }
+
+      const option = document.createElement("option");
+      option.value = optionData.value;
+      option.textContent = optionData.text;
+
+      if (optionData.value === currentArea) {
+        option.selected = true;
+      }
+
+      areaSelect.appendChild(option);
+    });
+
+    if (!allowedAreas.includes(currentArea)) {
+      areaSelect.value = "";
+    }
+
+    areaSelect.disabled = !selectedPathway;
+  }
+
+  pathwaySelect.addEventListener("change", function () {
+    areaSelect.value = "";
+    updateTrainingAreas();
+  });
+
+  updateTrainingAreas();
+});
+</script>
 
 {% endblock content %}

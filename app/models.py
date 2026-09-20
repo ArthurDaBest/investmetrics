@@ -803,7 +803,98 @@ class IJIRISubmission(models.Model):
 # TRAINING APPLICATION SYSTEM
 # ============================================================
 
+
+
 class TrainingApplication(models.Model):
+    """
+    Public application for Investmetrics training.
+
+    The training pathway records the broad learning stream requested by
+    the applicant. The training area records the specific subject selected.
+
+    Final Investmetrics Learning access remains controlled through
+    LearnerProfile and is not granted merely by submitting this application.
+    """
+
+    PATHWAY_RESEARCH = "research"
+    PATHWAY_PROFESSIONAL = "professional"
+
+    PATHWAY_CHOICES = (
+        (
+            PATHWAY_RESEARCH,
+            "Research & Evidence",
+        ),
+        (
+            PATHWAY_PROFESSIONAL,
+            "General Professional Work",
+        ),
+    )
+
+    TRAINING_RESEARCH_FUNDAMENTALS = "research_fundamentals"
+    TRAINING_RESEARCH_DESIGN = "research_design_methods"
+    TRAINING_PROPOSAL = "proposal_development"
+    TRAINING_DATA_COLLECTION = "data_collection_techniques"
+    TRAINING_QUANTITATIVE = "quantitative_analysis"
+    TRAINING_QUALITATIVE = "qualitative_analysis"
+
+    TRAINING_PROFESSIONAL_CLIENT = "ai_client_stakeholder"
+    TRAINING_PROFESSIONAL_LEADERSHIP = "ai_leadership_management"
+    TRAINING_PROFESSIONAL_OPERATIONS = "ai_operations_delivery"
+
+    RESEARCH_TRAINING_CHOICES = (
+        (
+            TRAINING_RESEARCH_FUNDAMENTALS,
+            "Research Fundamentals",
+        ),
+        (
+            TRAINING_RESEARCH_DESIGN,
+            "Research Design & Methods",
+        ),
+        (
+            TRAINING_PROPOSAL,
+            "Proposal Development",
+        ),
+        (
+            TRAINING_DATA_COLLECTION,
+            "Data Collection Techniques",
+        ),
+        (
+            TRAINING_QUANTITATIVE,
+            "Quantitative Analysis",
+        ),
+        (
+            TRAINING_QUALITATIVE,
+            "Qualitative Analysis",
+        ),
+    )
+
+    PROFESSIONAL_TRAINING_CHOICES = (
+        (
+            TRAINING_PROFESSIONAL_CLIENT,
+            "AI for Client & Stakeholder Facing Work",
+        ),
+        (
+            TRAINING_PROFESSIONAL_LEADERSHIP,
+            "AI for Leadership & Management",
+        ),
+        (
+            TRAINING_PROFESSIONAL_OPERATIONS,
+            "AI for Operations & Delivery",
+        ),
+    )
+
+    TRAINING_CHOICES = (
+        *RESEARCH_TRAINING_CHOICES,
+        *PROFESSIONAL_TRAINING_CHOICES,
+    )
+
+    STATUS_CHOICES = (
+        ("pending_payment", "Pending Payment"),
+        ("payment_confirmed", "Payment Confirmed"),
+        ("access_sent", "Access Sent"),
+        ("cancelled", "Cancelled"),
+    )
+
     learner_user = models.ForeignKey(
         User,
         on_delete=models.SET_NULL,
@@ -814,22 +905,6 @@ class TrainingApplication(models.Model):
             "Investmetrics Learning account assigned to this "
             "training application."
         ),
-    )
-
-    TRAINING_CHOICES = (
-        ("research_fundamentals", "Research Fundamentals"),
-        ("research_design_methods", "Research Design & Methods"),
-        ("proposal_development", "Proposal Development"),
-        ("data_collection_techniques", "Data Collection Techniques"),
-        ("quantitative_analysis", "Quantitative Analysis"),
-        ("qualitative_analysis", "Qualitative Analysis"),
-    )
-
-    STATUS_CHOICES = (
-        ("pending_payment", "Pending Payment"),
-        ("payment_confirmed", "Payment Confirmed"),
-        ("access_sent", "Access Sent"),
-        ("cancelled", "Cancelled"),
     )
 
     application_reference = models.CharField(
@@ -860,6 +935,12 @@ class TrainingApplication(models.Model):
 
     role_or_academic_level = models.CharField(
         max_length=200
+    )
+
+    training_pathway = models.CharField(
+        max_length=30,
+        choices=PATHWAY_CHOICES,
+        default=PATHWAY_RESEARCH,
     )
 
     training_area = models.CharField(
@@ -921,7 +1002,53 @@ class TrainingApplication(models.Model):
             )
         return self.full_name
 
+    @classmethod
+    def research_training_values(cls):
+        return {
+            value
+            for value, label in cls.RESEARCH_TRAINING_CHOICES
+        }
+
+    @classmethod
+    def professional_training_values(cls):
+        return {
+            value
+            for value, label in cls.PROFESSIONAL_TRAINING_CHOICES
+        }
+
+    def expected_pathway_for_training_area(self):
+        if self.training_area in self.research_training_values():
+            return self.PATHWAY_RESEARCH
+
+        if self.training_area in self.professional_training_values():
+            return self.PATHWAY_PROFESSIONAL
+
+        return ""
+
+    def clean(self):
+        super().clean()
+
+        expected_pathway = self.expected_pathway_for_training_area()
+
+        if (
+            expected_pathway
+            and self.training_pathway != expected_pathway
+        ):
+            raise ValidationError(
+                {
+                    "training_area": (
+                        "The selected training area does not belong "
+                        "to the selected training pathway."
+                    )
+                }
+            )
+
     def save(self, *args, **kwargs):
+        expected_pathway = self.expected_pathway_for_training_area()
+
+        if expected_pathway:
+            self.training_pathway = expected_pathway
+
         super().save(*args, **kwargs)
 
         if not self.application_reference:

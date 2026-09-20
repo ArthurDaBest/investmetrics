@@ -98,3 +98,6 @@ htmlcov/
 audit-*.txt
 
 /Gp.zip
+
+# Local safety backup folders
+backup_before_*/

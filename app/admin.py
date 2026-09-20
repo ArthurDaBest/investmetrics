@@ -29,6 +29,7 @@ from .models import (
 )
 
 from ai_at_work.models import LearnerProfile
+from ai_at_work.email_service import send_learning_email
 
 
 class LearnerProfileInline(admin.StackedInline):
@@ -539,6 +540,7 @@ class TrainingApplicationAdmin(UnfoldModelAdmin):
             "Training Selection",
             {
                 "fields": (
+                    "training_pathway",
                     "training_area",
                     "learning_expectation",
                     "training_fee",
@@ -570,6 +572,7 @@ class TrainingApplicationAdmin(UnfoldModelAdmin):
         "application_reference",
         "full_name",
         "email",
+        "training_pathway",
         "training_area",
         "status",
         "training_fee",
@@ -578,6 +581,7 @@ class TrainingApplicationAdmin(UnfoldModelAdmin):
 
     list_filter = (
         "status",
+        "training_pathway",
         "training_area",
         "country",
         "submitted_at",
@@ -621,16 +625,6 @@ class TrainingApplicationAdmin(UnfoldModelAdmin):
         skipped_count = 0
         failed_count = 0
 
-        from_email = getattr(
-            settings,
-            "DEFAULT_FROM_EMAIL",
-            getattr(
-                settings,
-                "EMAIL_HOST_USER",
-                "noreply@investmetrics.co.tz",
-            ),
-        )
-
         for application in queryset:
 
             # Never send the access message twice.
@@ -651,7 +645,6 @@ class TrainingApplicationAdmin(UnfoldModelAdmin):
                 skipped_count += 1
                 continue
 
-            # A learner must have an email address before access is sent.
             learner_email = (
                 application.email.strip()
                 or user.email.strip()
@@ -661,7 +654,16 @@ class TrainingApplicationAdmin(UnfoldModelAdmin):
                 skipped_count += 1
                 continue
 
-            # Prepare links before changing the application status.
+            # Keep the learner entitlement aligned with the pathway
+            # selected in the approved training application.
+            if (
+                application.training_pathway
+                == TrainingApplication.PATHWAY_PROFESSIONAL
+            ):
+                profile.access_scope = LearnerProfile.ACCESS_PROFESSIONAL
+            else:
+                profile.access_scope = LearnerProfile.ACCESS_RESEARCH
+
             access_link = ""
 
             if application.training_access_link:
@@ -700,11 +702,19 @@ class TrainingApplicationAdmin(UnfoldModelAdmin):
             if not profile.access_start:
                 profile.access_start = today
 
-            # Brand-new accounts will set their first password through
-            # the secure one-time link. Existing learners keep theirs.
-            profile.must_change_password = False
+            # New learners must complete the secure password setup.
+            # Existing learners continue using their current password.
+            profile.must_change_password = needs_password_setup
 
-            profile.save()
+            profile.save(
+                update_fields=[
+                    "access_scope",
+                    "training_active",
+                    "access_start",
+                    "must_change_password",
+                    "updated_at",
+                ]
+            )
 
             if not application.payment_confirmed_at:
                 application.payment_confirmed_at = timezone.now()
@@ -727,9 +737,9 @@ class TrainingApplicationAdmin(UnfoldModelAdmin):
             if needs_password_setup:
                 account_instructions = (
                     "ACCOUNT SETUP\n"
-                    "Your Investmetrics Learning account has been "
-                    "created. Set your password using the secure "
-                    "one-time link below:\n"
+                    "Your Investmetrics Learning access is ready. "
+                    "Set your password using the secure one-time "
+                    "link below:\n"
                     f"{password_setup_link}\n\n"
                     "After setting your password, use the training "
                     "access link below:\n"
@@ -759,30 +769,30 @@ class TrainingApplicationAdmin(UnfoldModelAdmin):
                 "Investmetrics Learning access is now active.\n\n"
                 f"Application Reference: "
                 f"{application.application_reference}\n"
+                f"Training Pathway: "
+                f"{application.get_training_pathway_display()}\n"
                 f"Training Area: "
                 f"{application.get_training_area_display()}\n"
                 f"Training Fee: TZS {application.training_fee:,}\n"
                 "Payment Status: Confirmed\n\n"
                 f"{account_instructions}"
                 "Regards,\n"
-                "Investmetrics\n"
+                "Investmetrics Learning\n"
                 "www.investmetrics.co.tz"
             )
 
             try:
-                send_mail(
+                send_learning_email(
                     subject=access_subject,
                     message=access_body,
-                    from_email=from_email,
                     recipient_list=[learner_email],
-                    fail_silently=False,
                 )
 
             except Exception as exc:
                 failed_count += 1
 
-                # Keep payment confirmed so the administrator can retry
-                # the access email without reconfirming the payment.
+                # Payment remains confirmed so Admin can retry
+                # the access email without reconfirming payment.
                 self.message_user(
                     request,
                     (
@@ -810,8 +820,8 @@ class TrainingApplicationAdmin(UnfoldModelAdmin):
             self.message_user(
                 request,
                 (
-                    "Payment confirmed and training access sent "
-                    f"to {sent_count} application(s)."
+                    f"{sent_count} training access email(s) sent "
+                    "successfully."
                 ),
                 level=messages.SUCCESS,
             )
@@ -820,10 +830,9 @@ class TrainingApplicationAdmin(UnfoldModelAdmin):
             self.message_user(
                 request,
                 (
-                    f"{skipped_count} application(s) were skipped. "
-                    "Check that a learner account is assigned, "
-                    "a Learner Profile exists, an email address is "
-                    "available, and access has not already been sent."
+                    f"{skipped_count} application(s) skipped because "
+                    "access had already been sent or learner account "
+                    "information was incomplete."
                 ),
                 level=messages.WARNING,
             )
@@ -832,10 +841,8 @@ class TrainingApplicationAdmin(UnfoldModelAdmin):
             self.message_user(
                 request,
                 (
-                    f"{failed_count} access email(s) failed. "
-                    "Payment remains confirmed so the action can "
-                    "be run again after the email issue is resolved."
+                    f"{failed_count} access email(s) could not be sent. "
+                    "Payment confirmation was retained for retry."
                 ),
-                level=messages.WARNING,
+                level=messages.ERROR,
             )
-

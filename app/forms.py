@@ -563,6 +563,25 @@ class IJIRISubmissionForm(forms.ModelForm):
 
 class TrainingApplicationForm(forms.ModelForm):
 
+    training_pathway = forms.ChoiceField(
+        label="Training Pathway",
+        required=True,
+        choices=[
+            ("", "Select a training pathway"),
+            *TrainingApplication.PATHWAY_CHOICES,
+        ],
+        widget=forms.Select(
+            attrs={
+                "class": "form-select",
+                "id": "id_training_pathway",
+            }
+        ),
+        help_text=(
+            "Select the broad learning pathway that best matches "
+            "your training need."
+        ),
+    )
+
     training_area = forms.ChoiceField(
         label="Training Area",
         required=True,
@@ -571,7 +590,13 @@ class TrainingApplicationForm(forms.ModelForm):
             *TrainingApplication.TRAINING_CHOICES,
         ],
         widget=forms.Select(
-            attrs={"class": "form-select"}
+            attrs={
+                "class": "form-select",
+                "id": "id_training_area",
+            }
+        ),
+        help_text=(
+            "Select one specific training area within your chosen pathway."
         ),
     )
 
@@ -585,6 +610,7 @@ class TrainingApplicationForm(forms.ModelForm):
             "country",
             "organisation",
             "role_or_academic_level",
+            "training_pathway",
             "training_area",
             "learning_expectation",
         ]
@@ -594,6 +620,7 @@ class TrainingApplicationForm(forms.ModelForm):
                 attrs={
                     "class": "form-control",
                     "placeholder": "Enter your full name",
+                    "autocomplete": "name",
                 }
             ),
 
@@ -601,6 +628,7 @@ class TrainingApplicationForm(forms.ModelForm):
                 attrs={
                     "class": "form-control",
                     "placeholder": "Enter your email address",
+                    "autocomplete": "email",
                 }
             ),
 
@@ -608,6 +636,7 @@ class TrainingApplicationForm(forms.ModelForm):
                 attrs={
                     "class": "form-control",
                     "placeholder": "e.g. +255...",
+                    "autocomplete": "tel",
                 }
             ),
 
@@ -615,20 +644,26 @@ class TrainingApplicationForm(forms.ModelForm):
                 attrs={
                     "class": "form-control",
                     "placeholder": "Enter your country",
+                    "autocomplete": "country-name",
                 }
             ),
 
             "organisation": forms.TextInput(
                 attrs={
                     "class": "form-control",
-                    "placeholder": "Organisation or university (optional)",
+                    "placeholder": (
+                        "Organisation or university (optional)"
+                    ),
                 }
             ),
 
             "role_or_academic_level": forms.TextInput(
                 attrs={
                     "class": "form-control",
-                    "placeholder": "e.g. Master's Student, Researcher, Lecturer",
+                    "placeholder": (
+                        "e.g. Master's Student, Researcher, "
+                        "Manager, Professional"
+                    ),
                 }
             ),
 
@@ -653,3 +688,59 @@ class TrainingApplicationForm(forms.ModelForm):
             "role_or_academic_level": "Current Role / Academic Level",
             "learning_expectation": "Learning Expectation",
         }
+
+    def clean_email(self):
+        email = self.cleaned_data.get(
+            "email",
+            ""
+        ).strip().lower()
+
+        return email
+
+    def clean(self):
+        cleaned_data = super().clean()
+
+        pathway = cleaned_data.get(
+            "training_pathway"
+        )
+
+        training_area = cleaned_data.get(
+            "training_area"
+        )
+
+        if not pathway or not training_area:
+            return cleaned_data
+
+        research_values = (
+            TrainingApplication.research_training_values()
+        )
+
+        professional_values = (
+            TrainingApplication.professional_training_values()
+        )
+
+        if (
+            pathway == TrainingApplication.PATHWAY_RESEARCH
+            and training_area not in research_values
+        ):
+            self.add_error(
+                "training_area",
+                (
+                    "Select a Research & Evidence training area "
+                    "for this pathway."
+                ),
+            )
+
+        elif (
+            pathway == TrainingApplication.PATHWAY_PROFESSIONAL
+            and training_area not in professional_values
+        ):
+            self.add_error(
+                "training_area",
+                (
+                    "Select a General Professional Work training "
+                    "area for this pathway."
+                ),
+            )
+
+        return cleaned_data

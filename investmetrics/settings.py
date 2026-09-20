@@ -455,6 +455,52 @@ IJIRI_EDITORIAL_EMAIL = os.getenv(
     "ijiri@investmetrics.co.tz",
 )
 
+# -----------------------------------------------------------------------------
+# Investmetrics Learning email
+# -----------------------------------------------------------------------------
+
+LEARNING_EMAIL_HOST = os.getenv(
+    "LEARNING_EMAIL_HOST",
+    "mail.investmetrics.co.tz",
+)
+
+LEARNING_EMAIL_PORT = int(
+    os.getenv(
+        "LEARNING_EMAIL_PORT",
+        "465",
+    )
+)
+
+LEARNING_EMAIL_USE_TLS = (
+    os.getenv(
+        "LEARNING_EMAIL_USE_TLS",
+        "False",
+    ).lower()
+    == "true"
+)
+
+LEARNING_EMAIL_USE_SSL = (
+    os.getenv(
+        "LEARNING_EMAIL_USE_SSL",
+        "True",
+    ).lower()
+    == "true"
+)
+
+LEARNING_EMAIL_HOST_USER = os.getenv(
+    "LEARNING_EMAIL_HOST_USER",
+    "learn@investmetrics.co.tz",
+)
+
+LEARNING_EMAIL_HOST_PASSWORD = os.getenv(
+    "LEARNING_EMAIL_HOST_PASSWORD",
+    "",
+)
+
+LEARNING_FROM_EMAIL = os.getenv(
+    "LEARNING_FROM_EMAIL",
+    "learn@investmetrics.co.tz",
+)
 
 # -----------------------------------------------------------------------------
 # Unfold admin
