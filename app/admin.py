@@ -331,9 +331,10 @@ class ReportAdmin(UnfoldModelAdmin):
 
         return "Metadata only"
 
-
 @admin.register(IJIRISubmission)
 class IJIRISubmissionAdmin(UnfoldModelAdmin):
+
+    AJER_GROUP_NAME = "AJER Editorial Partner"
 
     fieldsets = (
         (
@@ -474,6 +475,45 @@ class IJIRISubmissionAdmin(UnfoldModelAdmin):
     date_hierarchy = "submitted_at"
     save_on_top = True
     list_per_page = 25
+
+    def is_ajer_editorial_partner(self, request):
+        if request.user.is_superuser:
+            return False
+
+        return request.user.groups.filter(
+            name=self.AJER_GROUP_NAME
+        ).exists()
+
+    def get_readonly_fields(self, request, obj=None):
+        if self.is_ajer_editorial_partner(request):
+            return (
+                "submission_reference",
+                "paper_title",
+                "research_category",
+                "keywords",
+                "submitted_at",
+                "updated_at",
+                "corresponding_author_name",
+                "corresponding_author_email",
+                "country",
+                "mobile_number",
+                "orcid",
+                "author_details",
+                "manuscript_download",
+                "manuscript_file",
+                "abstract",
+                "ai_use_statement",
+                "originality_confirmed",
+                "similarity_confirmed",
+                "ai_threshold_confirmed",
+                "ai_use_acknowledged",
+                "apa7_confirmed",
+                "authorisation_confirmed",
+                "declaration_confirmed",
+                "status_updated_at",
+            )
+
+        return super().get_readonly_fields(request, obj)
 
     @admin.display(description="Paper Title")
     def short_title(self, obj):
