@@ -88,6 +88,14 @@ path(
     ),
 
 
+    # Secure initial account setup for authorised IJIRI editorial partners.
+    path(
+        "ijiri/editor/setup/<uidb64>/<token>/",
+        views.ijiri_editor_set_initial_password,
+        name="ijiri-editor-set-initial-password",
+    ),
+
+
     # ========================================================
     # NEWSLETTER & CONTACT
     # ========================================================

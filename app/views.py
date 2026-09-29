@@ -5,11 +5,15 @@ from datetime import datetime
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import get_user_model
+from django.contrib.auth.forms import SetPasswordForm
+from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import EmailMessage, send_mail
 from django.db import IntegrityError, transaction
 from django.http import JsonResponse, FileResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template.loader import render_to_string
+from django.utils.encoding import force_str
+from django.utils.http import urlsafe_base64_decode
 from django.views.decorators.http import require_POST, require_http_methods
 from django.views.generic import ListView, DetailView
 
@@ -716,6 +720,94 @@ def ijiri_submit_success(request, reference):
         "ijiri-submit-success.html",
         {
             "reference": reference,
+        },
+    )
+
+
+# ============================================================
+# IJIRI EDITORIAL PARTNER ACCOUNT SETUP
+# ============================================================
+
+@require_http_methods(["GET", "POST"])
+def ijiri_editor_set_initial_password(request, uidb64, token):
+    """
+    Allow an authorised AJER editorial partner to create the
+    initial password using Django's signed password-reset token.
+    """
+    User = get_user_model()
+    user = None
+
+    try:
+        user_id = force_str(
+            urlsafe_base64_decode(uidb64)
+        )
+        user = User.objects.get(pk=user_id)
+
+    except (
+        TypeError,
+        ValueError,
+        OverflowError,
+        User.DoesNotExist,
+    ):
+        user = None
+
+    user_is_authorised = bool(
+        user
+        and user.is_active
+        and user.is_staff
+        and not user.is_superuser
+        and user.groups.filter(
+            name="AJER Editorial Partner"
+        ).exists()
+    )
+
+    token_is_valid = bool(
+        user_is_authorised
+        and default_token_generator.check_token(
+            user,
+            token,
+        )
+    )
+
+    if not token_is_valid:
+        return render(
+            request,
+            "ijiri-editor-set-password.html",
+            {
+                "link_invalid": True,
+            },
+            status=400,
+        )
+
+    if request.method == "POST":
+        form = SetPasswordForm(
+            user,
+            request.POST,
+        )
+
+        if form.is_valid():
+            form.save()
+
+            messages.success(
+                request,
+                (
+                    "Your editorial account password has been "
+                    "created successfully. You can now sign in."
+                ),
+            )
+
+            return redirect("/admin/")
+
+    else:
+        form = SetPasswordForm(user)
+
+    return render(
+        request,
+        "ijiri-editor-set-password.html",
+        {
+            "form": form,
+            "link_invalid": False,
+            "editor_email": user.email,
         },
     )
 
